@@ -1,10 +1,10 @@
-import FormLogin from "@/components/login";
+import FormLoginUser from "@/components/ulogin";
 import React from "react";
 
 export default function Login() {
   return (
     <div>
-      <FormLogin />
+      <FormLoginUser />
     </div>
   );
 }
