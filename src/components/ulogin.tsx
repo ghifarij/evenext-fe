@@ -1,6 +1,7 @@
+import Link from "next/link";
 import React from "react";
 
-export default function FormLogin() {
+export default function FormLoginUser() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
       <div className="lg:w-1/2 hidden lg:flex items-center justify-center bg-gray-200">
@@ -14,6 +15,7 @@ export default function FormLogin() {
         </div>
         <form className="w-full max-w-sm space-y-4">
           <div>
+          <p className="text-gray-600 mt-2">Email or Username :</p>
             <input
               type="email"
               placeholder="Email"
@@ -21,6 +23,7 @@ export default function FormLogin() {
             />
           </div>
           <div>
+          <p className="text-gray-600 mt-2">Password :</p>
             <input
               type="password"
               placeholder="Password"
@@ -28,6 +31,7 @@ export default function FormLogin() {
             />
           </div>
           <div>
+          <p className="text-gray-600 mt-2">Nomor Telepon :</p>
             <input
               type="text"
               placeholder="Nomor Telepon"
@@ -45,10 +49,10 @@ export default function FormLogin() {
         </form>
         <div className="mt-6">
           <p className="text-sm text-gray-600">
-            Belum punya akun?
-            <a href="#" className="text-teal-500 hover:underline">
+            Belum punya akun?{" "}
+            <Link href="/user/register" className="text-teal-500 hover:underline">
               Daftar sekarang
-            </a>
+            </Link>
           </p>
         </div>
       </div>

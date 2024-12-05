@@ -43,7 +43,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`navbar fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrollActive} px-10 md:px-[150px]`}
+      className={`sticky top-0 left-0 w-full z-50 transition-all duration-300 ${scrollActive} px-10 md:px-[150px]`}
     >
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
@@ -68,10 +68,10 @@ export default function Navbar() {
           <Link href={"/"} className="text-sm font-medium">
             Button
           </Link>
-          <Link href={"/register"} className="text-sm font-medium">
+          <Link href={"/promotor/register"} className="text-sm font-medium">
             Register
           </Link>
-          <Link href={"/login"} className="text-sm font-medium">
+          <Link href={"/user/login"} className="text-sm font-medium">
             Login
           </Link>
         </div>
@@ -100,10 +100,10 @@ export default function Navbar() {
           <Link href={"/"} className="text-lg font-medium">
             BUTTON
           </Link>
-          <Link href={"/"} className="text-lg font-medium">
+          <Link href={"/promotor/register"} className="text-lg font-medium">
             REGISTER
           </Link>
-          <Link href={"/"} className="text-lg font-medium">
+          <Link href={"/user/login"} className="text-lg font-medium">
             LOGIN
           </Link>
         </div>
