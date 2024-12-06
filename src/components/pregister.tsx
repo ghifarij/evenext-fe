@@ -11,7 +11,7 @@ export default function FormRegisterPro() {
       <div className="lg:w-1/2 w-full flex flex-col items-center justify-center p-8 bg-white">
         <div className="mb-6 text-center">
           <h1 className="font-extrabold text-3xl text-gray-800">EVENEXT</h1>
-          <p className="text-gray-600 mt-2">Buat akun untuk membeli tiket</p>
+          <p className="text-gray-600 mt-2">Buat akun untuk membuat events</p>
         </div>
         <form className="w-full max-w-sm space-y-4">
           <div>
@@ -51,14 +51,6 @@ export default function FormRegisterPro() {
             <input
               type="text"
               placeholder="Masukkan Nomor Telepon"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <p className="text-gray-600 mt-2">Kode Referal :</p>
-            <input
-              type="text"
-              placeholder="Masukkan Kode Referal"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
