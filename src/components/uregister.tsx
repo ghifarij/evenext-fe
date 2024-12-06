@@ -73,7 +73,7 @@ export default function FormRegisterUser() {
         <div className="mt-6">
           <p className="text-sm text-gray-600">
             Telah Memiliki Akun ?{" "}
-            <a href="#" className="text-teal-500 hover:underline">
+            <a href="/user/login" className="text-teal-500 hover:underline">
               Masuk Sekarang
             </a>
           </p>

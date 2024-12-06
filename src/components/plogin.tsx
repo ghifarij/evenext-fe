@@ -108,7 +108,7 @@ export default function FormLoginPro() {
           <p className="text-sm text-gray-600">
             Belum punya akun?{" "}
             <Link
-              href="/user/register"
+              href="/promotor/register"
               className="text-teal-500 hover:underline"
             >
               Daftar sekarang
