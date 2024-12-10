@@ -54,7 +54,7 @@ export default function Navbar() {
         {/* Search Input */}
         <div className="hidden lg:flex items-center bg-gray-100 rounded-full px-4 py-2">
           <input
-            type="text"
+            type="search"
             placeholder="Cari Event ..."
             className="bg-transparent outline-none w-[400px] text-sm"
           />
@@ -65,14 +65,20 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex space-x-6">
+        <Link href={"/"} className="text-sm font-medium">
+            Biaya
+          </Link>
           <Link href={"/"} className="text-sm font-medium">
-            Button
+            Events
+          </Link>
+          <Link href={"/"} className="text-sm font-medium">
+            Kontak Kami
           </Link>
           <Link href={"/promotor/register"} className="text-sm font-medium">
-            Register
+            Buat Event
           </Link>
           <Link href={"/user/login"} className="text-sm font-medium">
-            Login
+            Masuk
           </Link>
         </div>
 
@@ -97,14 +103,20 @@ export default function Navbar() {
           id="menu-dropdown"
           className="flex flex-col lg:hidden items-center bg-white rounded-md mt-4 p-4 space-y-4"
         >
-          <Link href={"/"} className="text-lg font-medium">
-            BUTTON
+          <Link href={"/"} className="text-sm font-medium">
+            Biaya
           </Link>
-          <Link href={"/promotor/register"} className="text-lg font-medium">
-            REGISTER
+          <Link href={"/"} className="text-sm font-medium">
+            Events
           </Link>
-          <Link href={"/user/login"} className="text-lg font-medium">
-            LOGIN
+          <Link href={"/"} className="text-sm font-medium">
+            Kontak Kami
+          </Link>
+          <Link href={"/promotor/register"} className="text-sm font-medium">
+            Buat Event
+          </Link>
+          <Link href={"/user/login"} className="text-sm font-medium">
+            Masuk
           </Link>
         </div>
       )}
