@@ -3,7 +3,7 @@ import { getEvents } from "@/libs/event";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa6";
 import Link from "next/link";
-import { formatDate } from "@/helpers/formatDate";
+import { formatCurrency, formatDate } from "@/helpers/format";
 import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 
@@ -52,7 +52,7 @@ export default async function ClosestEvent() {
               {filteredTickets.length > 0 ? (
                 filteredTickets.map((ticket, idx) => (
                   <div key={idx} className="p-2 text-sm font-bold">
-                    {ticket.price ? `Rp ${ticket.price}` : "Free"}
+                    {ticket.price ? `${formatCurrency(ticket.price)}` : "Free"}
                   </div>
                 ))
               ) : (
