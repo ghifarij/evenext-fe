@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Sidebar from "./sidebar";
 
-type CardProps  = {
-    title: String;
-    value: String;
-}
+type CardProps = {
+  title: String;
+  value: String;
+};
 
 export default function DashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,7 +16,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex w-full overflow-hidden">
+    <div className="flex w-full overflow-hidden text-black">
       {/* Sidebar */}
       <div
         className={`top-0 left-0 z-40 h-full transform bg-black transition-transform duration-300 ${
@@ -62,7 +62,7 @@ export default function DashboardPage() {
   );
 }
 
-function Card({ title, value } : CardProps) {
+function Card({ title, value }: CardProps) {
   return (
     <div className="flex flex-col shadow-md rounded-lg w-full h-[100px]">
       <div className="flex rounded-t-lg w-full h-1/2 bg-teal-800">
