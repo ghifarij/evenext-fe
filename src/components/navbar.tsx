@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { BiLogInCircle } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 
@@ -58,37 +59,46 @@ export default function Navbar() {
             placeholder="Cari Event ..."
             className="bg-transparent outline-none w-[400px] text-sm"
           />
-          <button className="text-teal-600 ml-2">
+          <button className="text-teal-800 ml-2">
             <IoSearch size={20} />
           </button>
         </div>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex space-x-6">
-        <Link href={"/"} className="text-sm font-medium">
+          <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
             Biaya
           </Link>
-          <Link href={"/"} className="text-sm font-medium">
+          <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
             Events
           </Link>
-          <Link href={"/"} className="text-sm font-medium">
+          <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
             Kontak Kami
           </Link>
-          <Link href={"/promotor/register"} className="text-sm font-medium">
+          <Link
+            href={"/promotor/register"}
+            className="text-sm font-medium hover:text-teal-800"
+          >
             Buat Event
           </Link>
-          <Link href={"/user/login"} className="text-sm font-medium">
-            Masuk
+          <Link
+            href={"user/login"}
+            className="flex-none items-center rounded-full bg-black px-3 h-[20px] text-lg font-medium text-white shadow-sm hover:bg-teal-800"
+          >
+            <BiLogInCircle />
           </Link>
         </div>
 
         {/* Mobile Buttons */}
         <div className="flex lg:hidden items-center gap-10">
-          <button onClick={() => setSearchVisible(true)} className="text-teal-600 ml-2">
+          <button
+            onClick={() => setSearchVisible(true)}
+            className="text-teal-800 ml-2"
+          >
             <IoSearch size={20} />
           </button>
           <button
-            className="text-xl"
+            className="text-xl transition-all duration-300"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
           >
@@ -101,21 +111,36 @@ export default function Navbar() {
       {isOpen && (
         <div
           id="menu-dropdown"
-          className="flex flex-col lg:hidden items-center bg-white rounded-md mt-4 p-4 space-y-4"
+          className="flex flex-col lg:hidden items-center rounded-md mt-4 p-4 space-y-4"
         >
-          <Link href={"/"} className="text-sm font-medium">
+          <Link
+            href={"/"}
+            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
+          >
             Biaya
           </Link>
-          <Link href={"/"} className="text-sm font-medium">
+          <Link
+            href={"/"}
+            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
+          >
             Events
           </Link>
-          <Link href={"/"} className="text-sm font-medium">
+          <Link
+            href={"/"}
+            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
+          >
             Kontak Kami
           </Link>
-          <Link href={"/promotor/register"} className="text-sm font-medium">
+          <Link
+            href={"/promotor/register"}
+            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
+          >
             Buat Event
           </Link>
-          <Link href={"/user/login"} className="text-sm font-medium">
+          <Link
+            href={"/user/login"}
+            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
+          >
             Masuk
           </Link>
         </div>
@@ -135,7 +160,7 @@ export default function Navbar() {
             <div className="flex items-center">
               <input
                 type="text"
-                placeholder="Search events"
+                placeholder="Cari Event ..."
                 className="bg-transparent outline-none px-4 py-2 text-sm w-full"
               />
               <button
