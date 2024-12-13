@@ -30,7 +30,7 @@ export default function FormLoginUser() {
                       },
                     ]}
                     wrapper="span"
-                    cursor={true}
+                    cursor={false}
                     repeat={Infinity}
                     style={{ fontSize: "1.5rem", display: "inline-block" }}
                   />
