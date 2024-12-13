@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
 import { GrHomeRounded } from "react-icons/gr";
@@ -17,6 +17,12 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
   return (
     <div
       className={`h-full w-[280px] p-[60px] bg-black text-white transform transition-transform duration-300 ${
@@ -48,11 +54,38 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         {/* Event Management */}
         <div className="flex flex-col gap-5 mt-5">
           <div className="text-sm text-gray-400">Management Event:</div>
-          <div className="flex items-center gap-2">
-            <MdOutlineEditCalendar />
-            <Link href="/" className="font-bold text-sm hover:text-teal-800">
-              Event Saya
-            </Link>
+          <div className="relative">
+            <div className="flex gap-2 items-center">
+              <MdOutlineEditCalendar />
+              <button
+                onClick={toggleDropdown}
+                className="font-bold text-sm hover:text-teal-800 focus:outline-none"
+              >
+                Event Saya
+              </button>
+            </div>
+            {isDropdownOpen && (
+              <div className="relative bg-white text-black mt-2 w-48 rounded shadow-lg z-10">
+                <Link
+                  href="/"
+                  className="text-sm block px-4 py-2 hover:bg-gray-200 rounded"
+                >
+                  Semua Event
+                </Link>
+                <Link
+                  href="/"
+                  className="text-sm block px-4 py-2 hover:bg-gray-200 rounded"
+                >
+                  Event Online
+                </Link>
+                <Link
+                  href="/"
+                  className="text-sm block px-4 py-2 hover:bg-gray-200 rounded"
+                >
+                  Event Offline
+                </Link>
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <LuTicket />
