@@ -82,7 +82,7 @@ export default function Navbar() {
             Buat Event
           </Link>
           <Link
-            href={"user/login"}
+            href={"/user/login"}
             className="flex-none items-center rounded-full bg-black px-3 h-[20px] text-lg font-medium text-white shadow-sm hover:bg-teal-800"
           >
             <BiLogInCircle />
