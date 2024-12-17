@@ -1,18 +1,67 @@
+"use client";
+
 import { IEvent } from "@/types/event";
-import { getEvents } from "@/libs/event";
+import { getAllEvents } from "@/libs/event";
 import Image from "next/image";
 import { formatCurrency, formatDate } from "@/helpers/format";
 import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default async function AllEvents() {
-  const data: IEvent[] = await getEvents();
-  const dataTicket: ITicket[] = await getTickets();
+export default function AllEvents() {
+  const router = useRouter();
+
+  const [events, setEvents] = useState<IEvent[]>([]);
+  const [tickets, setTickets] = useState<ITicket[]>([]);
+
+  const initialPage =
+    Number(new URLSearchParams(window.location.search).get("page")) || 1;
+  const [page, setPage] = useState<number>(initialPage);
+  const [totalPages, setTotalPages] = useState<number>(0);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchData = async (currentPage: number) => {
+    try {
+      setLoading(true);
+      const eventsData = await getAllEvents(currentPage);
+
+      setEvents(eventsData.events || []);
+      setTotalPages(eventsData.totalPage || 0);
+    } catch (err) {
+      console.error("Error fetching events: ", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(page);
+  }, [page]);
+
+  useEffect(() => {
+    const fetchTickets = async () => {
+      const tickets = await getTickets();
+      setTickets(tickets);
+    };
+
+    fetchTickets();
+  }, []);
+
+  const handleNavigation = (newPage: number) => {
+    setPage(newPage);
+    router.push(`/events?page=${newPage}`);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
-    <div className="flex flex-1 flex-wrap justify-center md:justify-between gap-4">
-      {data.map((item, idx) => {
-        const filteredTickets = dataTicket.filter(
+    <div className="flex flex-1 flex-wrap justify-center md:justify-normal gap-4">
+      {events.map((item, idx) => {
+        const filteredTickets = tickets.filter(
           (ticket) =>
             ticket.eventId === item.id &&
             (ticket.category === "EarlyBird" || ticket.category === "Free")
@@ -21,7 +70,7 @@ export default async function AllEvents() {
         return (
           <div
             key={idx}
-            className="flex flex-col flex-wrap w-[270px] h-[310px] bg-white rounded-xl shadow-md"
+            className="flex flex-col flex-wrap w-[270px] h-[305px] bg-white rounded-xl shadow-md"
           >
             <div className="relative w-full h-[120px] md:h-[140px]">
               <Image
@@ -57,32 +106,23 @@ export default async function AllEvents() {
           </div>
         );
       })}
-      <div className="join">
-        <input
-          className="join-item btn btn-square"
-          type="radio"
-          name="options"
-          aria-label="1"
-          defaultChecked
-        />
-        <input
-          className="join-item btn btn-square"
-          type="radio"
-          name="options"
-          aria-label="2"
-        />
-        <input
-          className="join-item btn btn-square"
-          type="radio"
-          name="options"
-          aria-label="3"
-        />
-        <input
-          className="join-item btn btn-square"
-          type="radio"
-          name="options"
-          aria-label="4"
-        />
+      <div className="flex w-full justify-center my-2">
+        {page > 1 && (
+          <button
+            onClick={() => handleNavigation(page - 1)}
+            className="flex items-center justify-center w-20 px-3 h-8 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-teal-500 hover:text-white"
+          >
+            Previous
+          </button>
+        )}
+        {page < totalPages && (
+          <button
+            onClick={() => handleNavigation(page + 1)}
+            className="flex items-center justify-center w-20 px-3 h-8 ms-3 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-teal-500 hover:text-white"
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );

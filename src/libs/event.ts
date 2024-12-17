@@ -8,3 +8,15 @@ export const getEvents = async () => {
 
   return data.events;
 };
+
+export const getAllEvents = async (currentPage: number) => {
+  const res = await fetch(`${base_url}/events/all?page=${currentPage}`, {
+    next: { revalidate: 60 },
+  });
+  const data = await res.json();
+
+  return {
+    events: data.events,
+    totalPage: data.totalPage,
+  };
+};
