@@ -12,11 +12,11 @@ export default async function ClosestEvent() {
   const dataTicket: ITicket[] = await getTickets();
 
   return (
-    <div className="flex flex-col mx-auto max-w-[1200px] p-4">
+    <div className="flex flex-col mx-auto max-w-[1200px] p-4 mt-10">
       <div className="flex justify-between p-2">
         <h2 className="text-2xl font-bold">Event Terdekat</h2>
-        <div className="flex flex-wrap text-blue-500 font-bold">
-          <Link href={"/"}>Semua Event</Link>
+        <div className="flex flex-wrap text-teal-500 font-bold">
+          <Link href={"/events"}>Semua Event</Link>
           <FaChevronRight className="m-1" />
         </div>
       </div>
@@ -41,7 +41,9 @@ export default async function ClosestEvent() {
                   className="rounded-t-xl object-fill"
                 />
               </div>
-              <div className="p-2 text-lg font-medium">{item.title}</div>
+              <div className="p-2 text-lg font-medium line-clamp-1 h-10 mb-2">
+                {item.title}
+              </div>
               <div className="text-gray-600 p-1 ml-1 text-sm">
                 {formatDate(item.date)}
               </div>
@@ -56,7 +58,9 @@ export default async function ClosestEvent() {
                   </div>
                 ))
               ) : (
-                <div className="text-gray-500">No tickets available</div>
+                <div className="text-gray-500 p-2 text-sm">
+                  No tickets available
+                </div>
               )}
             </div>
           );

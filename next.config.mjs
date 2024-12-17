@@ -5,7 +5,12 @@ const nextConfig = {images: {
         protocol: "https",
         hostname: "tiketevent.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
-  },};
-
+  },
+};
+  
 export default nextConfig;
