@@ -1,29 +1,89 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import { useSession } from "@/context/useSession";
+import { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
+import { toast } from "react-toastify";
+import { Field, Form, Formik, FormikProps } from "formik";
+import { useRouter } from "next/navigation";
+import * as Yup from "yup";
+import { toastErr } from "@/helpers/toast";
+
+const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
+
+const LoginSchema = Yup.object().shape({
+  data: Yup.string().required("Username is required!"),
+  password: Yup.string()
+    .min(3, "Password is too weak!")
+    .required("Password is required!"),
+});
+
+interface FormValues {
+  data: string;
+  password: string;
+}
 
 export default function FormLoginPro() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setIsAuth, setUser } = useSession();
+  const router = useRouter();
+  const initialValue: FormValues = {
+    data: "",
+    password: "",
+  };
+
+  const handleLogin = async (user: FormValues) => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${base_url}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+        credentials: "include",
+      });
+      const result = await res.json();
+      if (!res.ok) throw result;
+      setIsAuth(true);
+      setUser(result.user);
+      router.push("/");
+      toast.success(result.message);
+    } catch (err) {
+      toastErr(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
-      <div className="lg:w-1/2 hidden min-h-screen lg:flex items-center justify-center bg-gray-200">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50 items-center">
+      <div
+        className="lg:w-1/2 hidden min-h-screen justify-center items-center lg:flex bg-gray-200"
+        style={{
+          backgroundImage:
+            "url('https://i.pinimg.com/736x/9e/ca/87/9eca8792811adcd3b2e142dcab0b78d7.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="mt-10">
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                <p className="mt-2 text-lg font-medium tracking-tight text-black max-lg:text-center">
                   <TypeAnimation
                     className="font-extrabold"
                     sequence={[
-                      "CARI EVENT UNTUK KONSER",
+                      "BUAT EVENT UNTUK KONSER",
                       3000,
-                      "CARI EVENT UNTUK SEMINAR",
+                      "BUAT EVENT UNTUK SEMINAR",
                       3000,
-                      "CARI EVENT UNTUK OLAHRAGA",
+                      "BUAT EVENT UNTUK OLAHRAGA",
                       3000,
-                      "CARI EVENT UNTUK EXPO",
+                      "BUAT EVENT UNTUK EXPO",
                       3000,
                       () => {
                         console.log("Sequence completed");
@@ -40,9 +100,8 @@ export default function FormLoginPro() {
                   <span className="font-bold">EVENEXT !</span>
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Cari dan beli tiket acara favoritmu kini lebih mudah dan
-                  cepat. Mulai dari konser, festival, hingga seminar—semua ada
-                  di sini!{" "}
+                  Buat event dan acara favoritmu kini lebih mudah dan cepat.
+                  Mulai dari konser, festival, hingga seminar—semua ada di sini!{" "}
                   <span className="font-bold">
                     #Evenext #EventTicketing #NikmatiPengalamanmu
                   </span>
@@ -65,45 +124,75 @@ export default function FormLoginPro() {
         </div>
       </div>
 
-      <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-start p-8 bg-white">
-        <div className="mb-6 text-center mt-4">
-          <h1 className="font-extrabold text-3xl text-gray-800">EVENEXT</h1>
-          <p className="text-gray-600 mt-2">Masuk untuk membuat events</p>
+      <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-center p-8 bg-white">
+        <div className="mb-6 text-center">
+          <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
+          <p className="text-gray-600 mt-2">Masuk untuk membuat event</p>
         </div>
-        <form className="w-full max-w-sm space-y-4">
-          <div>
-            <p className="text-gray-600 mt-2">Email or Username :</p>
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <p className="text-gray-600 mt-2">Password :</p>
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <p className="text-gray-600 mt-2">Nomor Telepon :</p>
-            <input
-              type="text"
-              placeholder="Nomor Telepon"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-all"
-            >
-              Masuk
-            </button>
-          </div>
-        </form>
+        <Formik
+          initialValues={initialValue}
+          validationSchema={LoginSchema}
+          onSubmit={(values, action) => {
+            handleLogin(values);
+            action.resetForm();
+          }}
+        >
+          {(props: FormikProps<FormValues>) => {
+            const { handleChange, values, touched, errors } = props;
+            return (
+              <Form className="w-full max-w-sm space-y-4">
+                <div>
+                  <label htmlFor="data">Email or Username :</label>
+                  <Field
+                    type="email"
+                    name="data"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    value={values.data}
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.data && errors.data ? (
+                    <div className="text-red-500 text-xs">{errors.data}</div>
+                  ) : null}
+                </div>
+                <div>
+                  <label htmlFor="password">Password :</label>
+                  <input
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={values.password}
+                    placeholder="Password"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.password && errors.password ? (
+                    <div className="text-red-500 text-xs">
+                      {errors.password}
+                    </div>
+                  ) : null}
+                </div>
+                {/* <div>
+                  <p className="text-gray-600 mt-2">Nomor Telepon :</p>
+                  <input
+                    type="text"
+                    placeholder="Nomor Telepon"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                </div> */}
+                <div>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-all"
+                  >
+                    {isLoading ? "Loading ..." : "Masuk"}
+                  </button>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+
         <div className="mt-6">
           <p className="text-sm text-gray-600">
             Belum punya akun?{" "}

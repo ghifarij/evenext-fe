@@ -3,7 +3,7 @@ import { getEvents } from "@/libs/event";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa6";
 import Link from "next/link";
-import { formatCurrency, formatDate } from "@/helpers/format";
+import { formatCurrency, formatDate } from "@/helpers/formatDate";
 import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 

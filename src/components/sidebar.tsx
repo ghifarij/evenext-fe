@@ -52,8 +52,8 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         <Divider />
 
         {/* Event Management */}
-        <div className="flex flex-col gap-5 mt-5">
-          <div className="text-sm text-gray-400">Management Event:</div>
+        <div className="flex flex-col gap-5">
+          <div className="text-sm text-gray-400">Management Event :</div>
           <div className="relative">
             <div className="flex gap-2 items-center">
               <MdOutlineEditCalendar />
@@ -65,7 +65,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
               </button>
             </div>
             {isDropdownOpen && (
-              <div className="relative bg-white text-black mt-2 w-48 rounded shadow-lg z-10">
+              <div className="relative bg-white text-black mt-2 w-30 rounded shadow-lg z-10">
                 <Link
                   href="/"
                   className="text-sm block px-4 py-2 hover:bg-gray-200 rounded"
@@ -96,8 +96,8 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         </div>
 
         {/* Account */}
-        <div className="flex flex-col gap-5 mt-5">
-          <div className="text-sm text-gray-400">Akun:</div>
+        <div className="flex flex-col gap-5">
+          <div className="text-sm text-gray-400">Akun :</div>
           <div className="flex items-center gap-2">
             <TbUserEdit />
             <Link href="/" className="font-bold text-sm hover:text-teal-800">
@@ -114,7 +114,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         <Divider />
 
         {/* Logout */}
-        <div className="flex items-center gap-2 mt-5">
+        <div className="flex items-center gap-2">
           <BiLogOut />
           <Link href="/" className="font-bold text-sm hover:text-teal-800">
             Keluar

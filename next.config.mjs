@@ -5,6 +5,14 @@ const nextConfig = {images: {
         protocol: "https",
         hostname: "tiketevent.com",
       },
+      {
+        protocol: "https",
+        hostname: "i.pinimg.com"
+      },
+      {
+        protocol: "https",
+        hostname: "assets.loket.com"
+      }
     ],
   },};
 
