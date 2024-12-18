@@ -12,8 +12,17 @@ const nextConfig = {images: {
       {
         protocol: "https",
         hostname: "assets.loket.com"
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com"
+      },
+      {
+        protocol: "https",
+        hostname: "assets.loket.com",
+      },
     ],
-  },};
-
+  },
+};
+  
 export default nextConfig;
