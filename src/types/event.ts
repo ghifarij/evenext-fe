@@ -1,3 +1,5 @@
+import { ITicket } from "./ticket";
+
 export interface IPromotor {
   id: string;
   name: string;
@@ -12,6 +14,7 @@ export interface IPromotor {
 export interface IEvent {
   id: number;
   title: string;
+  slug: string;
   thumbnail: string;
   description: string;
   terms: string;
@@ -23,4 +26,5 @@ export interface IEvent {
   createdAt: string;
   promotorId: string;
   promotor: IPromotor;
+  ticket: ITicket;
 }

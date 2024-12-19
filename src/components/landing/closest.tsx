@@ -33,17 +33,23 @@ export default async function ClosestEvent() {
               key={idx}
               className="flex flex-wrap flex-col carousel-item w-[270px] bg-white rounded-xl shadow-md"
             >
-              <div className="relative w-full h-[120px] md:h-[140px]">
+              <Link
+                className="relative w-full h-[120px] md:h-[140px]"
+                href={`/event/${item.slug}`}
+              >
                 <Image
                   src={item.thumbnail}
                   alt={item.title || `Slide ${idx + 1}`}
                   layout="fill"
                   className="rounded-t-xl object-fill"
                 />
-              </div>
-              <div className="p-2 text-lg font-medium line-clamp-1 h-10 mb-2">
+              </Link>
+              <Link
+                className="p-2 text-lg font-medium line-clamp-1 h-10 mb-2"
+                href={`/event/${item.slug}`}
+              >
                 {item.title}
-              </div>
+              </Link>
               <div className="text-gray-600 p-1 ml-1 text-sm">
                 {formatDate(item.date)}
               </div>
