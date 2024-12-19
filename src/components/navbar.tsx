@@ -69,7 +69,10 @@ export default function Navbar() {
           <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
             Biaya
           </Link>
-          <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
+          <Link
+            href={"/events"}
+            className="text-sm font-medium hover:text-teal-800"
+          >
             Events
           </Link>
           <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
