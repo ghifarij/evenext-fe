@@ -12,6 +12,7 @@ export interface IPromotor {
 export interface IEvent {
   id: number;
   title: string;
+  slug: string;
   thumbnail: string;
   description: string;
   terms: string;

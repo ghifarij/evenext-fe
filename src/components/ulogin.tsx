@@ -13,7 +13,7 @@ import { toastErr } from "@/helpers/toast";
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
 const LoginSchema = Yup.object().shape({
-  data: Yup.string().required("Username is required!"),
+  data: Yup.string().required("Email or Username is required!"),
   password: Yup.string()
     .min(3, "Password is too weak!")
     .required("Password is required!"),
@@ -28,6 +28,7 @@ export default function FormLoginUser() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setIsAuth, setUser } = useSession();
   const router = useRouter();
+
   const initialValue: FormValues = {
     data: "",
     password: "",
@@ -38,18 +39,18 @@ export default function FormLoginUser() {
       setIsLoading(true);
       const res = await fetch(`${base_url}/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
         credentials: "include",
       });
       const result = await res.json();
+
       if (!res.ok) throw result;
+
       setIsAuth(true);
       setUser(result.user);
-      router.push("/");
       toast.success(result.message);
+      router.push("/");
     } catch (err) {
       toastErr(err);
     } finally {
@@ -59,6 +60,7 @@ export default function FormLoginUser() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50 items-center">
+      {/* Left Section */}
       <div
         className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center bg-gray-200"
         style={{
@@ -125,6 +127,7 @@ export default function FormLoginUser() {
         </div>
       </div>
 
+      {/* Right Section */}
       <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-center p-8 bg-white">
         <div className="mb-6 text-center">
           <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
@@ -145,46 +148,42 @@ export default function FormLoginUser() {
                 <div>
                   <label htmlFor="data">Email or Username :</label>
                   <Field
-                    type="email"
+                    type="text"
                     name="data"
-                    placeholder="Email"
+                    placeholder="Enter Email or Username"
                     onChange={handleChange}
                     value={values.data}
                     className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
-                  {touched.data && errors.data ? (
+                  {touched.data && errors.data && (
                     <div className="text-red-500 text-xs">{errors.data}</div>
-                  ) : null}
+                  )}
                 </div>
                 <div>
                   <label htmlFor="password">Password :</label>
-                  <input
+                  <Field
                     type="password"
                     name="password"
+                    placeholder="Enter Password"
                     onChange={handleChange}
                     value={values.password}
-                    placeholder="Password"
                     className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
-                  {touched.password && errors.password ? (
+                  {touched.password && errors.password && (
                     <div className="text-red-500 text-xs">
                       {errors.password}
                     </div>
-                  ) : null}
+                  )}
                 </div>
-                {/* <div>
-                  <p className="text-gray-600 mt-2">Nomor Telepon :</p>
-                  <input
-                    type="text"
-                    placeholder="Nomor Telepon"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                </div> */}
                 <div>
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-all"
+                    className={`w-full bg-teal-500 text-white py-3 rounded-lg ${
+                      isLoading
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-teal-600"
+                    } transition-all`}
                   >
                     {isLoading ? "Loading ..." : "Masuk"}
                   </button>
@@ -193,7 +192,6 @@ export default function FormLoginUser() {
             );
           }}
         </Formik>
-
         <div className="mt-6">
           <p className="text-sm text-gray-600">
             Belum punya akun?{" "}

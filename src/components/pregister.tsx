@@ -21,7 +21,6 @@ const RegisterSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password not match!")
     .required("Confirm password is required!"),
-  ref_code: Yup.string(),
 });
 
 interface FormValues {
@@ -31,8 +30,9 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export default function FormRegisterPro() {
+export default function FormRegisterUser() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const initialValue: FormValues = {
     username: "",
     email: "",
@@ -60,10 +60,46 @@ export default function FormRegisterPro() {
     }
   };
 
+  const InputField = ({
+    label,
+    name,
+    type = "text",
+    placeholder,
+    errors,
+    touched,
+    handleChange,
+    value,
+  }: {
+    label: string;
+    name: string;
+    type?: string;
+    placeholder: string;
+    errors: any;
+    touched: any;
+    handleChange: any;
+    value: any;
+  }) => (
+    <div>
+      <label className="text-gray-600 mt-2">{label}:</label>
+      <Field
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        onChange={handleChange}
+        value={value}
+        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      />
+      {touched[name] && errors[name] && (
+        <div className="text-red-500 text-xs">{errors[name]}</div>
+      )}
+    </div>
+  );
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50 items-center">
+      {/* Left Section */}
       <div
-        className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center  bg-gray-200"
+        className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center bg-gray-200"
         style={{
           backgroundImage:
             "url('https://i.pinimg.com/736x/9e/ca/87/9eca8792811adcd3b2e142dcab0b78d7.jpg')",
@@ -80,13 +116,13 @@ export default function FormRegisterPro() {
                   <TypeAnimation
                     className="font-extrabold"
                     sequence={[
-                      "CARI EVENT UNTUK KONSER",
+                      "BUAT EVENT UNTUK KONSER",
                       3000,
-                      "CARI EVENT UNTUK SEMINAR",
+                      "BUAT EVENT UNTUK SEMINAR",
                       3000,
-                      "CARI EVENT UNTUK OLAHRAGA",
+                      "BUAT EVENT UNTUK OLAHRAGA",
                       3000,
-                      "CARI EVENT UNTUK EXPO",
+                      "BUAT EVENT UNTUK EXPO",
                       3000,
                       () => {
                         console.log("Sequence completed");
@@ -103,9 +139,8 @@ export default function FormRegisterPro() {
                   <span className="font-bold">EVENEXT !</span>
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Cari dan beli tiket acara favoritmu kini lebih mudah dan
-                  cepat. Mulai dari konser, festival, hingga seminar—semua ada
-                  di sini!{" "}
+                  Buat event dan acara favoritmu kini lebih mudah dan cepat.
+                  Mulai dari konser, festival, hingga seminar—semua ada di sini!{" "}
                   <span className="font-bold">
                     #Evenext #EventTicketing #NikmatiPengalamanmu
                   </span>
@@ -128,6 +163,7 @@ export default function FormRegisterPro() {
         </div>
       </div>
 
+      {/* Right Section */}
       <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-center p-8 bg-white">
         <div className="mb-6 text-center">
           <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
@@ -145,87 +181,45 @@ export default function FormRegisterPro() {
             const { handleChange, values, touched, errors } = props;
             return (
               <Form className="w-full max-w-sm space-y-4">
-                <div>
-                  <p className="text-gray-600 mt-2">Nama Lengkap : </p>
-                  <Field
-                    type="username"
-                    name="username"
-                    onChange={handleChange}
-                    value={values.username}
-                    placeholder="Masukkan Nama Lengkap"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.username && errors.username ? (
-                    <div className="text-red-500 text-xs">
-                      {errors.username}
-                    </div>
-                  ) : null}
-                </div>
-                <div>
-                  <label className="text-gray-600 mt-2">Email :</label>
-                  <Field
-                    type="email"
-                    name="email"
-                    onChange={handleChange}
-                    value={values.email}
-                    placeholder="Masukkan Alamat Email"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.email && errors.email ? (
-                    <div className="text-red-500 text-xs">{errors.email}</div>
-                  ) : null}
-                </div>
-                <div>
-                  <label className="text-gray-600 mt-2">Password :</label>
-                  <Field
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                    value={values.password}
-                    placeholder="Masukkan Password"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.password && errors.password ? (
-                    <div className="text-red-500 text-xs">
-                      {errors.password}
-                    </div>
-                  ) : null}
-                </div>
-                <div>
-                  <label className="text-gray-600 mt-2">
-                    Konfirmasi Password :
-                  </label>
-                  <Field
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Konfimasi Password"
-                    onChange={handleChange}
-                    value={values.confirmPassword}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.confirmPassword && errors.confirmPassword ? (
-                    <div className="text-red-500 text-xs">
-                      {errors.confirmPassword}
-                    </div>
-                  ) : null}
-                </div>
-                {/* <div>
-            <p className="text-gray-600 mt-2">Nomor Telepon :</p>
-            <Field
-              type="text"
-              placeholder="Masukkan Nomor Telepon"
-              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div> */}
-                <div>
-                  <label className="text-gray-600 mt-2">Kode Referal :</label>
-                  <Field
-                    type="text"
-                    name="ref_code"
-                    placeholder="Masukkan Kode Referal"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                </div>
+                <InputField
+                  label="Nama Lengkap"
+                  name="username"
+                  placeholder="Masukkan Nama Lengkap"
+                  errors={errors}
+                  touched={touched}
+                  handleChange={handleChange}
+                  value={values.username}
+                />
+                <InputField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  placeholder="Masukkan Alamat Email"
+                  errors={errors}
+                  touched={touched}
+                  handleChange={handleChange}
+                  value={values.email}
+                />
+                <InputField
+                  label="Password"
+                  name="password"
+                  type="password"
+                  placeholder="Masukkan Password"
+                  errors={errors}
+                  touched={touched}
+                  handleChange={handleChange}
+                  value={values.password}
+                />
+                <InputField
+                  label="Konfirmasi Password"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Konfirmasi Password"
+                  errors={errors}
+                  touched={touched}
+                  handleChange={handleChange}
+                  value={values.confirmPassword}
+                />
                 <div>
                   <button
                     type="submit"
@@ -245,11 +239,8 @@ export default function FormRegisterPro() {
         </Formik>
         <div className="mt-6">
           <p className="text-sm text-gray-600">
-            Telah Memiliki Akun ?{" "}
-            <Link
-              href="/promotor/login"
-              className="text-teal-500 hover:underline"
-            >
+            Telah Memiliki Akun?{" "}
+            <Link href="/promotor/login" className="text-teal-500 hover:underline">
               Masuk Sekarang
             </Link>
           </p>

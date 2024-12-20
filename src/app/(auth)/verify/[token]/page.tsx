@@ -13,6 +13,7 @@ export default function VerifyPage({ params }: { params: { token: string } }) {
     try {
       const res = await fetch(`${base_url}/auth/verify/${params.token}`, {
         method: "PATCH",
+        next: { revalidate: 0 },
       });
       const result = await res.json();
       if (!res.ok) throw result;
