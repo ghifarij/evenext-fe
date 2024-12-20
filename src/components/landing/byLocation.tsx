@@ -2,12 +2,13 @@
 
 import { IEvent } from "@/types/event";
 import Image from "next/image";
-import { formatDate } from "@/helpers/format";
+
 import { FaMapMarkerAlt } from "react-icons/fa";
 import FilterLocation from "./filterLocation";
 import { useEffect, useState } from "react";
 import { getEvents } from "@/libs/event";
 import Link from "next/link";
+import { formatDate } from "@/helpers/formatDate";
 
 export default function ByLocationEvent() {
   const [events, setEvents] = useState<IEvent[]>([]);

@@ -33,7 +33,7 @@ export default function DashboardPage() {
         }`}
       >
         {/* Header */}
-        <header className="flex items-center justify-between bg-white px-5 h-[60px] md:h-[60px] shadow-sm">
+        <header className="flex items-center justify-between bg-white p-5 shadow-sm">
           <button
             className="text-teal-800 font-extrabold md:hidden"
             onClick={toggleSidebar}

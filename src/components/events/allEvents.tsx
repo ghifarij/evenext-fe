@@ -3,13 +3,14 @@
 import { IEvent } from "@/types/event";
 import { getAllEvents } from "@/libs/event";
 import Image from "next/image";
-import { formatCurrency, formatDate } from "@/helpers/format";
+
 import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { formatCurrency, formatDate } from "@/helpers/formatDate";
 
 export default function AllEvents() {
   const router = useRouter();
