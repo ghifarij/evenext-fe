@@ -2,6 +2,7 @@
 
 import { IEvent } from "@/types/event";
 import Image from "next/image";
+
 import { FaMapMarkerAlt } from "react-icons/fa";
 import FilterLocation from "./filterLocation";
 import { useEffect, useState } from "react";

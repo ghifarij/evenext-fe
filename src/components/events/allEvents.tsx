@@ -3,6 +3,7 @@
 import { IEvent } from "@/types/event";
 import { getAllEvents } from "@/libs/event";
 import Image from "next/image";
+
 import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
