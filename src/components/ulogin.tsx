@@ -190,65 +190,6 @@ export default function FormLoginUser() {
             );
           }}
         </Formik>
-        <Formik
-          initialValues={initialValue}
-          validationSchema={LoginSchema}
-          onSubmit={(values, action) => {
-            handleLogin(values);
-            action.resetForm();
-          }}
-        >
-          {(props: FormikProps<FormValues>) => {
-            const { handleChange, values, touched, errors } = props;
-            return (
-              <Form className="w-full max-w-sm space-y-4">
-                <div>
-                  <label htmlFor="data">Email or Username :</label>
-                  <Field
-                    type="text"
-                    name="data"
-                    placeholder="Enter Email or Username"
-                    onChange={handleChange}
-                    value={values.data}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.data && errors.data && (
-                    <div className="text-red-500 text-xs">{errors.data}</div>
-                  )}
-                </div>
-                <div>
-                  <label htmlFor="password">Password :</label>
-                  <Field
-                    type="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    value={values.password}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.password && errors.password && (
-                    <div className="text-red-500 text-xs">
-                      {errors.password}
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className={`w-full bg-teal-500 text-white py-3 rounded-lg ${
-                      isLoading
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-teal-600"
-                    } transition-all`}
-                  >
-                    {isLoading ? "Loading ..." : "Masuk"}
-                  </button>
-                </div>
-              </Form>
-            );
-          }}
-        </Formik>
         <div className="mt-6">
           <p className="text-sm text-gray-600">
             Belum punya akun?{" "}
