@@ -23,7 +23,7 @@ interface FormValues {
   password: string;
 }
 
-export default function FormLoginPromotor() {
+export default function FormLoginPro() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -32,13 +32,13 @@ export default function FormLoginPromotor() {
     password: "",
   };
 
-  const handleLogin = async (user: FormValues) => {
+  const handleLogin = async (promotor: FormValues) => {
     try {
       setIsLoading(true);
       const res = await fetch(`${base_url}/auth/loginPro`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
+        body: JSON.stringify(promotor),
       });
       const result = await res.json();
 
@@ -47,8 +47,8 @@ export default function FormLoginPromotor() {
 
       toast.success(result.message);
       setTimeout(() => {
-        window.location.assign("/promotor/dashboard");
-      }, 1000);
+        window.location.assign("/");
+      }, 700);
     } catch (err) {
       toastErr(err);
     } finally {
@@ -63,7 +63,7 @@ export default function FormLoginPromotor() {
         className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center bg-gray-200"
         style={{
           backgroundImage:
-            "url('https://i.pinimg.com/736x/9e/ca/87/9eca8792811adcd3b2e142dcab0b78d7.jpg')",
+            "url('https://i.pinimg.com/736x/a6/0e/c9/a60ec9741397dec0981c997283fc8620.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -77,13 +77,13 @@ export default function FormLoginPromotor() {
                   <TypeAnimation
                     className="font-extrabold"
                     sequence={[
-                      "BUAT EVENT UNTUK KONSER",
+                      "CARI EVENT UNTUK KONSER",
                       3000,
-                      "BUAT EVENT UNTUK SEMINAR",
+                      "CARI EVENT UNTUK SEMINAR",
                       3000,
-                      "BUAT EVENT UNTUK OLAHRAGA",
+                      "CARI EVENT UNTUK OLAHRAGA",
                       3000,
-                      "BUAT EVENT UNTUK EXPO",
+                      "CARI EVENT UNTUK EXPO",
                       3000,
                       () => {
                         console.log("Sequence completed");
@@ -100,8 +100,9 @@ export default function FormLoginPromotor() {
                   <span className="font-bold">EVENEXT !</span>
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Buat event dan acara favoritmu kini lebih mudah dan cepat.
-                  Mulai dari konser, festival, hingga seminar—semua ada di sini!{" "}
+                  Cari dan beli tiket acara favoritmu kini lebih mudah dan
+                  cepat. Mulai dari konser, festival, hingga seminar—semua ada
+                  di sini!{" "}
                   <span className="font-bold">
                     #Evenext #EventTicketing #NikmatiPengalamanmu
                   </span>
@@ -130,6 +131,65 @@ export default function FormLoginPromotor() {
           <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
           <p className="text-gray-600 mt-2">Masuk untuk membeli tiket</p>
         </div>
+        <Formik
+          initialValues={initialValue}
+          validationSchema={LoginSchema}
+          onSubmit={(values, action) => {
+            handleLogin(values);
+            action.resetForm();
+          }}
+        >
+          {(props: FormikProps<FormValues>) => {
+            const { handleChange, values, touched, errors } = props;
+            return (
+              <Form className="w-full max-w-sm space-y-4">
+                <div>
+                  <label htmlFor="data">Email or Username :</label>
+                  <Field
+                    type="text"
+                    name="data"
+                    placeholder="Enter Email or Username"
+                    onChange={handleChange}
+                    value={values.data}
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.data && errors.data && (
+                    <div className="text-red-500 text-xs">{errors.data}</div>
+                  )}
+                </div>
+                <div>
+                  <label htmlFor="password">Password :</label>
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    onChange={handleChange}
+                    value={values.password}
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.password && errors.password && (
+                    <div className="text-red-500 text-xs">
+                      {errors.password}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`w-full bg-teal-500 text-white py-3 rounded-lg ${
+                      isLoading
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-teal-600"
+                    } transition-all`}
+                  >
+                    {isLoading ? "Loading ..." : "Masuk"}
+                  </button>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
         <Formik
           initialValues={initialValue}
           validationSchema={LoginSchema}
