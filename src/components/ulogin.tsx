@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "@/context/useSession";
 import { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { toast } from "react-toastify";
@@ -26,7 +25,6 @@ interface FormValues {
 
 export default function FormLoginUser() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIsAuth, setUser } = useSession();
   const router = useRouter();
 
   const initialValue: FormValues = {
@@ -41,16 +39,16 @@ export default function FormLoginUser() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
-        credentials: "include",
       });
       const result = await res.json();
 
       if (!res.ok) throw result;
+      localStorage.setItem("token", result.token);
 
-      setIsAuth(true);
-      setUser(result.user);
       toast.success(result.message);
-      router.push("/");
+      setTimeout(() => {
+        window.location.assign("/");
+      }, 700);
     } catch (err) {
       toastErr(err);
     } finally {
@@ -133,6 +131,65 @@ export default function FormLoginUser() {
           <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
           <p className="text-gray-600 mt-2">Masuk untuk membeli tiket</p>
         </div>
+        <Formik
+          initialValues={initialValue}
+          validationSchema={LoginSchema}
+          onSubmit={(values, action) => {
+            handleLogin(values);
+            action.resetForm();
+          }}
+        >
+          {(props: FormikProps<FormValues>) => {
+            const { handleChange, values, touched, errors } = props;
+            return (
+              <Form className="w-full max-w-sm space-y-4">
+                <div>
+                  <label htmlFor="data">Email or Username :</label>
+                  <Field
+                    type="text"
+                    name="data"
+                    placeholder="Enter Email or Username"
+                    onChange={handleChange}
+                    value={values.data}
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.data && errors.data && (
+                    <div className="text-red-500 text-xs">{errors.data}</div>
+                  )}
+                </div>
+                <div>
+                  <label htmlFor="password">Password :</label>
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    onChange={handleChange}
+                    value={values.password}
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.password && errors.password && (
+                    <div className="text-red-500 text-xs">
+                      {errors.password}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`w-full bg-teal-500 text-white py-3 rounded-lg ${
+                      isLoading
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-teal-600"
+                    } transition-all`}
+                  >
+                    {isLoading ? "Loading ..." : "Masuk"}
+                  </button>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
         <Formik
           initialValues={initialValue}
           validationSchema={LoginSchema}

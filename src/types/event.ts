@@ -1,8 +1,9 @@
 import { ITicket } from "./ticket";
+import { IUser } from "./user";
 
 export interface IPromotor {
   id: string;
-  name: string;
+  username: string;
   email: string;
   password: string;
   avatar: string;
@@ -27,4 +28,16 @@ export interface IEvent {
   promotorId: string;
   promotor: IPromotor;
   ticket: ITicket;
+}
+
+export type UserType = "user" | "promotor";
+
+export interface SessionContext {
+  isAuth: boolean;
+  type: UserType | null;
+  user: IUser | null;
+  promotor: IPromotor | null;
+  checkSession: () => Promise<void>;
+  logout: () => void;
+  loading: boolean;
 }

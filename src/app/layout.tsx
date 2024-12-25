@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import NavbarExcept from "@/components/navbarExcept";
+import NavbarExcept from "@/components/landing/navbarExcept";
 import { SessionProvider } from "@/context/useSession";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import "react-toastify/dist/ReactToastify.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,11 +35,11 @@ export default function RootLayout({
         <SessionProvider>
           <NavbarExcept />
           {children}
-          <ToastContainer 
-          draggable
-          closeOnClick
-          autoClose={3000}
-          position="bottom-right"
+          <ToastContainer
+            draggable
+            closeOnClick
+            autoClose={3000}
+            position="bottom-right"
           />
         </SessionProvider>
       </body>

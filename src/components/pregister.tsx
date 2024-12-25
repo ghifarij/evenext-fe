@@ -40,15 +40,15 @@ export default function FormRegisterUser() {
     confirmPassword: "",
   };
 
-  const handleAdd = async (user: FormValues) => {
+  const handleAdd = async (promotor: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${base_url}/auth/register`, {
+      const res = await fetch(`${base_url}/auth/registerPro`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(promotor),
       });
       const result = await res.json();
       if (!res.ok) throw result;

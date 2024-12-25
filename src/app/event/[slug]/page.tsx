@@ -1,4 +1,5 @@
-import { formatDate, formatTime } from "@/helpers/format";
+
+import { formatDate, formatTime } from "@/helpers/formatDate";
 import { getEvents, getEventSlug } from "@/libs/event";
 import { IEvent } from "@/types/event";
 import Image from "next/image";
@@ -30,7 +31,7 @@ export async function generateMetadata({
     venue: event.venue,
     date: event.date,
     time: event.time,
-    name: event.promotor.name,
+    username: event.promotor.username,
     avatar: event.promotor.avatar,
   };
 }
@@ -65,7 +66,7 @@ export default async function EventDetail({
             </div>
             <div className="w-[60%] p-1 ml-2">
               <p className="text-gray-500 text-sm">Event Creator</p>
-              <p className="font-bold mt-1">{event.promotor.name}</p>
+              <p className="font-bold mt-1">{event.promotor.username}</p>
             </div>
           </div>
           <div className="ml-10 text-lg font-bold">{event.title}</div>
