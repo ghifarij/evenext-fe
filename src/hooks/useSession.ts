@@ -1,31 +1,14 @@
-import { IUser } from "@/types/user";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 
-const useSession = () => {
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [user, setUser] = useState<IUser | null>(null);
-  const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
+import { SessionContext as ISessionContext } from "@/types/event";
+import { SessionContext } from "@/context/useSession";
 
-  const checkSession = async () => {
-    try {
-      const res = await fetch(`${base_url}/users/profile`, {
-        method: "GET",
-        credentials: "include",
-      });
-      const result = await res.json();
-      if (!res.ok) throw result;
-      setUser(result.user);
-      setIsAuth(true);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+export const useSession = (): ISessionContext => {
+  const context = useContext(SessionContext);
 
-  useEffect(() => {
-    checkSession();
-  }, []);
+  if (!context) {
+    throw new Error("useSession must be used within a SessionProvider");
+  }
 
-  return { user, isAuth, setIsAuth, setUser };
+  return context;
 };
-
-export default useSession;

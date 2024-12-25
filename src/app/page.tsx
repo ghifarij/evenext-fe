@@ -1,13 +1,13 @@
 import ClosestEvent from "@/components/landing/closest";
 import Swiper from "@/components/landing/swiper";
-import CallAction from "@/components/cta";
 import ByLocationEvent from "@/components/landing/byLocation";
 import BuyTicket from "@/components/landing/buyTicket";
+import CallActionMarquee from "@/components/landing/ctaMarquee";
 
 export default function Home() {
   return (
     <div>
-      <CallAction />
+      <CallActionMarquee />
       <Swiper />
       <ClosestEvent />
       <ByLocationEvent />

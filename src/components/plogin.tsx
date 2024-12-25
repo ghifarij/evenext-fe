@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "@/context/useSession";
 import { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { toast } from "react-toastify";
@@ -26,7 +25,6 @@ interface FormValues {
 
 export default function FormLoginPromotor() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIsAuth, setUser } = useSession();
   const router = useRouter();
 
   const initialValue: FormValues = {
@@ -37,20 +35,20 @@ export default function FormLoginPromotor() {
   const handleLogin = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${base_url}/auth/login`, {
+      const res = await fetch(`${base_url}/auth/loginPro`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
-        credentials: "include",
       });
       const result = await res.json();
 
       if (!res.ok) throw result;
+      localStorage.setItem("token", result.token);
 
-      setIsAuth(true);
-      setUser(result.user);
       toast.success(result.message);
-      router.push("/");
+      setTimeout(() => {
+        window.location.assign("/promotor/dashboard");
+      }, 1000);
     } catch (err) {
       toastErr(err);
     } finally {
@@ -102,9 +100,8 @@ export default function FormLoginPromotor() {
                   <span className="font-bold">EVENEXT !</span>
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Buat event dan acara favoritmu kini lebih mudah dan
-                  cepat. Mulai dari konser, festival, hingga seminar—semua ada
-                  di sini!{" "}
+                  Buat event dan acara favoritmu kini lebih mudah dan cepat.
+                  Mulai dari konser, festival, hingga seminar—semua ada di sini!{" "}
                   <span className="font-bold">
                     #Evenext #EventTicketing #NikmatiPengalamanmu
                   </span>

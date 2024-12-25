@@ -11,14 +11,14 @@ export default function VerifyPage({ params }: { params: { token: string } }) {
   const router = useRouter();
   const onVerify = async () => {
     try {
-      const res = await fetch(`${base_url}/auth/verify/${params.token}`, {
+      const res = await fetch(`${base_url}/auth/verifyPro/${params.token}`, {
         method: "PATCH",
         next: { revalidate: 0 },
       });
       const result = await res.json();
       if (!res.ok) throw result;
       toast.success(result.message);
-      router.push("/user/login");
+      router.push("/promotor/login");
     } catch (err) {
       toastErr(err);
       router.push("/");
@@ -40,3 +40,5 @@ export default function VerifyPage({ params }: { params: { token: string } }) {
     </div>
   );
 }
+
+

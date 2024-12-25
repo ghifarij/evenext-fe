@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "@/context/useSession";
 import { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { toast } from "react-toastify";
@@ -26,7 +25,6 @@ interface FormValues {
 
 export default function FormLoginUser() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIsAuth, setUser } = useSession();
   const router = useRouter();
 
   const initialValue: FormValues = {
@@ -41,16 +39,16 @@ export default function FormLoginUser() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
-        credentials: "include",
       });
       const result = await res.json();
 
       if (!res.ok) throw result;
+      localStorage.setItem("token",result.token)
 
-      setIsAuth(true);
-      setUser(result.user);
       toast.success(result.message);
-      router.push("/");
+     setTimeout(()=> {
+      window.location.assign("/")
+     },700)
     } catch (err) {
       toastErr(err);
     } finally {
