@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Sidebar from "./sidebar";
+import { CiCirclePlus } from "react-icons/ci";
+import Link from "next/link";
 
 type CardProps = {
   title: String;
@@ -33,7 +35,7 @@ export default function DashboardPage() {
         }`}
       >
         {/* Header */}
-        <header className="flex items-center justify-between bg-white px-5 h-[60px] md:h-[60px] shadow-sm">
+        <header className="flex items-center justify-between bg-white p-5 shadow-sm">
           <button
             className="text-teal-800 font-extrabold md:hidden"
             onClick={toggleSidebar}
@@ -45,7 +47,17 @@ export default function DashboardPage() {
 
         {/* Main Content */}
         <main className="flex flex-col p-4 md:p-10 gap-10">
-          <div className="flex flex-1 justify-end">BreadCrumbs</div>
+          <div  className="flex justify-end">
+          <Link
+            href="/event/create"
+            className="flex flex-row w-[120px] h-[40px] rounded-full bg-teal-800 hover:bg-teal-700 items-center justify-center text-white space-x-1"
+          >
+            <div className="text-[25px]">
+              <CiCirclePlus />
+            </div>
+            <div className="text-xs font-bold">Buat Event</div>
+          </Link>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card title="Saldo Saya" value="Rp. 0" />
             <Card title="Event Saya" value="0" />

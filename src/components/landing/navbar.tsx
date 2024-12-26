@@ -1,15 +1,18 @@
 "use client";
 
+import { useSession } from "@/hooks/useSession";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BiLogInCircle } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
-import { RxHamburgerMenu } from "react-icons/rx";
+import Avatar from "./avatar";
+import BurgerHandphone from "./burgerHandphone";
 
 export default function Navbar() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
+  const { isAuth } = useSession();
   const handleSearchClickOutside = (e: React.MouseEvent) => {
     const searchModal = document.getElementById("search-modal");
     if (searchModal && !searchModal.contains(e.target as Node)) {
@@ -84,12 +87,20 @@ export default function Navbar() {
           >
             Buat Event
           </Link>
-          <Link
-            href={"/user/login"}
-            className="flex-none items-center rounded-full bg-black px-3 h-[20px] text-lg font-medium text-white shadow-sm hover:bg-teal-800"
-          >
-            <BiLogInCircle />
-          </Link>
+          {isAuth ? (
+            <div className="flex items-center h-[20px] text-sm">
+              <Avatar />
+            </div>
+          ) : (
+            <>
+              <Link
+                href={"/user/login"}
+                className="flex-none items-center rounded-full bg-black px-3 h-[20px] text-lg text-white shadow-sm hover:bg-teal-800"
+              >
+                <BiLogInCircle />
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Buttons */}
@@ -100,54 +111,9 @@ export default function Navbar() {
           >
             <IoSearch size={20} />
           </button>
-          <button
-            className="text-xl transition-all duration-300"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
-          >
-            {isOpen ? "✖" : <RxHamburgerMenu />}
-          </button>
+          {isAuth ? <Avatar /> : <BurgerHandphone />}
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div
-          id="menu-dropdown"
-          className="flex flex-col lg:hidden items-center rounded-md mt-4 p-4 space-y-4"
-        >
-          <Link
-            href={"/"}
-            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-          >
-            Biaya
-          </Link>
-          <Link
-            href={"/"}
-            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-          >
-            Events
-          </Link>
-          <Link
-            href={"/"}
-            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-          >
-            Kontak Kami
-          </Link>
-          <Link
-            href={"/promotor/register"}
-            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-          >
-            Buat Event
-          </Link>
-          <Link
-            href={"/user/login"}
-            className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-          >
-            Masuk
-          </Link>
-        </div>
-      )}
 
       {/* Search Modal */}
       {searchVisible && (

@@ -13,4 +13,8 @@ export const getToken = () => {
 
 export const revalidate = (tags: string) => {
   revalidateTag(tags);
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903

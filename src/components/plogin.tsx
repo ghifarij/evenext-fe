@@ -1,19 +1,79 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
+import { toast } from "react-toastify";
+import { Field, Form, Formik, FormikProps } from "formik";
+import { useRouter } from "next/navigation";
+import * as Yup from "yup";
+import { toastErr } from "@/helpers/toast";
+
+const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
+
+const LoginSchema = Yup.object().shape({
+  data: Yup.string().required("Email or Username is required!"),
+  password: Yup.string()
+    .min(3, "Password is too weak!")
+    .required("Password is required!"),
+});
+
+interface FormValues {
+  data: string;
+  password: string;
+}
 
 export default function FormLoginPro() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  const initialValue: FormValues = {
+    data: "",
+    password: "",
+  };
+
+  const handleLogin = async (promotor: FormValues) => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${base_url}/auth/loginPro`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(promotor),
+      });
+      const result = await res.json();
+
+      if (!res.ok) throw result;
+      localStorage.setItem("token", result.token);
+
+      toast.success(result.message);
+      setTimeout(() => {
+        window.location.assign("/promotor/dashboard");
+      }, 700);
+    } catch (err) {
+      toastErr(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
-      <div className="lg:w-1/2 hidden min-h-screen lg:flex items-center justify-center bg-gray-200">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50 items-center">
+      {/* Left Section */}
+      <div
+        className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center bg-gray-200"
+        style={{
+          backgroundImage:
+            "url('https://i.pinimg.com/736x/a6/0e/c9/a60ec9741397dec0981c997283fc8620.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="mt-10">
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                <p className="mt-2 text-lg font-medium tracking-tight text-black max-lg:text-center">
                   <TypeAnimation
                     className="font-extrabold"
                     sequence={[
@@ -65,45 +125,71 @@ export default function FormLoginPro() {
         </div>
       </div>
 
-      <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-start p-8 bg-white">
-        <div className="mb-6 text-center mt-4">
-          <h1 className="font-extrabold text-3xl text-gray-800">EVENEXT</h1>
-          <p className="text-gray-600 mt-2">Masuk untuk membuat events</p>
+      {/* Right Section */}
+      <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-center p-8 bg-white">
+        <div className="mb-6 text-center">
+          <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
+          <p className="text-gray-600 mt-2">Masuk untuk membeli tiket</p>
         </div>
-        <form className="w-full max-w-sm space-y-4">
-          <div>
-            <p className="text-gray-600 mt-2">Email or Username :</p>
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <p className="text-gray-600 mt-2">Password :</p>
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <p className="text-gray-600 mt-2">Nomor Telepon :</p>
-            <input
-              type="text"
-              placeholder="Nomor Telepon"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-all"
-            >
-              Masuk
-            </button>
-          </div>
-        </form>
+        <Formik
+          initialValues={initialValue}
+          validationSchema={LoginSchema}
+          onSubmit={(values, action) => {
+            handleLogin(values);
+            action.resetForm();
+          }}
+        >
+          {(props: FormikProps<FormValues>) => {
+            const { handleChange, values, touched, errors } = props;
+            return (
+              <Form className="w-full max-w-sm space-y-4">
+                <div>
+                  <label htmlFor="data">Email or Username :</label>
+                  <Field
+                    type="text"
+                    name="data"
+                    placeholder="Enter Email or Username"
+                    onChange={handleChange}
+                    value={values.data}
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.data && errors.data && (
+                    <div className="text-red-500 text-xs">{errors.data}</div>
+                  )}
+                </div>
+                <div>
+                  <label htmlFor="password">Password :</label>
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    onChange={handleChange}
+                    value={values.password}
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  />
+                  {touched.password && errors.password && (
+                    <div className="text-red-500 text-xs">
+                      {errors.password}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`w-full bg-teal-500 text-white py-3 rounded-lg ${
+                      isLoading
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-teal-600"
+                    } transition-all`}
+                  >
+                    {isLoading ? "Loading ..." : "Masuk"}
+                  </button>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
         <div className="mt-6">
           <p className="text-sm text-gray-600">
             Belum punya akun?{" "}

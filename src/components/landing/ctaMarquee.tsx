@@ -1,14 +1,15 @@
 "use client";
 
+import React, { useState } from "react";
+import CallAction from "./cta";
+import Marquee from "react-fast-marquee";
 import { FaXmark } from "react-icons/fa6";
-import { useState } from "react";
 
-export default function CallAction() {
+export default function CallActionMarquee() {
   const [isVisible, setIsVisible] = useState(true);
   if (!isVisible) {
     return null;
   }
-
   return (
     <div className="sticky top-16 z-40 isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-10 py-2.5 sm:px-3.5 sm:before:flex-1">
       <div
@@ -35,25 +36,13 @@ export default function CallAction() {
           className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#80ffa4] to-[#007e77] opacity-30"
         />
       </div>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <p className="text-sm/6 text-gray-900">
-          <strong className="font-semibold">Evenext Promotor</strong>
-          <svg
-            viewBox="0 0 2 2"
-            aria-hidden="true"
-            className="mx-2 inline size-0.5 fill-current"
-          >
-            <circle r={1} cx={1} cy={1} />
-          </svg>
-          Gabung bersama kami dan buat event kamu sekarang.
-        </p>
-        <a
-          href="/promotor/register"
-          className="flex-none rounded-full bg-black px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-        >
-          Register Sekarang <span aria-hidden="true">&rarr;</span>
-        </a>
-      </div>
+      <Marquee pauseOnHover>
+        <div className="flex flex-row gap-5 mr-5">
+        <CallAction />
+        <CallAction />
+        <CallAction />
+        </div>
+      </Marquee>
       <div className="flex flex-1 justify-end">
         <button
           type="button"
