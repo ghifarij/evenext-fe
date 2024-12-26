@@ -36,15 +36,21 @@ const formats = [
 ];
 
 interface FieldRichTextProps {
-  setFieldValue: (a: any, b: any) => void;
+  name: string;
+  value: string;
+  setFieldValue: (field: any, value: any) => void;
 }
 
-const RichTextEditor: React.FC<FieldRichTextProps> = ({ setFieldValue }) => {
-  const [value, setValue] = useState<string>("");
+const RichTextEditor: React.FC<FieldRichTextProps> = ({
+  name,
+  value,
+  setFieldValue,
+}) => {
+  const [editorValue, setEditorValue] = useState<string>(value);
 
-  const handleChange = (e: string) => {
-    setValue(e);
-    setFieldValue("content", e);
+  const handleChange = (content: string) => {
+    setEditorValue(content);
+    setFieldValue(name, content);
   };
 
   useEffect(() => {
@@ -66,7 +72,7 @@ const RichTextEditor: React.FC<FieldRichTextProps> = ({ setFieldValue }) => {
   return (
     <div className="bg-white w-full">
       <ReactQuill
-        value={value}
+        value={editorValue}
         onChange={handleChange}
         modules={modules}
         formats={formats}

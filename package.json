@@ -19,11 +19,8 @@
     "react-dom": "^18",
     "react-fast-marquee": "^1.6.5",
     "react-icons": "^5.4.0",
-<<<<<<< HEAD
     "react-quill": "^2.0.0",
-=======
     "react-toastify": "^10.0.6",
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
     "react-type-animation": "^3.2.0",
     "yup": "^1.5.0"
   },

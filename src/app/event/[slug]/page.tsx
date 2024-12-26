@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { formatDate, formatTime } from "@/helpers/format";
-=======
-
 import { formatDate, formatTime } from "@/helpers/formatDate";
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
 import { getEvents, getEventSlug } from "@/libs/event";
 import { IEvent } from "@/types/event";
 import Image from "next/image";
@@ -35,11 +30,7 @@ export async function generateMetadata({
     venue: event.venue,
     date: event.date,
     time: event.time,
-<<<<<<< HEAD
-    name: event.promotor.name,
-=======
     username: event.promotor.username,
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
     avatar: event.promotor.avatar,
   };
 }
@@ -74,11 +65,7 @@ export default async function EventDetail({
             </div>
             <div className="w-[60%] p-1 ml-2">
               <p className="text-gray-500 text-sm">Event Creator</p>
-<<<<<<< HEAD
-              <p className="font-bold mt-1">{event.promotor.name}</p>
-=======
               <p className="font-bold mt-1">{event.promotor.username}</p>
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
             </div>
           </div>
           <div className="ml-10 text-lg font-bold">{event.title}</div>
@@ -95,33 +82,26 @@ export default async function EventDetail({
             <p className="ml-2 text-gray-500">{event.location}</p>
           </div>
           <div className="flex ml-10 mt-4">
-<<<<<<< HEAD
-            <FaMap className="text-teal-500 my-1 text-lg" />
-            <p className="ml-2 text-gray-500">{event.venue}</p>
-          </div>
-=======
             <FaMap className="text-teal-500 my-1" />
             <p className="ml-2 text-gray-500">{event.venue}</p>
           </div>
           <div className="border-[1px] mt-4 w-[80%] mx-auto"></div>
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
         </div>
       </div>
       <div className="flex w-full mt-10">
         <div className="flex-1">
           <p className="text-teal-500 font-bold mb-2">{event.category}</p>
-<<<<<<< HEAD
           <div className="border-[1px]"></div>
-          <h2 className="text-lg font-bold mb-4 mt-2">Deskripsi</h2>
-=======
-          <h2 className="text-lg font-bold mb-6">Deskripsi</h2>
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
+          <h2 className="text-lg font-bold mt-2 mb-4">Deskripsi</h2>
           <div
             className="text-gray-700 mb-4"
             dangerouslySetInnerHTML={{ __html: event.description }}
           />
           <h2 className="text-lg font-bold mb-2">Kebijakan</h2>
-          <p className="text-gray-500">{event.terms}</p>
+          <div
+            className="text-gray-700"
+            dangerouslySetInnerHTML={{ __html: event.terms }}
+          />
         </div>
         <div className="flex-1">
           <h2 className="text-teal-500 font-bold mb-2 ml-8">Pilih Tiket</h2>

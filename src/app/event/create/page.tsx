@@ -1,13 +1,15 @@
 "use client";
 
 import { EventInput } from "@/types/event";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { revalidate } from "@/libs/action";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { FieldThumbnail } from "@/components/form/event/thumbnail";
 import RichTextEditor from "@/components/form/event/textEditor";
+import { createSlug } from "@/helpers/createSlug";
+import { toast } from "react-toastify";
 
 export const eventSchema = Yup.object({
   thumbnail: Yup.mixed<File>()
@@ -48,6 +50,7 @@ export const eventSchema = Yup.object({
   category: Yup.string().required(
     "Select category between Konser, Seminar, Olahraga, Expo"
   ),
+  promotorId: Yup.string().required("Promotor Id is required"),
   description: Yup.string().required("Description is requried"),
   terms: Yup.string().required("Terms is required"),
 });
@@ -55,11 +58,13 @@ export const eventSchema = Yup.object({
 const initialValues: EventInput = {
   thumbnail: "",
   title: "",
+  slug: "",
   date: "",
   time: "",
   location: "",
   venue: "",
   category: "",
+  promotorId: "",
   description: "",
   terms: "",
 };
@@ -69,15 +74,25 @@ const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 export default function EventCreatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   const onCreate = async (data: EventInput) => {
     try {
       setIsLoading(true);
-      const formData = new FormData();
 
-      for (let key in data) {
-        const item = data[key as keyof EventInput];
+      const combinedDateTime = new Date(
+        `${data.date}T${data.time}:00Z`
+      ).toISOString();
+
+      const transformedData = {
+        ...data,
+        date: combinedDateTime,
+        time: "1970-01-01T" + data.time + ":00Z",
+      };
+
+      const formData = new FormData();
+      for (let key in transformedData) {
+        const item = transformedData[key as keyof EventInput];
         if (item) {
           formData.append(key, item);
         }
@@ -86,13 +101,11 @@ export default function EventCreatePage() {
       const res = await fetch(`${base_url}/events`, {
         method: "POST",
         body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
       const result = await res.json();
       if (!res.ok) throw result;
       revalidate("events");
+      toast.success(result.message);
       router.push("/");
     } catch (err) {
       console.log(err);
@@ -112,6 +125,10 @@ export default function EventCreatePage() {
         }}
       >
         {(props) => {
+          useEffect(() => {
+            props.setFieldValue("slug", createSlug(props.values.title));
+          }, [props.values.title, props.setFieldValue]);
+
           return (
             <Form className="flex flex-col gap-3 w-full">
               <div className="mx-auto">
@@ -122,7 +139,7 @@ export default function EventCreatePage() {
                   Upload Banner
                 </label>
                 <FieldThumbnail
-                  name={"thumbnail"}
+                  name="thumbnail"
                   formik={props}
                   className="bg-white"
                 />
@@ -151,6 +168,27 @@ export default function EventCreatePage() {
                     />
                     <ErrorMessage
                       name={"title"}
+                      component="span"
+                      className="text-sm text-red-500"
+                    />
+                  </div>
+                  <div className="flex flex-col mt-4">
+                    <label
+                      htmlFor="slug"
+                      className="block mb-2 font-bold text-gray-800"
+                    >
+                      Slug
+                    </label>
+                    <input
+                      name="slug"
+                      type="text"
+                      value={props.values.slug}
+                      readOnly
+                      disabled
+                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-[90%] p-2"
+                    />
+                    <ErrorMessage
+                      name={"slug"}
                       component="span"
                       className="text-sm text-red-500"
                     />
@@ -205,15 +243,15 @@ export default function EventCreatePage() {
                       as="select"
                       className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-[90%] p-[10px] ml-10"
                     >
-                      <option value="bandung">Bandung</option>
-                      <option value="jakarta">Jakarta</option>
-                      <option value="surabaya">Surabaya</option>
-                      <option value="bali">Bali</option>
+                      <option value="Bandung">Bandung</option>
+                      <option value="Jakarta">Jakarta</option>
+                      <option value="Surabaya">Surabaya</option>
+                      <option value="Bali">Bali</option>
                     </Field>
                     <ErrorMessage
                       name={"location"}
                       component="span"
-                      className="text-sm text-red-500"
+                      className="text-sm text-red-500 ml-10"
                     />
                   </div>
                   <div className="flex flex-col mt-4">
@@ -231,7 +269,7 @@ export default function EventCreatePage() {
                     <ErrorMessage
                       name={"venue"}
                       component="span"
-                      className="text-sm text-red-500"
+                      className="text-sm text-red-500 ml-10"
                     />
                   </div>
                   <div className="flex flex-col mt-4">
@@ -246,15 +284,33 @@ export default function EventCreatePage() {
                       as="select"
                       className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-[90%] p-[10px] ml-10"
                     >
-                      <option value="bandung">Konser</option>
-                      <option value="jakarta">Seminar</option>
-                      <option value="surabaya">Olahraga</option>
-                      <option value="bali">Expo</option>
+                      <option value="Konser">Konser</option>
+                      <option value="Seminar">Seminar</option>
+                      <option value="Olahraga">Olahraga</option>
+                      <option value="Expo">Expo</option>
                     </Field>
                     <ErrorMessage
                       name={"category"}
                       component="span"
-                      className="text-sm text-red-500"
+                      className="text-sm text-red-500 ml-10"
+                    />
+                  </div>
+                  <div className="flex flex-col mt-4">
+                    <label
+                      htmlFor="promotorId"
+                      className="block mb-2 font-bold text-gray-800 ml-10"
+                    >
+                      Promotor Id
+                    </label>
+                    <Field
+                      name="promotorId"
+                      type="text"
+                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-[90%] p-2 ml-10"
+                    />
+                    <ErrorMessage
+                      name={"promotorId"}
+                      component="span"
+                      className="text-sm text-red-500 ml-10"
                     />
                   </div>
                 </div>
@@ -266,7 +322,11 @@ export default function EventCreatePage() {
                 >
                   Deskripsi
                 </label>
-                <RichTextEditor setFieldValue={props.setFieldValue} />
+                <RichTextEditor
+                  name="description"
+                  value={props.values.description}
+                  setFieldValue={props.setFieldValue}
+                />
                 <ErrorMessage
                   name="description"
                   component="span"
@@ -280,7 +340,11 @@ export default function EventCreatePage() {
                 >
                   Kebijakan
                 </label>
-                <RichTextEditor setFieldValue={props.setFieldValue} />
+                <RichTextEditor
+                  name="terms"
+                  value={props.values.terms}
+                  setFieldValue={props.setFieldValue}
+                />
                 <ErrorMessage
                   name="terms"
                   component="span"

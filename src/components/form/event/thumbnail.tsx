@@ -30,7 +30,7 @@ export const FieldThumbnail: React.FC<FieldThumbnailProps> = ({
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
       <input
-        type="type"
+        type="file"
         id={name}
         name={name}
         className="hidden"
@@ -48,7 +48,7 @@ export const FieldThumbnail: React.FC<FieldThumbnailProps> = ({
       ) : (
         <div
           onClick={() => imgRef.current?.click()}
-          className="flex w-[100px] md:w-[150px] md:h-[150px] h-[100px] justify-center items-center border border-gray-500 border-dashed rounded-md cursor-pointer"
+          className="flex w-[100px] md:w-[225px] md:h-[150px] h-[100px] justify-center items-center border border-gray-500 border-dashed rounded-md cursor-pointer mx-auto"
         >
           <Image
             src={previewUrl}

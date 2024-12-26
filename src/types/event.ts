@@ -1,8 +1,5 @@
 import { ITicket } from "./ticket";
-<<<<<<< HEAD
-=======
 import { IUser } from "./user";
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
 
 export interface IPromotor {
   id: string;
@@ -33,18 +30,19 @@ export interface IEvent {
   ticket: ITicket;
 }
 
-<<<<<<< HEAD
 export interface EventInput {
   thumbnail?: File | string | null;
   title: string;
+  slug: string;
   date: string;
   time: string;
   location: string;
   venue: string;
   category: string;
+  promotorId: string;
   description: string;
   terms: string;
-=======
+}
 export type UserType = "user" | "promotor";
 
 export interface SessionContext {
@@ -55,5 +53,4 @@ export interface SessionContext {
   checkSession: () => Promise<void>;
   logout: () => void;
   loading: boolean;
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
 }

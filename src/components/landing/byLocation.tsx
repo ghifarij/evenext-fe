@@ -8,10 +8,7 @@ import FilterLocation from "./filterLocation";
 import { useEffect, useState } from "react";
 import { getEvents } from "@/libs/event";
 import Link from "next/link";
-<<<<<<< HEAD
-=======
 import { formatDate } from "@/helpers/formatDate";
->>>>>>> 5b5712d72f59f276cd759e09e45227282d21d903
 
 export default function ByLocationEvent() {
   const [events, setEvents] = useState<IEvent[]>([]);
