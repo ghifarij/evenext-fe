@@ -28,3 +28,15 @@ export interface IEvent {
   promotor: IPromotor;
   ticket: ITicket;
 }
+
+export interface EventInput {
+  thumbnail?: File | string | null;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  venue: string;
+  category: string;
+  description: string;
+  terms: string;
+}

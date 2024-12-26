@@ -82,16 +82,16 @@ export default async function EventDetail({
             <p className="ml-2 text-gray-500">{event.location}</p>
           </div>
           <div className="flex ml-10 mt-4">
-            <FaMap className="text-teal-500 my-1" />
+            <FaMap className="text-teal-500 my-1 text-lg" />
             <p className="ml-2 text-gray-500">{event.venue}</p>
           </div>
-          <div className="border-[1px] mt-4 w-[80%] mx-auto"></div>
         </div>
       </div>
       <div className="flex w-full mt-10">
         <div className="flex-1">
           <p className="text-teal-500 font-bold mb-2">{event.category}</p>
-          <h2 className="text-lg font-bold mb-6">Deskripsi</h2>
+          <div className="border-[1px]"></div>
+          <h2 className="text-lg font-bold mb-4 mt-2">Deskripsi</h2>
           <div
             className="text-gray-700 mb-4"
             dangerouslySetInnerHTML={{ __html: event.description }}

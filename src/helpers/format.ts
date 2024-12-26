@@ -1,3 +1,5 @@
+import { toZonedTime, format } from "date-fns-tz";
+
 export function formatDate(dateString: string) {
   const date = new Date(dateString);
   return date.toLocaleDateString("id-ID", {
@@ -8,12 +10,10 @@ export function formatDate(dateString: string) {
 }
 
 export function formatTime(dateString: string) {
-  const date = new Date(dateString);
-  const time = date.toLocaleTimeString("id-ID", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+  const localTimeZone = "Asia/Jakarta";
+  const utcDate = new Date(dateString);
+  const zonedDate = toZonedTime(utcDate, localTimeZone);
+  const time = format(zonedDate, "HH:mm");
   return `${time} WIB`;
 }
 
