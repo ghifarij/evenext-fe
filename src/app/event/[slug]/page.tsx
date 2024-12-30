@@ -1,4 +1,3 @@
-
 import { formatDate, formatTime } from "@/helpers/formatDate";
 import { getEvents, getEventSlug } from "@/libs/event";
 import { IEvent } from "@/types/event";
@@ -92,13 +91,17 @@ export default async function EventDetail({
       <div className="flex w-full mt-10">
         <div className="flex-1">
           <p className="text-teal-500 font-bold mb-2">{event.category}</p>
-          <h2 className="text-lg font-bold mb-6">Deskripsi</h2>
+          <div className="border-[1px]"></div>
+          <h2 className="text-lg font-bold mt-2 mb-4">Deskripsi</h2>
           <div
             className="text-gray-700 mb-4"
             dangerouslySetInnerHTML={{ __html: event.description }}
           />
           <h2 className="text-lg font-bold mb-2">Kebijakan</h2>
-          <p className="text-gray-500">{event.terms}</p>
+          <div
+            className="text-gray-700"
+            dangerouslySetInnerHTML={{ __html: event.terms }}
+          />
         </div>
         <div className="flex-1">
           <h2 className="text-teal-500 font-bold mb-2 ml-8">Pilih Tiket</h2>

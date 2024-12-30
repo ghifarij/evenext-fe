@@ -30,6 +30,19 @@ export interface IEvent {
   ticket: ITicket;
 }
 
+export interface EventInput {
+  thumbnail?: File | string | null;
+  title: string;
+  slug: string;
+  date: string;
+  time: string;
+  location: string;
+  venue: string;
+  category: string;
+  promotorId: string;
+  description: string;
+  terms: string;
+}
 export type UserType = "user" | "promotor";
 
 export interface SessionContext {
