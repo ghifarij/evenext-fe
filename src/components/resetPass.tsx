@@ -1,60 +1,91 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
-import { TypeAnimation } from "react-type-animation";
-import { toast } from "react-toastify";
-import { Field, Form, Formik, FormikProps } from "formik";
-import { useRouter } from "next/navigation";
-import * as Yup from "yup";
 import { toastErr } from "@/helpers/toast";
+import { Field, Form, Formik, FormikProps } from "formik";
+import Link from "next/link";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { TypeAnimation } from "react-type-animation";
+import * as Yup from "yup";
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
-const LoginSchema = Yup.object().shape({
-  data: Yup.string().required("Email or Username is required!"),
-  password: Yup.string()
+const RegisterSchema = Yup.object().shape({
+  newPassword: Yup.string()
     .min(3, "Password is too weak!")
     .required("Password is required!"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword")], "Password not match!")
+    .required("Confirm password is required!"),
 });
 
 interface FormValues {
-  data: string;
-  password: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
-export default function FormLoginUser() {
+export default function ResetPassword() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const initialValue: FormValues = {
-    data: "",
-    password: "",
+    newPassword: "",
+    confirmPassword: "",
   };
 
-  const handleLogin = async (user: FormValues) => {
+  const handleForget = async (promotor: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${base_url}/auth/login`, {
+      const res = await fetch(`${base_url}/auth/resetPasswordPromotor`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(promotor),
       });
       const result = await res.json();
-
       if (!res.ok) throw result;
-      localStorage.setItem("token", result.token);
-
       toast.success(result.message);
-      setTimeout(() => {
-        window.location.assign("/");
-      }, 700);
     } catch (err) {
       toastErr(err);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const InputField = ({
+    label,
+    name,
+    type = "text",
+    placeholder,
+    errors,
+    touched,
+    handleChange,
+    value,
+  }: {
+    label: string;
+    name: string;
+    type?: string;
+    placeholder: string;
+    errors: any;
+    touched: any;
+    handleChange: any;
+    value: any;
+  }) => (
+    <div>
+      <label className="text-gray-600 mt-2">{label}:</label>
+      <Field
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        onChange={handleChange}
+        value={value}
+        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      />
+      {touched[name] && errors[name] && (
+        <div className="text-red-500 text-xs">{errors[name]}</div>
+      )}
+    </div>
+  );
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50 items-center">
@@ -63,7 +94,7 @@ export default function FormLoginUser() {
         className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center bg-gray-200"
         style={{
           backgroundImage:
-            "url('https://i.pinimg.com/736x/a6/0e/c9/a60ec9741397dec0981c997283fc8620.jpg')",
+            "url('https://i.pinimg.com/736x/9e/ca/87/9eca8792811adcd3b2e142dcab0b78d7.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -77,13 +108,13 @@ export default function FormLoginUser() {
                   <TypeAnimation
                     className="font-extrabold"
                     sequence={[
-                      "CARI EVENT UNTUK KONSER",
+                      "BUAT EVENT UNTUK KONSER",
                       3000,
-                      "CARI EVENT UNTUK SEMINAR",
+                      "BUAT EVENT UNTUK SEMINAR",
                       3000,
-                      "CARI EVENT UNTUK OLAHRAGA",
+                      "BUAT EVENT UNTUK OLAHRAGA",
                       3000,
-                      "CARI EVENT UNTUK EXPO",
+                      "BUAT EVENT UNTUK EXPO",
                       3000,
                       () => {
                         console.log("Sequence completed");
@@ -100,9 +131,8 @@ export default function FormLoginUser() {
                   <span className="font-bold">EVENEXT !</span>
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                  Cari dan beli tiket acara favoritmu kini lebih mudah dan
-                  cepat. Mulai dari konser, festival, hingga seminar—semua ada
-                  di sini!{" "}
+                  Buat event dan acara favoritmu kini lebih mudah dan cepat.
+                  Mulai dari konser, festival, hingga seminar—semua ada di sini!{" "}
                   <span className="font-bold">
                     #Evenext #EventTicketing #NikmatiPengalamanmu
                   </span>
@@ -129,13 +159,15 @@ export default function FormLoginUser() {
       <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-center p-8 bg-white">
         <div className="mb-6 text-center">
           <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
-          <p className="text-gray-600 mt-2">Masuk untuk membeli tiket</p>
+          <p className="text-gray-600 mt-2">
+            Masukkan email kami akan kirim pemberitahuan via email.
+          </p>
         </div>
         <Formik
           initialValues={initialValue}
-          validationSchema={LoginSchema}
+          validationSchema={RegisterSchema}
           onSubmit={(values, action) => {
-            handleLogin(values);
+            handleForget(values);
             action.resetForm();
           }}
         >
@@ -143,73 +175,43 @@ export default function FormLoginUser() {
             const { handleChange, values, touched, errors } = props;
             return (
               <Form className="w-full max-w-sm space-y-4">
-                <div>
-                  <label htmlFor="data">Email or Username :</label>
-                  <Field
-                    type="text"
-                    name="data"
-                    placeholder="Enter Email or Username"
-                    onChange={handleChange}
-                    value={values.data}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.data && errors.data && (
-                    <div className="text-red-500 text-xs">{errors.data}</div>
-                  )}
-                </div>
-                <div>
-                  <label htmlFor="password">Password :</label>
-                  <Field
-                    type="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    value={values.password}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  />
-                  {touched.password && errors.password && (
-                    <div className="text-red-500 text-xs">
-                      {errors.password}
-                    </div>
-                  )}
-                </div>
+                <InputField
+                  label="Password Baru"
+                  name="newPassword"
+                  type="password"
+                  placeholder="Masukkan Password Baru"
+                  errors={errors}
+                  touched={touched}
+                  handleChange={handleChange}
+                  value={values.newPassword}
+                />
+                <InputField
+                  label="Konfirmasi Password"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Konfirmasi Password"
+                  errors={errors}
+                  touched={touched}
+                  handleChange={handleChange}
+                  value={values.confirmPassword}
+                />
                 <div>
                   <button
                     type="submit"
                     disabled={isLoading}
                     className={`w-full bg-teal-500 text-white py-3 rounded-lg ${
                       isLoading
-                        ? "opacity-50 cursor-not-allowed"
+                        ? "cursor-not-allowed opacity-50"
                         : "hover:bg-teal-600"
                     } transition-all`}
                   >
-                    {isLoading ? "Loading ..." : "Masuk"}
+                    {isLoading ? "Loading ..." : "Reset Password"}
                   </button>
                 </div>
               </Form>
             );
           }}
         </Formik>
-        <div className="flex flex-col text-center space-y-5 mt-5">
-        <p className="text-sm text-gray-600">
-            <Link
-              href="/user/register"
-              className="text-teal-500 hover:underline"
-            >
-              Lupa kata sandi ?
-            </Link>
-          </p>
-            <hr className="border-2"/>
-          <p className="text-sm text-gray-600">
-            Belum punya akun?{" "}
-            <Link
-              href="/user/register"
-              className="text-teal-500 hover:underline"
-            >
-              Daftar sekarang
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );

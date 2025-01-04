@@ -111,7 +111,9 @@ export default function Navbar() {
           >
             <IoSearch size={20} />
           </button>
+          <div className="relative">
           {isAuth ? <Avatar /> : <BurgerHandphone />}
+          </div>
         </div>
       </div>
 
