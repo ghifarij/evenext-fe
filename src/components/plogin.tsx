@@ -63,7 +63,7 @@ export default function FormLoginPro() {
         className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center bg-gray-200"
         style={{
           backgroundImage:
-            "url('https://i.pinimg.com/736x/a6/0e/c9/a60ec9741397dec0981c997283fc8620.jpg')",
+            "url('https://i.pinimg.com/736x/9e/ca/87/9eca8792811adcd3b2e142dcab0b78d7.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -129,7 +129,7 @@ export default function FormLoginPro() {
       <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-center p-8 bg-white">
         <div className="mb-6 text-center">
           <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
-          <p className="text-gray-600 mt-2">Masuk untuk membeli tiket</p>
+          <p className="text-gray-600 mt-2">Masuk untuk membuat event</p>
         </div>
         <Formik
           initialValues={initialValue}
@@ -190,7 +190,16 @@ export default function FormLoginPro() {
             );
           }}
         </Formik>
-        <div className="mt-6">
+        <div className="flex flex-col text-center space-y-5 mt-5">
+        <p className="text-sm text-gray-600">
+            <Link
+              href="/promotor/forgotPassword"
+              className="text-teal-500 hover:underline"
+            >
+              Lupa kata sandi ?
+            </Link>
+          </p>
+            <hr className="border-2"/>
           <p className="text-sm text-gray-600">
             Belum punya akun?{" "}
             <Link

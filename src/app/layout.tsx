@@ -5,6 +5,7 @@ import NavbarExcept from "@/components/landing/navbarExcept";
 import { SessionProvider } from "@/context/useSession";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "@/components/landing/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,6 +42,7 @@ export default function RootLayout({
             autoClose={3000}
             position="bottom-right"
           />
+          <Footer/>
         </SessionProvider>
       </body>
     </html>

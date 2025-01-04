@@ -29,7 +29,6 @@ export default function Avatar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Handle logout with toast and button disable
   const handleLogout = async () => {
     setIsLoggingOut(true);
     toast.success("You have been logged out successfully.", {
@@ -50,13 +49,11 @@ export default function Avatar() {
     }, 1000);
   };
 
-  // Navigation helper
   const navigateTo = (path: string) => {
     setIsDropdownOpen(false);
     router.push(path);
   };
 
-  // Render nothing if not authenticated
   if (!isAuth || !user) {
     return null;
   }
@@ -91,47 +88,55 @@ export default function Avatar() {
       {isDropdownOpen && (
         <div
           id="dropdown-menu"
-          className="absolute right-0 mt-2 w-48 bg-white border border-white rounded-lg shadow-lg backdrop-blur-md z-50"
+          className="absolute top-full right-0 w-[450px] lg:w-52 mt-2 bg-white border border-gray-200 rounded-xl shadow-md z-50"
         >
           <ul className="py-2">
-            <li>
+            <li className="flex items-center justify-center">
               <button
-                onClick={() => navigateTo("/profile")}
-                className="block w-full text-left px-4 py-2 text-sm text-black hover:text-teal-700"
+                onClick={() => navigateTo("/user/profile")}
+                className="block w-full text-center px-4 py-2 text-sm text-black hover:text-teal-700"
               >
                 Profile
               </button>
             </li>
-            <li>
+            <li className="flex items-center justify-center">
               <button
                 onClick={() => navigateTo("/")}
-                className="block w-full text-left px-4 py-2 text-sm text-black hover:text-teal-700"
+                className="block lg:hidden w-full text-center px-4 py-2 text-sm text-black hover:text-teal-700"
               >
-                Home
+                Biaya
               </button>
             </li>
-            <li>
+            <li className="flex items-center justify-center">
               <button
-                onClick={() => navigateTo("/event")}
-                className="block w-full text-left px-4 py-2 text-sm text-black hover:text-teal-700"
+                onClick={() => navigateTo("/")}
+                className="block lg:hidden w-full text-center px-4 py-2 text-sm text-black hover:text-teal-700"
               >
-                Event
+                Events
               </button>
             </li>
-            <li>
+            <li className="flex items-center justify-center">
               <button
-                onClick={() => navigateTo("/artist")}
-                className="block w-full text-left px-4 py-2 text-sm text-black hover:text-teal-700"
+                onClick={() => navigateTo("/")}
+                className="block lg:hidden w-full text-center px-4 py-2 text-sm text-black hover:text-teal-700"
               >
-                About Us
+                Kontak Kami
               </button>
             </li>
-            <hr className="border-1"/>
-            <li>
+            <li className="flex items-center justify-center">
+              <button
+                onClick={() => navigateTo("/")}
+                className="block lg:hidden w-full text-center px-4 py-2 text-sm text-black hover:text-teal-700"
+              >
+                Buat Event
+              </button>
+            </li>
+            <hr className="my-2 border-t" />
+            <li className="flex items-center justify-center">
               <button
                 onClick={handleLogout}
                 disabled={isLoggingOut}
-                className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:text-red-700 disabled:opacity-50"
+                className="block w-full text-center px-4 py-2 text-sm text-red-500 hover:text-red-700 disabled:opacity-50"
               >
                 {isLoggingOut ? "Logging Out..." : "Logout"}
               </button>
