@@ -5,8 +5,13 @@ export interface ITicket {
   category: "Free" | "EarlyBird" | "Regular" | "VIP";
   seats: number;
   price: number;
-  isFree: boolean;
   createdAt: string;
   eventId: number;
   event: IEvent;
+}
+
+export interface TicketInput {
+  category: "Free" | "EarlyBird" | "Regular" | "VIP";
+  seats: number;
+  price: number;
 }

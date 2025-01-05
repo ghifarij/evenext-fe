@@ -8,27 +8,37 @@ import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { formatCurrency, formatDate } from "@/helpers/formatDate";
 
 export default function AllEvents() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [events, setEvents] = useState<IEvent[]>([]);
   const [tickets, setTickets] = useState<ITicket[]>([]);
 
-  const initialPage =
-    Number(new URLSearchParams(window.location.search).get("page")) || 1;
-  const [page, setPage] = useState<number>(initialPage);
+  const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchData = async (currentPage: number, category?: string) => {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const currentPage =
+        Number(new URLSearchParams(window.location.search).get("page")) || 1;
+      setPage(currentPage);
+    }
+  }, []);
+
+  const fetchData = async (
+    currentPage: number,
+    category?: string,
+    search?: string
+  ) => {
     try {
       setLoading(true);
-      const eventsData = await getAllEvents(currentPage, category);
+      const eventsData = await getAllEvents(currentPage, category, search);
 
       setEvents(eventsData.events || []);
       setTotalPages(eventsData.totalPage || 0);
@@ -40,8 +50,9 @@ export default function AllEvents() {
   };
 
   useEffect(() => {
-    fetchData(page);
-  }, [page]);
+    const search = searchParams.get("search") || "";
+    fetchData(page, undefined, search);
+  }, [page, searchParams]);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -60,6 +71,7 @@ export default function AllEvents() {
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className="flex flex-1 flex-wrap justify-center md:justify-normal gap-4">
       {events.map((item, idx) => {
