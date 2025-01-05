@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { formatCurrency, formatDate, formatTime } from "@/helpers/formatDate";
-=======
-import { formatDate, formatTime } from "@/helpers/formatDate";
->>>>>>> ee590ed2201c0e77ef961672351151f82ce630b5
 import { getEvents, getEventSlug } from "@/libs/event";
 import { getTickets } from "@/libs/ticket";
 import { IEvent } from "@/types/event";
@@ -62,7 +58,7 @@ export default async function EventDetail({
       );
 
   return (
-    <div className="flex flex-col mx-auto max-w-[1200px] p-4">
+    <div className="flex flex-col mx-auto max-w-[1200px] p-4 mb-20">
       <div className="flex w-full">
         <div className="relative w-[770px] h-[375px]">
           <Image
@@ -110,10 +106,7 @@ export default async function EventDetail({
       <div className="flex w-full mt-10">
         <div className="w-[770px]">
           <p className="text-teal-500 font-bold mb-2">{event.category}</p>
-<<<<<<< HEAD
-=======
           <div className="border-[1px]"></div>
->>>>>>> ee590ed2201c0e77ef961672351151f82ce630b5
           <h2 className="text-lg font-bold mt-2 mb-4">Deskripsi</h2>
           <div
             className="text-gray-700 mb-4"
