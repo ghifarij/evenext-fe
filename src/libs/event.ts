@@ -9,15 +9,41 @@ export const getEvents = async () => {
   return data.events;
 };
 
-export const getAllEvents = async (currentPage: number, category?: string) => {
-  const query = category ? `&category=${category}` : "";
-  const res = await fetch(
-    `${base_url}/events/all?page=${currentPage}${query}`,
-    {
+export const getEventById = async (id: number) => {
+  try {
+    const res = await fetch(`${base_url}/events/${id}`, {
       next: { revalidate: 60 },
-    }
-  );
+    });
+    const data = await res.json();
+
+    return data.events;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAllEvents = async (
+  currentPage: number,
+  category?: string,
+  search?: string
+) => {
+  const categoryQuery = category
+    ? `&category=${encodeURIComponent(category)}`
+    : "";
+  const searchQuery = search ? `&search=${encodeURIComponent(search)}` : "";
+
+  const url = `${base_url}/events/all?page=${currentPage}${categoryQuery}${searchQuery}`;
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch events");
+  }
+
   const data = await res.json();
+  console.log("Response data:", data); // Log the response data
 
   return {
     events: data.events,

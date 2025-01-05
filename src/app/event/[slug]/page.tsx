@@ -1,9 +1,11 @@
-import { formatDate, formatTime } from "@/helpers/formatDate";
+import { formatCurrency, formatDate, formatTime } from "@/helpers/formatDate";
 import { getEvents, getEventSlug } from "@/libs/event";
+import { getTickets } from "@/libs/ticket";
 import { IEvent } from "@/types/event";
+import { ITicket } from "@/types/ticket";
 import Image from "next/image";
-import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
-import { FaClock, FaMap } from "react-icons/fa6";
+import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt } from "react-icons/fa";
+import { FaAlignLeft, FaClock, FaMap } from "react-icons/fa6";
 
 export const generateStaticParams = async () => {
   const events: IEvent[] = await getEvents();
@@ -41,9 +43,22 @@ export default async function EventDetail({
   params: { slug: string };
 }) {
   const event: IEvent = await getEventSlug(params.slug);
+  const tickets: ITicket[] = await getTickets();
+
+  const eventTickets = tickets.filter((ticket) => ticket.eventId === event.id);
+
+  const hasFreeTicket = eventTickets.some(
+    (ticket) => ticket.category === "Free"
+  );
+
+  const filteredTickets = hasFreeTicket
+    ? eventTickets.filter((ticket) => ticket.category === "Free")
+    : eventTickets.filter((ticket) =>
+        ["EarlyBird", "Regular", "VIP"].includes(ticket.category)
+      );
 
   return (
-    <div className="flex flex-col mx-auto max-w-[1200px] p-4">
+    <div className="flex flex-col mx-auto max-w-[1200px] p-4 mb-20">
       <div className="flex w-full">
         <div className="relative w-[770px] h-[375px]">
           <Image
@@ -89,7 +104,7 @@ export default async function EventDetail({
         </div>
       </div>
       <div className="flex w-full mt-10">
-        <div className="flex-1">
+        <div className="w-[770px]">
           <p className="text-teal-500 font-bold mb-2">{event.category}</p>
           <div className="border-[1px]"></div>
           <h2 className="text-lg font-bold mt-2 mb-4">Deskripsi</h2>
@@ -103,9 +118,29 @@ export default async function EventDetail({
             dangerouslySetInnerHTML={{ __html: event.terms }}
           />
         </div>
-        <div className="flex-1">
-          <h2 className="text-teal-500 font-bold mb-2 ml-8">Pilih Tiket</h2>
-          <div className="border-[1px] w-[90%] mx-auto"></div>
+        <div className="w-[350px] ml-6">
+          <h2 className="text-teal-500 font-bold mb-2">Pilih Tiket</h2>
+          <div className="border-[1px] mx-auto"></div>
+          {filteredTickets.length > 0 ? (
+            filteredTickets.map((ticket) => (
+              <div key={ticket.id} className="py-2">
+                <div className="bg-teal-100 border-[1px] border-teal-600 rounded-lg p-4">
+                  <h2 className="font-bold mb-4">
+                    Kategori - {ticket.category}
+                  </h2>
+                  <p>
+                    Harga:{" "}
+                    {ticket.price ? `${formatCurrency(ticket.price)}` : "Rp. 0"}
+                  </p>
+                  <button>+</button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-gray-500 p-2 text-sm">
+              No tickets available
+            </div>
+          )}
         </div>
       </div>
     </div>
