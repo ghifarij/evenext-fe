@@ -26,12 +26,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about">
+                <Link href="/price">
                   <p className="hover:text-teal-400">Biaya</p>
                 </Link>
               </li>
               <li>
-                <Link href="/services">
+                <Link href="/events">
                   <p className="hover:text-teal-400">Events</p>
                 </Link>
               </li>
