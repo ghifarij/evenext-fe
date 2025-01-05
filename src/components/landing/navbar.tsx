@@ -206,7 +206,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex space-x-6">
-          <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
+          <Link href={"/price"} className="text-sm font-medium hover:text-teal-800">
             Biaya
           </Link>
           <Link
@@ -215,7 +215,7 @@ export default function Navbar() {
           >
             Events
           </Link>
-          <Link href={"/"} className="text-sm font-medium hover:text-teal-800">
+          <Link href={"/contact"} className="text-sm font-medium hover:text-teal-800">
             Kontak Kami
           </Link>
           <Link
@@ -246,7 +246,9 @@ export default function Navbar() {
           >
             <IoSearch size={20} />
           </button>
+          <div className="relative">
           {isAuth ? <Avatar /> : <BurgerHandphone />}
+          </div>
         </div>
       </div>
 

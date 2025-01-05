@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { formatCurrency, formatDate, formatTime } from "@/helpers/formatDate";
+=======
+import { formatDate, formatTime } from "@/helpers/formatDate";
+>>>>>>> ee590ed2201c0e77ef961672351151f82ce630b5
 import { getEvents, getEventSlug } from "@/libs/event";
 import { getTickets } from "@/libs/ticket";
 import { IEvent } from "@/types/event";
@@ -106,6 +110,10 @@ export default async function EventDetail({
       <div className="flex w-full mt-10">
         <div className="w-[770px]">
           <p className="text-teal-500 font-bold mb-2">{event.category}</p>
+<<<<<<< HEAD
+=======
+          <div className="border-[1px]"></div>
+>>>>>>> ee590ed2201c0e77ef961672351151f82ce630b5
           <h2 className="text-lg font-bold mt-2 mb-4">Deskripsi</h2>
           <div
             className="text-gray-700 mb-4"

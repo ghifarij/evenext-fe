@@ -4,54 +4,70 @@ import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function BurgerHandphone() {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div>
-      <div>
-        <button
-          className="text-xl transition-all duration-300"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle Menu"
+    <div className="relative">
+      {/* Burger Button */}
+      <button
+        className="text-xl transition-all duration-300 focus:outline-none"
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-label="Toggle Menu"
+        aria-expanded={isOpen}
+        aria-controls="menu-dropdown"
+      >
+        {isOpen ? "✖" : <RxHamburgerMenu />}
+      </button>
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div
+          id="menu-dropdown"
+          className="absolute top-full right-0 w-[450px] lg:hidden bg-white border border-gray-200 rounded-xl shadow-md mt-2 p-4 z-50 "
         >
-          {isOpen ? "✖" : <RxHamburgerMenu />}
-        </button>
-        {isOpen && (
-          <div
-            id="menu-dropdown"
-            className="flex flex-col lg:hidden items-center rounded-md mt-4 p-4 space-y-4"
-          >
-            <Link
-              href={"/"}
-              className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-            >
-              Biaya
-            </Link>
-            <Link
-              href={"/"}
-              className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-            >
-              Events
-            </Link>
-            <Link
-              href={"/"}
-              className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-            >
-              Kontak Kami
-            </Link>
-            <Link
-              href={"/promotor/register"}
-              className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center hover:bg-gray-200"
-            >
-              Buat Event
-            </Link>
-            <Link
-              href={"/user/login"}
-              className="flex justify-center items-center text-sm font-medium w-full h-[35px] rounded-md text-center group-[hover]: hover:bg-teal-800 hover:text-white"
-            >
-              Masuk
-            </Link>
-          </div>
-        )}
-      </div>
+          <ul className="flex flex-col space-y-4">
+            <li className="flex items-center justify-center">
+              <Link
+                href="/"
+                className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-gray-200"
+              >
+                Biaya
+              </Link>
+            </li>
+            <li className="flex items-center justify-center">
+              <Link
+                href="/"
+                className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-gray-200"
+              >
+                Events
+              </Link>
+            </li>
+            <li className="flex items-center justify-center">
+              <Link
+                href="/"
+                className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-gray-200"
+              >
+                Kontak Kami
+              </Link>
+            </li>
+            <li className="flex items-center justify-center">
+              <Link
+                href="/promotor/register"
+                className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-gray-200"
+              >
+                Buat Event
+              </Link>
+            </li>
+            <li className="flex items-center justify-center">
+              <Link
+                href="/user/login"
+                className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-teal-800 hover:text-white"
+              >
+                Masuk
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

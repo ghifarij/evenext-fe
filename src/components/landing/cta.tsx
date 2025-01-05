@@ -1,6 +1,5 @@
 "use client";
 
-import { FaXmark } from "react-icons/fa6";
 import { useState } from "react";
 
 export default function CallAction() {
@@ -27,7 +26,7 @@ export default function CallAction() {
           href="/promotor/register"
           className="flex-none rounded-full bg-black px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
         >
-          Register Sekarang <span aria-hidden="true">&rarr;</span>
+          Daftar Sekarang <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </div>
