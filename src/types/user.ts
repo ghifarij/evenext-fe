@@ -11,8 +11,8 @@ export interface IUser {
   isVerify: boolean;
   createdAt: string;
   updatedAt: string;
-  userPoint: IUserPoint;
-  userCoupon: IUserCoupon;
+  User_Point: IUserPoint[];
+  User_Coupon: IUserCoupon[];
   order: IOrder;
   review: IReview;
 }
@@ -30,7 +30,6 @@ export interface IUserPoint {
 export interface IUserCoupon {
   id: number;
   isRedeem: boolean;
-  percentage: number;
   createdAt: string;
   expiredAt: string;
   userId: string;

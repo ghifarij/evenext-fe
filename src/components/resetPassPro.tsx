@@ -3,14 +3,15 @@
 import { toastErr } from "@/helpers/toast";
 import { Field, Form, Formik, FormikProps } from "formik";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { TypeAnimation } from "react-type-animation";
 import * as Yup from "yup";
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
-const RegisterSchema = Yup.object().shape({
+const ResetPaswordSchema = Yup.object().shape({
   newPassword: Yup.string()
     .min(3, "Password is too weak!")
     .required("Password is required!"),
@@ -24,27 +25,65 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export default function ResetPassword() {
+export default function ResetPasswordPro() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [storedToken, setStoredToken] = useState<string | null>(null);
+  const router = useRouter();
+  const params = useParams(); // Extract route parameters
+  const token = Array.isArray(params?.token) ? params.token[0] : params.token;
+
+  // Store token in localStorage
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("promotorResetToken", token);
+      setStoredToken(token);
+    } else {
+      const savedToken = localStorage.getItem("promotorResetToken");
+      if (savedToken) {
+        setStoredToken(savedToken);
+      } else {
+        toast.error("No reset token found. Redirecting to login...", {
+          position: "bottom-right",
+          autoClose: 3000,
+          onClose: () => router.push("/promotor/login"),
+        });
+      }
+    }
+  }, [token, router]);
 
   const initialValue: FormValues = {
     newPassword: "",
     confirmPassword: "",
   };
 
-  const handleForget = async (promotor: FormValues) => {
+  const handleForget = async (values: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${base_url}/auth/resetPasswordPromotor`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(promotor),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL_BE}/auth/resetPasswordPromotor`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: storedToken,
+            newPassword: values.newPassword,
+            confirmPassword: values.confirmPassword,
+          }),
+        }
+      );
       const result = await res.json();
-      if (!res.ok) throw result;
-      toast.success(result.message);
+      if (!res.ok) throw new Error(result.message || "Password reset failed!");
+
+      toast.success("Password reset successful! Redirecting to login...", {
+        position: "bottom-right",
+        autoClose: 3000,
+        onClose: () => {
+          localStorage.removeItem("promotorResetToken");
+          router.push("/promotor/login");
+        },
+      });
     } catch (err) {
       toastErr(err);
     } finally {
@@ -165,7 +204,7 @@ export default function ResetPassword() {
         </div>
         <Formik
           initialValues={initialValue}
-          validationSchema={RegisterSchema}
+          validationSchema={ResetPaswordSchema}
           onSubmit={(values, action) => {
             handleForget(values);
             action.resetForm();

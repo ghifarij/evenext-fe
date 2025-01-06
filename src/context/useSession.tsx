@@ -14,7 +14,7 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [type, setType] = useState<UserType | null>(null);
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUser | null>(null); 
   const [promotor, setPromotor] = useState<IPromotor | null>(null);
   const [loading, setLoading] = useState(true);
 

@@ -1,10 +1,10 @@
-import ForgotPassword from "@/components/forgotPass";
+import ForgotPasswordPro from "@/components/forgotPassPro";
 import React from "react";
 
-export default function ForgotPasswordPro() {
+export default function ForgotPasswordPromotor() {
   return (
     <div>
-      <ForgotPassword />
+      <ForgotPasswordPro />
     </div>
   );
 }
