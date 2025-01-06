@@ -1,8 +1,7 @@
 "use client";
 
-import { revalidate } from "@/libs/action";
 import { TicketInput } from "@/types/ticket";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Formik, Field, ErrorMessage, Form } from "formik";
@@ -18,6 +17,10 @@ export const ticketSchema = Yup.object({
     .min(10, "Tiket minimum 10"),
 });
 
+const validationSchema = Yup.object({
+  tickets: Yup.array().of(ticketSchema).min(1, "Minimal 1 tiket harus ada"),
+});
+
 const initialValues: TicketInput = {
   category: "Free",
   seats: 0,
@@ -27,30 +30,42 @@ const initialValues: TicketInput = {
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
 export default function TicketCreatePage() {
+  const router = useRouter();
+  const params = useParams();
+  const eventId = params.eventId ? Number(params.eventId) : undefined;
   const [ticketForms, setTicketForms] = useState<TicketInput[]>([
     initialValues,
   ]);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
-  const onCreate = async (data: TicketInput[]) => {
+  const onCreate = async (data: TicketInput[], eventId: number) => {
     try {
+      if (!eventId) {
+        toast.error("Invalid event ID. Unable to submit.");
+        return;
+      }
+
       setIsLoading(true);
 
-      const res = await fetch(`${base_url}/events`, {
+      const ticketsData = data.map((ticket) => ({
+        category: ticket.category,
+        price: ticket.price,
+        seats: ticket.seats,
+      }));
+
+      const res = await fetch(`${base_url}/tickets/${eventId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(ticketsData),
       });
 
       const result = await res.json();
       if (!res.ok) throw result;
 
-      revalidate("events");
-      toast.success(result.message);
-      router.push("/");
+      toast.success("Berhasil menambahkan tiket");
+      router.push("/events");
     } catch (err) {
       console.log(err);
     } finally {
@@ -89,16 +104,16 @@ export default function TicketCreatePage() {
     <div className="flex flex-col mx-auto max-w-[1200px] p-4 bg-gray-100 rounded-xl shadow mt-10 mb-20">
       <Formik
         initialValues={{ tickets: ticketForms }}
-        validationSchema={Yup.array().of(ticketSchema)}
+        validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          onCreate(values.tickets);
+          onCreate(values.tickets, eventId!);
           actions.resetForm();
         }}
       >
         {({ values, setFieldValue }) => (
           <Form>
             {values.tickets.map((ticket, index) => (
-              <div key={index} className="flex gap-10 mb-6">
+              <div key={index} className="flex gap-10 mb-6 ml-20">
                 <div>
                   <label
                     htmlFor={`tickets.${index}.category`}
@@ -179,27 +194,29 @@ export default function TicketCreatePage() {
                     className="text-sm text-red-500"
                   />
                 </div>
-                <div className="content-end">
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full h-[40px] disabled:cursor-not-allowed disabled:bg-[#8a8a8b] sm:w-[120px] text-[#f5f5f7] bg-teal-700 hover:bg-teal-900 rounded-lg"
-                  >
-                    {isLoading ? "Loading..." : "Simpan"}
-                  </button>
-                </div>
               </div>
             ))}
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => addTicketForm(values, setFieldValue)}
-                disabled={values.tickets.length >= 3}
-                className="w-10 h-10 text-[#f5f5f7] font-bold text-2xl bg-teal-500 hover:bg-teal-700 rounded-full"
-              >
-                +
-              </button>
-              <p className="content-center text-gray-600">Buat tiket baru</p>
+            <div className="flex flex-col gap-2 ml-20">
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => addTicketForm(values, setFieldValue)}
+                  disabled={values.tickets.length >= 3}
+                  className="w-10 h-10 text-[#f5f5f7] font-bold text-2xl bg-teal-500 hover:bg-teal-700 rounded-full"
+                >
+                  +
+                </button>
+                <p className="content-center text-gray-600">Buat tiket baru</p>
+              </div>
+              <div className="mt-4">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-[40px] disabled:cursor-not-allowed disabled:bg-[#8a8a8b] sm:w-[120px] text-[#f5f5f7] bg-teal-700 hover:bg-teal-900 rounded-lg"
+                >
+                  {isLoading ? "Loading..." : "Simpan"}
+                </button>
+              </div>
             </div>
           </Form>
         )}

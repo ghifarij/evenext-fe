@@ -5,7 +5,7 @@ import { IEvent } from "@/types/event";
 import { ITicket } from "@/types/ticket";
 import Image from "next/image";
 import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt } from "react-icons/fa";
-import { FaAlignLeft, FaClock, FaMap } from "react-icons/fa6";
+import { FaClock, FaMap } from "react-icons/fa6";
 
 export const generateStaticParams = async () => {
   const events: IEvent[] = await getEvents();

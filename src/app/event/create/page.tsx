@@ -104,9 +104,13 @@ export default function EventCreatePage() {
       });
       const result = await res.json();
       if (!res.ok) throw result;
+
+      const eventId = result.id;
+      if (!eventId) throw new Error("Event ID not found");
+
       revalidate("events");
       toast.success(result.message);
-      router.push("/");
+      router.push(`/event/create/${eventId}`);
     } catch (err) {
       console.log(err);
     } finally {
