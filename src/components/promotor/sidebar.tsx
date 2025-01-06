@@ -83,7 +83,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         {/* Dashboard */}
         <div className="flex items-center gap-2">
           <GrHomeRounded />
-          <Link href="/" className="font-bold text-sm hover:text-teal-400">
+          <Link href="/promotor/dashboard" className="font-bold text-sm hover:text-teal-400">
             Dashboard
           </Link>
         </div>
@@ -138,13 +138,13 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
           <div className="text-sm text-gray-400">Akun :</div>
           <div className="flex items-center gap-2">
             <TbUserEdit />
-            <Link href="/" className="font-bold text-sm hover:text-teal-400">
+            <Link href="/promotor/profile" className="font-bold text-sm hover:text-teal-400">
               Informasi Dasar
             </Link>
           </div>
           <div className="flex items-center gap-2">
             <HiOutlineKey />
-            <Link href="/" className="font-bold text-sm hover:text-teal-400">
+            <Link href="#" className="font-bold text-sm hover:text-teal-400">
               Kata Sandi
             </Link>
           </div>
@@ -166,7 +166,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
 
       {/* Close Button */}
       <button
-        className="absolute top-4 right-4 text-white bg-transparent p-2 md:hidden"
+        className="absolute top-4 right-4 text-white text-3xl bg-transparent p-2 md:hidden"
         onClick={toggleSidebar}
       >
         ×

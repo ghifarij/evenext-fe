@@ -21,6 +21,7 @@ export interface IEvent {
   terms: string;
   category: "Konser" | "Seminar" | "Olaharaga" | "Expo";
   location: "Bandung" | "Jakarta" | "Surabaya" | "Bali";
+  status: "active" | "finish";
   venue: string;
   date: string;
   time: string;

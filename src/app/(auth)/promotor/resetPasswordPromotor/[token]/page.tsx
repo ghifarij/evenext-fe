@@ -1,10 +1,10 @@
-import ResetPassword from "@/components/resetPass";
+import ResetPasswordPro from "@/components/resetPassPro";
 import React from "react";
 
 export default function ResetPasswordPromotor() {
   return (
     <div>
-      <ResetPassword />
+      <ResetPasswordPro />
     </div>
   );
 }

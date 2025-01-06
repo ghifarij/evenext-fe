@@ -10,7 +10,7 @@ import * as Yup from "yup";
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
-const RegisterSchema = Yup.object().shape({
+const ForgotSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email format!")
     .required("Email is required!"),
@@ -27,15 +27,15 @@ export default function ForgotPassword() {
     email: "",
   };
 
-  const handleForget = async (promotor: FormValues) => {
+  const handleForget = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${base_url}/auth/forgotPasswordPromotor`, {
+      const res = await fetch(`${base_url}/auth/forgotPassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(promotor),
+        body: JSON.stringify(user),
       });
       const result = await res.json();
       if (!res.ok) throw result;
@@ -158,7 +158,7 @@ export default function ForgotPassword() {
         </div>
         <Formik
           initialValues={initialValue}
-          validationSchema={RegisterSchema}
+          validationSchema={ForgotSchema}
           onSubmit={(values, action) => {
             handleForget(values);
             action.resetForm();
@@ -198,7 +198,7 @@ export default function ForgotPassword() {
         <div className="mt-6">
           <p className="text-sm text-gray-600">
             Ingat kata sandi?{" "}
-            <Link href="/promotor/login" className="text-teal-500 hover:underline">
+            <Link href="/user/login" className="text-teal-500 hover:underline">
               Masuk Sekarang
             </Link>
           </p>

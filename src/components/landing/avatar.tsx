@@ -88,7 +88,7 @@ export default function Avatar() {
       {isDropdownOpen && (
         <div
           id="dropdown-menu"
-          className="absolute top-full right-0 w-[450px] lg:w-52 mt-2 bg-white border border-gray-200 rounded-xl shadow-md z-50"
+          className="absolute top-full right-0 w-[400px] lg:w-52 mt-2 bg-white border border-gray-200 rounded-xl shadow-md z-50"
         >
           <ul className="py-2">
             <li className="flex items-center justify-center">
