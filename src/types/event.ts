@@ -40,7 +40,6 @@ export interface EventInput {
   location: string;
   venue: string;
   category: string;
-  promotorId: string;
   description: string;
   terms: string;
 }
