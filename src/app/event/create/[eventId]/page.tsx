@@ -1,8 +1,13 @@
 "use client";
 
+<<<<<<< HEAD
+import { TicketInput } from "@/types/ticket";
+import { useParams, useRouter } from "next/navigation";
+=======
 import { revalidate } from "@/libs/action";
 import { TicketInput } from "@/types/ticket";
 import { useRouter } from "next/navigation";
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Formik, Field, ErrorMessage, Form } from "formik";
@@ -18,6 +23,13 @@ export const ticketSchema = Yup.object({
     .min(10, "Tiket minimum 10"),
 });
 
+<<<<<<< HEAD
+const validationSchema = Yup.object({
+  tickets: Yup.array().of(ticketSchema).min(1, "Minimal 1 tiket harus ada"),
+});
+
+=======
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
 const initialValues: TicketInput = {
   category: "Free",
   seats: 0,
@@ -27,10 +39,35 @@ const initialValues: TicketInput = {
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
 export default function TicketCreatePage() {
+<<<<<<< HEAD
+  const router = useRouter();
+  const params = useParams();
+  const eventId = params.eventId ? Number(params.eventId) : undefined;
+=======
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
   const [ticketForms, setTicketForms] = useState<TicketInput[]>([
     initialValues,
   ]);
   const [isLoading, setIsLoading] = useState(false);
+<<<<<<< HEAD
+
+  const onCreate = async (data: TicketInput[], eventId: number) => {
+    try {
+      if (!eventId) {
+        toast.error("Invalid event ID. Unable to submit.");
+        return;
+      }
+
+      setIsLoading(true);
+
+      const ticketsData = data.map((ticket) => ({
+        category: ticket.category,
+        price: ticket.price,
+        seats: ticket.seats,
+      }));
+
+      const res = await fetch(`${base_url}/tickets/${eventId}`, {
+=======
   const router = useRouter();
 
   const onCreate = async (data: TicketInput[]) => {
@@ -38,19 +75,29 @@ export default function TicketCreatePage() {
       setIsLoading(true);
 
       const res = await fetch(`${base_url}/events`, {
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+<<<<<<< HEAD
+        body: JSON.stringify(ticketsData),
+=======
         body: JSON.stringify(data),
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
       });
 
       const result = await res.json();
       if (!res.ok) throw result;
 
+<<<<<<< HEAD
+      toast.success("Berhasil menambahkan tiket");
+      router.push("/events");
+=======
       revalidate("events");
       toast.success(result.message);
       router.push("/");
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
     } catch (err) {
       console.log(err);
     } finally {
@@ -89,16 +136,26 @@ export default function TicketCreatePage() {
     <div className="flex flex-col mx-auto max-w-[1200px] p-4 bg-gray-100 rounded-xl shadow mt-10 mb-20">
       <Formik
         initialValues={{ tickets: ticketForms }}
+<<<<<<< HEAD
+        validationSchema={validationSchema}
+        onSubmit={(values, actions) => {
+          onCreate(values.tickets, eventId!);
+=======
         validationSchema={Yup.array().of(ticketSchema)}
         onSubmit={(values, actions) => {
           onCreate(values.tickets);
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
           actions.resetForm();
         }}
       >
         {({ values, setFieldValue }) => (
           <Form>
             {values.tickets.map((ticket, index) => (
+<<<<<<< HEAD
+              <div key={index} className="flex gap-10 mb-6 ml-20">
+=======
               <div key={index} className="flex gap-10 mb-6">
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
                 <div>
                   <label
                     htmlFor={`tickets.${index}.category`}
@@ -179,6 +236,31 @@ export default function TicketCreatePage() {
                     className="text-sm text-red-500"
                   />
                 </div>
+<<<<<<< HEAD
+              </div>
+            ))}
+            <div className="flex flex-col gap-2 ml-20">
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => addTicketForm(values, setFieldValue)}
+                  disabled={values.tickets.length >= 3}
+                  className="w-10 h-10 text-[#f5f5f7] font-bold text-2xl bg-teal-500 hover:bg-teal-700 rounded-full"
+                >
+                  +
+                </button>
+                <p className="content-center text-gray-600">Buat tiket baru</p>
+              </div>
+              <div className="mt-4">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-[40px] disabled:cursor-not-allowed disabled:bg-[#8a8a8b] sm:w-[120px] text-[#f5f5f7] bg-teal-700 hover:bg-teal-900 rounded-lg"
+                >
+                  {isLoading ? "Loading..." : "Simpan"}
+                </button>
+              </div>
+=======
                 <div className="content-end">
                   <button
                     type="submit"
@@ -200,6 +282,7 @@ export default function TicketCreatePage() {
                 +
               </button>
               <p className="content-center text-gray-600">Buat tiket baru</p>
+>>>>>>> e3a5724da5465171805b2bea4dec9fcb7b71d2ba
             </div>
           </Form>
         )}
