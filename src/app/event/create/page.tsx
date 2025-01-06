@@ -50,7 +50,6 @@ export const eventSchema = Yup.object({
   category: Yup.string().required(
     "Select category between Konser, Seminar, Olahraga, Expo"
   ),
-  promotorId: Yup.string().required("Promotor Id is required"),
   description: Yup.string().required("Description is requried"),
   terms: Yup.string().required("Terms is required"),
 });
@@ -64,7 +63,6 @@ const initialValues: EventInput = {
   location: "",
   venue: "",
   category: "",
-  promotorId: "",
   description: "",
   terms: "",
 };
@@ -74,7 +72,7 @@ const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 export default function EventCreatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  // const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const onCreate = async (data: EventInput) => {
     try {
@@ -101,6 +99,9 @@ export default function EventCreatePage() {
       const res = await fetch(`${base_url}/events`, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const result = await res.json();
       if (!res.ok) throw result;
@@ -153,7 +154,7 @@ export default function EventCreatePage() {
                   className="text-sm text-red-500"
                 />
                 <p className="text-blue-500 text-sm my-4">
-                  Ukuran lebih dari 2Mb (Format JPG, JPEG, PNG)
+                  Ukuran tidak lebih dari 2Mb (Format JPG, JPEG, PNG)
                 </p>
               </div>
               <div className="flex w-[750px] mx-auto">
@@ -295,24 +296,6 @@ export default function EventCreatePage() {
                     </Field>
                     <ErrorMessage
                       name={"category"}
-                      component="span"
-                      className="text-sm text-red-500 ml-10"
-                    />
-                  </div>
-                  <div className="flex flex-col mt-4">
-                    <label
-                      htmlFor="promotorId"
-                      className="block mb-2 font-bold text-gray-800 ml-10"
-                    >
-                      Promotor Id
-                    </label>
-                    <Field
-                      name="promotorId"
-                      type="text"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-[90%] p-2 ml-10"
-                    />
-                    <ErrorMessage
-                      name={"promotorId"}
                       component="span"
                       className="text-sm text-red-500 ml-10"
                     />
