@@ -7,8 +7,9 @@ import { RiDiscountPercentFill } from "react-icons/ri";
 import { formatDate } from "@/helpers/formatDate";
 import { useSession } from "@/hooks/useSession";
 import { formatPrice } from "@/helpers/formatPrice";
+import authGuard from "@/hoc/authGuard";
 
-export default function ProfileUser() {
+function ProfileUser() {
   const { isAuth, type, user } = useSession();
   const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -269,8 +270,11 @@ export default function ProfileUser() {
                     <p className="text-white font-semibold">Your Coupon:</p>
                     <p className="text-white text-lg font-bold">
                       {`${
-                        user?.username.split("").slice(0, 3).join("").toUpperCase() ||
-                        "Guest"
+                        user?.username
+                          .split("")
+                          .slice(0, 3)
+                          .join("")
+                          .toUpperCase() || "Guest"
                       }${user.User_Coupon[0].id} 10%`}
                     </p>
                   </div>
@@ -313,3 +317,5 @@ export default function ProfileUser() {
     </>
   );
 }
+
+export default authGuard(ProfileUser);

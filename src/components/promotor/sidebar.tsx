@@ -144,7 +144,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
           </div>
           <div className="flex items-center gap-2">
             <HiOutlineKey />
-            <Link href="#" className="font-bold text-sm hover:text-teal-400">
+            <Link href="/promotor/forgotPassword" className="font-bold text-sm hover:text-teal-400" target="_blank">
               Kata Sandi
             </Link>
           </div>
