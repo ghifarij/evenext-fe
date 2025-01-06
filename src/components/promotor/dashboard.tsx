@@ -4,15 +4,18 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./sidebar";
 import { CiCirclePlus } from "react-icons/ci";
 import Link from "next/link";
+import authGuard from "@/hoc/authGuard";
 
 type CardProps = {
   title: string;
   value: string | number;
 };
 
-export default function DashboardPage() {
+function DashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeEvent, setActiveEvent] = useState<number | null>(null);
+  const [finishEvent, setFinishEvent] = useState<number | null>(null);
+  const [totalTransaction, setTotalTransaction] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -24,24 +27,35 @@ export default function DashboardPage() {
           return;
         }
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/eventactive`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const [activeEventRes, finishEventRes, totalTransactionRes] = await Promise.all([
+          fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/eventactive`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
+          fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/eventfinish`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/totaltransaction`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
 
-        console.log("Response status:", response.status);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
+        if (!activeEventRes.ok || !finishEventRes.ok) {
+          throw new Error("Failed to fetch dashboard data.");
         }
 
-        const data = await response.json();
-        console.log("Fetched data:", data);
-        setActiveEvent(data.activeEvent || 0);
+        const activeEventData = await activeEventRes.json();
+        const finishEventData = await finishEventRes.json();
+        const totalTransactionData = await totalTransactionRes.json();
+
+        setActiveEvent(activeEventData.activeEvent || 0);
+        setFinishEvent(finishEventData.deactiveEvent || 0);
+        setTotalTransaction(totalTransactionData.totalTransaction || 0);
       } catch (error) {
         console.error("Error fetching event active:", error);
       }
@@ -97,13 +111,16 @@ export default function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card title="Saldo Saya" value="Rp. 0" />
             <Card
-              title="Event Active"
+              title="Event Aktif"
               value={activeEvent !== null ? activeEvent : "Loading..."}
             />
+            <Card
+              title="Event Selesai"
+              value={finishEvent !== null ? finishEvent : "Loading..."}
+            />
             <Card title="Jumlah Booking" value="0" />
-            <Card title="Total Transaksi" value="Rp. 0" />
+            <Card title="Total Transaksi" value={totalTransaction !== null ? totalTransaction : "Loading..."} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -126,3 +143,5 @@ function Card({ title, value }: CardProps) {
     </div>
   );
 }
+
+export default authGuard(DashboardPage);
