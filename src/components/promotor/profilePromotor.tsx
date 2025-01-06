@@ -7,8 +7,9 @@ import { useSession } from "@/hooks/useSession";
 import { formatPrice } from "@/helpers/formatPrice";
 import Link from "next/link";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
+import authGuard from "@/hoc/authGuard";
 
-export default function ProfilePromotor() {
+function ProfilePromotor() {
   const { isAuth, type, promotor } = useSession();
   const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -243,3 +244,5 @@ export default function ProfilePromotor() {
     </div>
   );
 }
+
+export default authGuard(ProfilePromotor)
