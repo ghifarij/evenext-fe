@@ -22,7 +22,7 @@ export default function BurgerHandphone() {
       {isOpen && (
         <div
           id="menu-dropdown"
-          className="absolute top-full right-0 w-[450px] lg:hidden bg-white border border-gray-200 rounded-xl shadow-md mt-2 p-4 z-50 "
+          className="absolute top-full right-0 w-[400px] lg:hidden bg-white border border-gray-200 rounded-xl shadow-md mt-2 p-4 z-50 "
         >
           <ul className="flex flex-col space-y-4">
             <li className="flex items-center justify-center">
