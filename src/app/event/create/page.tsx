@@ -1,6 +1,6 @@
 "use client";
 
-import { EventInput } from "@/types/event";
+
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { FieldThumbnail } from "@/components/form/event/thumbnail";
 import RichTextEditor from "@/components/form/event/textEditor";
 import { createSlug } from "@/helpers/createSlug";
 import { toast } from "react-toastify";
+import { EventInput } from "@/types/event";
 
 export const eventSchema = Yup.object({
   thumbnail: Yup.mixed<File>()
