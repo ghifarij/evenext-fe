@@ -108,11 +108,15 @@ export default async function EventDetail({
             dangerouslySetInnerHTML={{ __html: event.terms }}
           />
         </div>
-        <div className="w-[350px] ml-6">
-          <h2 className="text-teal-500 font-bold mb-2">Pilih Tiket</h2>
-          <div className="border-[1px] mx-auto"></div>
-          <AddTicket result={event} ticketResult={tickets} params={params} />
-        </div>
+      </div>
+      <div className="w-[770px] mt-8">
+        <h2 className="text-teal-500 font-bold mb-2">Pilih Tiket</h2>
+        <div className="border-[1px] mx-auto"></div>
+        <AddTicket
+          result={event}
+          ticketResult={tickets}
+          params={{ event_id: event.id.toString() }}
+        />
       </div>
     </div>
   );
