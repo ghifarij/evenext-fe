@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "@/hooks/useSession";
+import Image from "next/image";
 
 export default function Avatar() {
   const { isAuth, user, logout } = useSession();
@@ -70,7 +71,7 @@ export default function Avatar() {
           aria-expanded={isDropdownOpen}
           aria-controls="dropdown-menu"
         >
-          <img
+          <Image
             src={user.avatar || "/default-user-avatar.png"}
             alt="User Avatar"
             className="w-9 h-9 rounded-full border-2 border-teal-700"
