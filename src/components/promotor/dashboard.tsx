@@ -5,6 +5,9 @@ import Sidebar from "./sidebar";
 import { CiCirclePlus } from "react-icons/ci";
 import Link from "next/link";
 import authGuard from "@/hoc/authGuard";
+import ChartIncomeDay from "./chartDay";
+import ChartIncomeMonth from "./chartMonth";
+import ChartIncomeYear from "./chartYear";
 
 type CardProps = {
   title: string;
@@ -27,23 +30,27 @@ function DashboardPage() {
           return;
         }
 
-        const [activeEventRes, finishEventRes, totalTransactionRes] = await Promise.all([
-          fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/eventactive`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          ),
-          fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/eventfinish`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          ),
-          fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/totaltransaction`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-        ]);
+        const [activeEventRes, finishEventRes, totalTransactionRes] =
+          await Promise.all([
+            fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/eventactive`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            ),
+            fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/eventfinish`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            ),
+            fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL_BE}/dashboard/totaltransaction`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            ),
+          ]);
 
         if (!activeEventRes.ok || !finishEventRes.ok) {
           throw new Error("Failed to fetch dashboard data.");
@@ -69,10 +76,10 @@ function DashboardPage() {
   };
 
   return (
-    <div className="flex w-full overflow-hidden text-black">
+    <div className="flex w-screen min-h-screen">
       {/* Sidebar */}
       <div
-        className={`top-0 left-0 z-40 h-full transform bg-black transition-transform duration-300 ${
+        className={`top-0 left-0 z-40 h-screen transform bg-black transition-transform duration-300 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:relative md:translate-x-0`}
       >
@@ -120,12 +127,24 @@ function DashboardPage() {
               value={finishEvent !== null ? finishEvent : "Loading..."}
             />
             <Card title="Jumlah Booking" value="0" />
-            <Card title="Total Transaksi" value={totalTransaction !== null ? totalTransaction : "Loading..."} />
+            <Card
+              title="Total Transaksi"
+              value={
+                totalTransaction !== null ? totalTransaction : "Loading..."
+              }
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="shadow-md rounded-lg w-full h-[300px] md:h-[400px] bg-gray-100"></div>
-            <div className="shadow-md rounded-lg w-full h-[300px] md:h-[400px] bg-gray-100"></div>
+            <div className="shadow-md rounded-lg w-full h-[300px] md:h-[400px] bg-gray-100 overflow-x-scroll">
+              <ChartIncomeDay />
+            </div>
+            <div className="shadow-md rounded-lg w-full h-[300px] md:h-[400px] bg-gray-100 overflow-x-scroll">
+              <ChartIncomeMonth />
+            </div>
+            <div className="shadow-md rounded-lg w-full h-[300px] md:h-[400px] bg-gray-100 overflow-x-scroll">
+              <ChartIncomeYear />
+            </div>
           </div>
         </main>
       </div>
