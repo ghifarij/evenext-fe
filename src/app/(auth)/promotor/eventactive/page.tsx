@@ -52,8 +52,9 @@ function EventActive() {
         {events.map((item, idx) => (
           <div
             key={idx}
-            className="flex flex-col bg-white rounded-xl shadow-md"
+            className="flex flex-col bg-white rounded-xl shadow-md h-full"
           >
+            {/* Gambar Event */}
             <Link
               href={`/event/${item.slug}`}
               className="relative w-full h-[150px]"
@@ -64,17 +65,22 @@ function EventActive() {
                 layout="fill"
                 className="rounded-t-xl object-cover"
               />
-              <div className="text-white text-sm bg-green-500 rounded-tl-xl rounded-br-xl bg-opacity-40 backdrop-blur-lg absolute z-20 px-10 ">
+
+              <div className="text-white text-sm bg-green-500 rounded-tl-xl rounded-br-xl bg-opacity-40 backdrop-blur-lg absolute z-20 px-2 py-1 top-0 left-0">
                 {item.status.toUpperCase()}
               </div>
             </Link>
-            <div className="p-4">
+
+            {/* Konten Event */}
+            <div className="flex flex-col flex-grow p-4">
               <h3 className="text-lg font-medium">{item.title}</h3>
               <div className="text-gray-600 text-sm mt-2">
                 {item.date.split("T00:00:00.000Z")}
               </div>
               <div className="text-gray-600 text-sm">{item.location}</div>
             </div>
+
+            {/* Tombol View Details */}
             <Link
               href={`/event/${item.slug}`}
               className="text-teal-500 text-sm px-4 py-2 bg-teal-100 text-center rounded-b-xl"
