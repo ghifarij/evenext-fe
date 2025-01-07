@@ -1,5 +1,6 @@
 import { IEvent } from "./event";
-import { IOrder } from "./transaction";
+import { IOrder } from "./order";
+
 
 export interface IUser {
   id: string;

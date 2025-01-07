@@ -71,11 +71,14 @@ export default function Avatar() {
           aria-expanded={isDropdownOpen}
           aria-controls="dropdown-menu"
         >
+          <div className="w-9 h-9 relative">
           <Image
             src={user.avatar || "/default-user-avatar.png"}
             alt="User Avatar"
-            className="w-9 h-9 rounded-full border-2 border-teal-700"
+            layout="fill"
+            className="rounded-full border-2 border-teal-700 object-cover"
           />
+          </div>
         </button>
         <div className="flex flex-col">
           <h1 className="text-xs hidden md:block font-semibold">

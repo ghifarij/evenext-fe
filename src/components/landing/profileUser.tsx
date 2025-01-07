@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar, FaTicketAlt, FaUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { RiDiscountPercentFill } from "react-icons/ri";
@@ -8,69 +8,24 @@ import { formatDate } from "@/helpers/formatDate";
 import { useSession } from "@/hooks/useSession";
 import { formatPrice } from "@/helpers/formatPrice";
 import authGuard from "@/hoc/authGuard";
+import { getAllEvents } from "@/libs/event";
+import { IEvent } from "@/types/event";
+import { ITicket } from "@/types/ticket";
+import { getTickets } from "@/libs/ticket";
+import Image from "next/image";
 
 function ProfileUser() {
   const { isAuth, type, user } = useSession();
+  const [events, setEvents] = useState<IEvent[]>([]);
+  const [tickets, setTickets] = useState<ITicket[]>([]);
   const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
   const totalPoints =
     user?.User_Point?.reduce((sum, point) => sum + point.point, 0) || 0;
-
-  const tickets = [
-    {
-      id: 1,
-      logo: "/WTFLOGOPROFILE.png",
-      eventName: "We The Fest",
-      date: "2024-12-25",
-      venue: "GBK Sport Complex Senayan",
-      seat: "A12",
-      price: 1000000,
-      status: "ON-GOING",
-    },
-    {
-      id: 2,
-      logo: "/DWPLOGOPROFILE.png",
-      eventName: "Djakarta Warehouse Project",
-      venue: "GBK Sport Complex Senayan",
-      date: "2024-12-30",
-      seat: "B22",
-      price: 1500000,
-      status: "SUCCEED",
-    },
-    {
-      id: 3,
-      logo: "/AM.png",
-      eventName: "Arctic Monkeys World Tour",
-      date: "2024-12-30",
-      venue: "Jakarta International Expo",
-      seat: "B22",
-      price: 960000,
-      status: "SUCCEED",
-    },
-    {
-      id: 4,
-      logo: "/CAS.png",
-      eventName: "Cigarette After Sex Tour",
-      date: "2024-12-30",
-      venue: "GBK Sport Complex Senayan",
-      seat: "A12",
-      price: 950000,
-      status: "SUCCEED",
-    },
-    {
-      id: 5,
-      logo: "/orchestra.jpg",
-      eventName: "Classic Musical Concert",
-      date: "2024-12-30",
-      venue: "Balai Resital Kartanegara",
-      seat: "D45",
-      price: 1000000,
-      status: "SUCCEED",
-    },
-  ];
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -128,6 +83,28 @@ function ProfileUser() {
     }
   };
 
+  // Fetch events and tickets
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+
+      // Fetch events
+      const eventsData = await getAllEvents(1); // Adjust the page number as needed
+      setEvents(eventsData.events || []);
+
+      const eventsTicket = await getTickets();
+      setTickets(eventsTicket.tickets || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const openModal = (image: string) => {
     setSelectedImage(image);
     setIsModalOpen(true);
@@ -160,32 +137,35 @@ function ProfileUser() {
         {/* Left Section */}
         <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-5 rounded-xl shadow-lg mt-10">
           <h2 className="text-xl md:text-2xl font-bold mb-6 text-black">
-            Your Tickets
+            Upcoming Events
           </h2>
           <div className="space-y-4 overflow-x-auto">
-            {tickets.map((ticket) => (
+            {events.map((item, idx) => (
               <div
-                key={ticket.id}
+                key={idx}
                 className="p-4 bg-gray-700 rounded-lg shadow flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0"
               >
                 {/* Logo */}
-                <img
-                  src={ticket.logo}
-                  alt={`${ticket.eventName} Logo`}
-                  className="w-16 h-16 rounded-md cursor-pointer"
-                  onClick={() => openModal(ticket.logo)}
+             <div className="w-16 h-16 relative">
+             <Image
+                  src={item.thumbnail}
+                  alt={`${item.title} Logo`}
+                  className="rounded-md cursor-pointer object-cover"
+                  layout="fill"
+                  onClick={() => openModal(item.thumbnail)}
                 />
+             </div>
                 <div className="flex-1 md:px-4">
-                  <p className="font-semibold text-white">{ticket.eventName}</p>
-                  <p className="text-gray-400 text-sm">Date: {ticket.date}</p>
-                  <p className="text-gray-400 text-sm">Venue: {ticket.venue}</p>
-                  <p className="text-gray-400 text-sm">Seat: {ticket.seat}</p>
+                  <p className="font-semibold text-white">{item.title}</p>
+                  <p className="text-gray-400 text-sm">Date: {item.date}</p>
+                  <p className="text-gray-400 text-sm">Venue: {item.venue}</p>
+                  <p className="text-gray-400 text-sm">Seat: {item.ticket?.seats}</p>
                   <p className="text-gray-400 text-sm">
-                    Price: {formatPrice(ticket.price)}
+                    Price: {formatPrice(item.ticket?.price)}
                   </p>
                 </div>
                 <div className="flex flex-col items-end">
-                  <p className="text-white mb-2">{ticket.status}</p>
+                  <p className="text-white mb-2">{item.status.toUpperCase()}</p>
                   <button className="text-black bg-teal-500 hover:bg-teal-600 rounded-md px-4 py-2">
                     Look
                   </button>
@@ -198,14 +178,17 @@ function ProfileUser() {
         {/* Right Section */}
         <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-8 lg:ml-8 rounded-xl shadow-lg mt-10">
           <div className="flex flex-col items-center w-full mb-8">
-            <img
+            <div className="w-24 h-24 md:w-32 md:h-32 relative">
+            <Image
               src={user?.avatar || "https://via.placeholder.com/150"}
               alt="User Avatar"
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-teal-500 shadow-md mb-4 cursor-pointer"
+              layout="fill"
+              className="rounded-full border-4 border-teal-500 shadow-md mb-4 cursor-pointer object-cover"
               onClick={() =>
                 openModal(user?.avatar || "https://via.placeholder.com/150")
               }
             />
+            </div>
             <label className="text-white text-xs font-bold bg-gray-400 p-1 rounded-xl hover:bg-teal-500 cursor-pointer">
               {uploading ? "Uploading..." : "Change Profile"}
               <input
