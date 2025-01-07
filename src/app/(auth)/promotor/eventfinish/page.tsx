@@ -52,6 +52,7 @@ function EventFinish() {
         {events.map((item, idx) => (
           <div
             key={idx}
+
             className="flex flex-col bg-white rounded-xl shadow-md h-full"
           >
             {/* Gambar Event */}
@@ -65,6 +66,7 @@ function EventFinish() {
                 layout="fill"
                 className="rounded-t-xl object-cover"
               />
+
               <div className="text-white text-sm bg-red-500 rounded-tl-xl rounded-br-xl bg-opacity-40 backdrop-blur-lg absolute z-20 px-2 py-1 top-0 left-0">
                 {item.status.toUpperCase()}
               </div>
