@@ -1,6 +1,5 @@
-import { IEvent } from "./event";
 import { IOrder } from "./order";
-
+import { IReview } from "./review";
 
 export interface IUser {
   id: string;
@@ -35,14 +34,4 @@ export interface IUserCoupon {
   expiredAt: string;
   userId: string;
   user: IUser;
-}
-
-export interface IReview {
-  id: number;
-  description: string;
-  rating: number;
-  userId: string;
-  eventId: number;
-  user: IUser;
-  event: IEvent;
 }

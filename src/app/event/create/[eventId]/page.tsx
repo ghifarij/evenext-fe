@@ -53,7 +53,7 @@ export default function TicketCreatePage() {
 
       revalidate("events");
       toast.success(result.message);
-      router.push("/");
+      router.push("/promotor/dashboard");
     } catch (err) {
       console.log(err);
     } finally {

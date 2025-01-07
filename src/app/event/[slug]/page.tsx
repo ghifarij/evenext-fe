@@ -1,6 +1,5 @@
 import AddTicket from "@/components/event/addTicket";
-import AddButton from "@/components/event/addTicket";
-import { formatCurrency, formatDate, formatTime } from "@/helpers/formatDate";
+import { formatDate, formatTime } from "@/helpers/formatDate";
 import { getEvents, getEventSlug } from "@/libs/event";
 import { getTickets } from "@/libs/ticket";
 import { IEvent } from "@/types/event";
