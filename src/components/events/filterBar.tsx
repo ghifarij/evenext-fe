@@ -3,10 +3,24 @@
 import { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 
-export default function FilterBar() {
-  const [dropdownOpen, setDropdownOpen] = useState<Boolean>(false);
+interface FilterBarProps {
+  onCategoryChange: (category: string) => void;
+  onLocationChange: (location: string) => void;
+}
 
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+export default function FilterBar({
+  onCategoryChange,
+  onLocationChange,
+}: FilterBarProps) {
+  const [categoryDropdownOpen, setCategoryDropdownOpen] =
+    useState<Boolean>(false);
+  const [locationDropdownOpen, setLocationDropdownOpen] =
+    useState<Boolean>(false);
+
+  const toggleCategoryDropdown = () =>
+    setCategoryDropdownOpen(!categoryDropdownOpen);
+  const toggleLocationDropdown = () =>
+    setLocationDropdownOpen(!locationDropdownOpen);
   return (
     <div className="hidden md:flex flex-col flex-none w-[300px] p-2">
       <h2 className="text-3xl font-bold mb-6">Filter</h2>
@@ -16,27 +30,27 @@ export default function FilterBar() {
           tabIndex={0}
           role="button"
           className="flex justify-between mr-6"
-          onClick={toggleDropdown}
+          onClick={toggleCategoryDropdown}
         >
           <div>Semua</div>
           <IoMdArrowDropdown className="text-xl" />
         </div>
-        {dropdownOpen && (
+        {categoryDropdownOpen && (
           <ul
             tabIndex={0}
             className="dropdown-content menu bg-base-100 z-[1] w-64 p-2 shadow"
           >
             <li>
-              <div>Konser</div>
+              <div onClick={() => onCategoryChange("Konser")}>Konser</div>
             </li>
             <li>
-              <div>Seminar</div>
+              <div onClick={() => onCategoryChange("Seminar")}>Seminar</div>
             </li>
             <li>
-              <div>Olahraga</div>
+              <div onClick={() => onCategoryChange("Olahraga")}>Olahraga</div>
             </li>
             <li>
-              <div>Expo</div>
+              <div onClick={() => onCategoryChange("Expo")}>Expo</div>
             </li>
           </ul>
         )}
@@ -48,27 +62,27 @@ export default function FilterBar() {
           tabIndex={0}
           role="button"
           className="flex justify-between mr-6"
-          onClick={toggleDropdown}
+          onClick={toggleLocationDropdown}
         >
           <div>Semua</div>
           <IoMdArrowDropdown className="text-xl" />
         </div>
-        {dropdownOpen && (
+        {locationDropdownOpen && (
           <ul
             tabIndex={0}
             className="dropdown-content menu bg-base-100 z-[1] w-64 p-2 shadow"
           >
             <li>
-              <div>Bandung</div>
+              <div onClick={() => onLocationChange("Bandung")}>Bandung</div>
             </li>
             <li>
-              <div>Jakarta</div>
+              <div onClick={() => onLocationChange("Jakarta")}>Jakarta</div>
             </li>
             <li>
-              <div>Surabaya</div>
+              <div onClick={() => onLocationChange("Surabaya")}>Surabaya</div>
             </li>
             <li>
-              <div>Bali</div>
+              <div onClick={() => onLocationChange("Bali")}>Bali</div>
             </li>
           </ul>
         )}

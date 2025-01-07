@@ -12,7 +12,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { formatCurrency, formatDate } from "@/helpers/formatDate";
 
-export default function AllEvents() {
+export default function AllEvents({
+  category,
+  location,
+}: {
+  category?: string;
+  location?: string;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -34,11 +40,17 @@ export default function AllEvents() {
   const fetchData = async (
     currentPage: number,
     category?: string,
+    location?: string,
     search?: string
   ) => {
     try {
       setLoading(true);
-      const eventsData = await getAllEvents(currentPage, category, search);
+      const eventsData = await getAllEvents(
+        currentPage,
+        category,
+        location,
+        search
+      );
 
       setEvents(eventsData.events || []);
       setTotalPages(eventsData.totalPage || 0);
@@ -51,8 +63,8 @@ export default function AllEvents() {
 
   useEffect(() => {
     const search = searchParams.get("search") || "";
-    fetchData(page, undefined, search);
-  }, [page, searchParams]);
+    fetchData(page, category, location, search);
+  }, [page, searchParams, category, location]);
 
   useEffect(() => {
     const fetchTickets = async () => {
