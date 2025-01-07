@@ -56,10 +56,7 @@ export default function PayButton({
     };
 
     try {
-      const { data } = await axios.post(
-        "/transactions/midtrans-webhook",
-        resBody
-      );
+      const { data } = await axios.post("/orders/midtrans-webhook", resBody);
       router.push("/");
       toast.success(data.message);
     } catch (err: unknown) {
@@ -93,10 +90,10 @@ export default function PayButton({
       ) : (
         <button
           onClick={freeTransaction}
-          className="btn btn-secondary"
+          className="w-full h-[40px] disabled:cursor-not-allowed disabled:bg-[#8a8a8b] sm:w-[120px] text-[#f5f5f7] bg-teal-700 hover:bg-teal-900 rounded-lg"
           disabled={isLoading}
         >
-          {isLoading ? "Processing..." : "Konfirmasi Pembelian"}
+          {isLoading ? "Processing..." : "Konfirmasi"}
         </button>
       )}
     </div>
