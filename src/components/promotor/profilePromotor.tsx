@@ -145,66 +145,25 @@ function ProfilePromotor() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col-reverse lg:flex-row bg-gray-100 py-10 px-4 lg:px-6 mt-5 relative">
+    <div className="min-h-screen flex flex-col-reverse lg:flex-row bg-gray-100 py-10 px-4 lg:px-6 mt-5 relative gap-5">
       {/* Left Section */}
-      <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-5 rounded-xl shadow-lg mt-6 lg:mt-10">
+      <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-6 lg:ml-8 rounded-xl shadow-lg mt-6 lg:mt-10">
         <Link href={"/promotor/dashboard"}>
           <div className="text-lg md:text-xl hover:text-teal-400 flex items-center">
             <IoChevronBackCircleOutline className="mr-2" /> Kembali ke Dashboard
           </div>
         </Link>
-        <h2 className="text-xl md:text-2xl font-bold mb-6 text-black">
-          Upcoming Events
-        </h2>
-        <div className="space-y-4">
-          {events.map((item, idx) => (
-            <div
-              key={idx}
-              className="p-4 bg-gray-700 rounded-lg shadow flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4"
-            >
-              <Image
-                src={item.thumbnail}
-                width={100}
-                height={100}
-                alt={`${item.title} Logo`}
-                className="w-16 h-16 md:w-20 md:h-20 rounded-md cursor-pointer"
-                onClick={() => openModal(item.thumbnail)}
-              />
-              <div className="flex-1 text-center md:text-left">
-                <p className="font-semibold text-white">{item.title}</p>
-                <p className="text-gray-400 text-sm">Date: {item.date.split("T00:00:00.000Z")}</p>
-                <p className="text-gray-400 text-sm">Venue: {item.venue}</p>
-                <p className="text-gray-400 text-sm">
-                  Seat: {item.ticket?.seats}
-                </p>
-                <p className="text-gray-400 text-sm">
-                  Price: {formatPrice(item.ticket?.price)}
-                </p>
-              </div>
-              <div className="flex flex-col items-end">
-                <p className="text-white mb-2">{item.status.toUpperCase()}</p>
-                <button className="text-sm bg-teal-500 hover:bg-teal-600 rounded-md px-4 py-2">
-                  Look
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Right Section */}
-      <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-6 lg:ml-8 rounded-xl shadow-lg mt-6 lg:mt-10">
         <div className="flex flex-col items-center mb-8">
           <div className="w-24 h-24 md:w-32 md:h-32 relative">
-          <Image
-            src={promotor?.avatar || "https://via.placeholder.com/150"}
-            alt="Promotor Avatar"
-            layout="fill"
-            className="rounded-full border-4 border-teal-500 shadow-md mb-4 cursor-pointer object-cover"
-            onClick={() =>
-              openModal(promotor?.avatar || "https://via.placeholder.com/150")
-            }
-          />
+            <Image
+              src={promotor?.avatar || "https://via.placeholder.com/150"}
+              alt="Promotor Avatar"
+              layout="fill"
+              className="rounded-full border-4 border-teal-500 shadow-md mb-4 cursor-pointer object-cover"
+              onClick={() =>
+                openModal(promotor?.avatar || "https://via.placeholder.com/150")
+              }
+            />
           </div>
           <label className="text-xs md:text-sm text-white font-bold bg-gray-400 p-1 mt-3 rounded-xl hover:bg-teal-500 cursor-pointer">
             {uploading ? "Uploading..." : "Change Profile"}
@@ -224,17 +183,52 @@ function ProfilePromotor() {
           </p>
         </div>
         <div className="space-y-6 bg-gray-100 rounded-lg p-6">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                <FaUser className="text-gray-400 text-3xl mr-3" />
-                <p className="text-gray-400 text-xs font-bold">PROMOTOR ID :</p>
-              </div>
-              <p className="font-semibold text-gray-400 text-xs">
-                {promotor?.id || "N/A"}
-              </p>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <FaUser className="text-gray-400 text-3xl mr-3" />
+              <p className="text-gray-400 text-xs font-bold">PROMOTOR ID :</p>
             </div>
-            </div>
+            <p className="font-semibold text-gray-400 text-xs">
+              {promotor?.id || "N/A"}
+            </p>
+          </div>
+        </div>
       </div>
+
+      {/* Right Section */}
+      <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-5 rounded-xl shadow-lg mt-6 lg:mt-10">
+        <h2 className="text-xl md:text-2xl font-bold mb-6 text-black">
+          Event Log
+        </h2>
+        <div className="space-y-4">
+          {events.map((item, idx) => (
+            <div
+              key={idx}
+              className="p-4 bg-gray-100 rounded-lg shadow flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4"
+            >
+              <Image
+                src={item.thumbnail}
+                width={100}
+                height={100}
+                alt={`${item.title} Logo`}
+                className="w-16 h-16 md:w-20 md:h-20 rounded-md cursor-pointer"
+                onClick={() => openModal(item.thumbnail)}
+              />
+              <div className="flex-1 text-center md:text-left">
+                <p className="font-bold text-black">{item.title}</p>
+                <p className="text-gray-400 text-sm">
+                  Date: {item.date.split("T00:00:00.000Z")}
+                </p>
+                <p className="text-gray-400 text-sm">Venue: {item.venue}</p>
+              </div>
+              <div className="flex flex-col items-end">
+                <p className="text-black font-bold mb-2">{item.status.toUpperCase()}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4">
           <div className="relative max-w-screen-sm w-full">
