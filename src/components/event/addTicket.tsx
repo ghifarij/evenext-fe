@@ -3,7 +3,6 @@
 import { ITicket } from "@/types/ticket";
 import { createContext, useEffect, useState } from "react";
 import { IEvent } from "@/types/event";
-import Image from "next/image";
 import axios from "@/helpers/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -40,7 +39,6 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
   const [isReedemedCoupon, setIsReedemedCoupon] = useState<boolean>(false);
   const [isReedemedPoints, setIsReedemedPoints] = useState<boolean>(false);
   const [ticketCart, setTicketCart] = useState<ITicketContext[] | null>(null);
-  console.log("coupon points", coupon, points);
 
   const handleOrderTicket = async () => {
     try {
@@ -51,17 +49,22 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
       }
       if (isReedemedCoupon) final_price -= final_price / 10;
       const resBody = {
-        base_price: totalPrice,
+        total_price: totalPrice,
         coupon: isReedemedCoupon,
         point,
         final_price,
-        ticketCart,
+        orderCart: ticketCart,
       };
-      const { data } = await axios.post("/transactions", resBody, {
+      const { data } = await axios.post("/orders", resBody, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      router.push(`/order/${data.order_id}`);
-      toast.success(data.message);
+      console.log("Order response:", data);
+
+      if (data.order_id) {
+        router.push(`/order/${data.order_id}`);
+      } else {
+        toast.error("Order creation failed. Please try again.");
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -97,17 +100,21 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
   return (
     <>
       <TicketContext.Provider value={{ ticketCart, setTicketCart }}>
-        <div className={`flex flex-col xl:w-[70%] xl:px-6`}>
-          <div className="mt-10 desc-content">
+        <div className={`flex flex-col xl:w-[70%]`}>
+          <div className="mt-4 desc-content">
             {/* Only show tickets */}
             <div className="flex flex-col gap-6">
-              {ticketResult.map((item, idx) => {
-                return <TicketOrder key={idx} ticket={item} />;
-              })}
+              {ticketResult
+                .filter(
+                  (ticket) => ticket.eventId === parseInt(params.event_id)
+                )
+                .map((item, idx) => {
+                  return <TicketOrder key={idx} ticket={item} />;
+                })}
             </div>
           </div>
         </div>
-        <div className="sticky top-0 flex flex-col xl:w-[30%] xl:self-start">
+        <div className="sticky top-0 flex flex-col xl:w-[70%] xl:self-start">
           <div className="rounded-xl flex flex-col gap-4 px-4 py-6">
             <div className="flex flex-col gap-6">
               {ticketCart && ticketCart.length > 0
@@ -117,14 +124,6 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
                         className="flex border-b pb-4 rounded-md gap-4"
                         key={idx}
                       >
-                        <div>
-                          <Image
-                            src={`https://assets.loket.com/web/assets/img/ic-ticket-widget.svg`}
-                            alt="Icon"
-                            width={50}
-                            height={50}
-                          />
-                        </div>
                         <div className="flex flex-col w-full gap-2">
                           <span className="font-semibold">
                             {item.ticket.category}
@@ -133,7 +132,7 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
                             <span className="text-xs text-slate-500 font-semibold">
                               {item.qty} Tiket
                             </span>
-                            <span className="font-semibold text-blue-500">
+                            <span className="font-semibold text-teal-500">
                               {formatCurrency(item.qty * item.ticket.price)}
                             </span>
                           </div>
@@ -151,14 +150,14 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
                       <button
                         onClick={handleReedemCoupon}
                         disabled={!coupon}
-                        className="rounded-md px-2 py-1 disabled:cursor-not-allowed disabled:opacity-50 bg-lightBlue font-semibold text-white text-xs"
+                        className="rounded-md px-2 py-1 disabled:cursor-not-allowed bg-lightBlue font-semibold text-xs"
                       >
                         CLAIM COUPON
                       </button>
                       <button
                         onClick={handleReedemPoints}
                         disabled={isReedemedPoints || points <= 0}
-                        className={`flex gap-1 px-2 py-1 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 border-lightBlue font-semibold text-lightBlue text-xs`}
+                        className={`flex flex-col gap-1 px-2 py-1 rounded-md border disabled:cursor-not-allowed transition duration-200 border-lightBlue font-semibold text-xs`}
                       >
                         <span>CLAIM POINTS</span>
                         <span>
@@ -176,7 +175,7 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
                       <span>
                         Total {ticketCart.reduce((a, b) => a + b.qty, 0)} tiket
                       </span>
-                      <span className="font-semibold text-blue-500 text-xl">
+                      <span className="font-semibold text-teal-500 text-xl">
                         {formatCurrency(totalPrice)}
                       </span>
                     </div>
@@ -205,9 +204,8 @@ export default function AddTicket({ result, ticketResult, params }: IProps) {
               disabled={isLoading}
               onClick={handleOrderTicket}
               className={`${
-                isLoading &&
-                "disabled:opacity-[0.5] disabled:cursor-not-allowed"
-              } bg-lightBlue rounded-md text-center text-white py-2 font-semibold`}
+                isLoading && "disabled:cursor-not-allowed"
+              } border border-teal-500 bg-teal-100 rounded-md text-centerpy-2 font-semibold w-[50%] mx-auto p-2`}
             >
               {isLoading ? "Loading ..." : "Pesan Sekarang"}
             </button>

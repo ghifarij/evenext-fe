@@ -1,15 +1,17 @@
 import axios from "@/helpers/axios";
 
+const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
+
 export async function getOrderDetail(orderId: string) {
   try {
-    const res = await fetch(`http://localhost:8000/api/orders/${orderId}`);
+    const res = await fetch(`${base_url}/orders/${orderId}`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
     const data = await res.json();
-    console.log(data); 
+    console.log(data);
     return data.result;
   } catch (err) {
     console.error("Error fetching order details:", err);

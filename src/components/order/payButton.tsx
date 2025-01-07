@@ -6,7 +6,6 @@ import UseOpen from "@/hooks/useOpen";
 import { getSnapToken } from "@/libs/order";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { TiTick } from "react-icons/ti";
 import { toast } from "react-toastify";
 
 interface IProps {
@@ -23,7 +22,7 @@ export default function PayButton({
   order_id,
   category,
 }: IProps) {
-  const { open, hidden, menuHandler } = UseOpen();
+  const { menuHandler } = UseOpen();
   const [isLoading, SetIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -36,7 +35,12 @@ export default function PayButton({
           final_price,
           Number(order_id)
         );
-        window.snap.pay(token);
+
+        if (window.snap && window.snap.pay) {
+          window.snap.pay(token);
+        } else {
+          throw new Error("Midtrans Snap is not loaded.");
+        }
       } catch (err: unknown) {
         toastErr(err);
       } finally {
@@ -62,6 +66,19 @@ export default function PayButton({
       toastErr(err);
     }
   };
+
+  useEffect(() => {
+    if (!window.snap) {
+      const script = document.createElement("script");
+      script.src = "https://app.sandbox.midtrans.com/snap/snap.js"; // Use sandbox URL for testing
+      script.type = "text/javascript";
+      script.async = true;
+      script.onload = () => {
+        window.snap = window.snap || {};
+      };
+      document.body.appendChild(script);
+    }
+  }, []);
 
   return (
     <div className="flex justify-end mt-4">
