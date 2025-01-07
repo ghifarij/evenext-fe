@@ -137,7 +137,7 @@ function ProfileUser() {
         {/* Left Section */}
         <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-5 rounded-xl shadow-lg mt-10">
           <h2 className="text-xl md:text-2xl font-bold mb-6 text-black">
-            Upcoming Events
+            Tickets
           </h2>
           <div className="space-y-4 overflow-x-auto">
             {events.map((item, idx) => (
@@ -189,7 +189,7 @@ function ProfileUser() {
               }
             />
             </div>
-            <label className="text-white text-xs font-bold bg-gray-400 p-1 rounded-xl hover:bg-teal-500 cursor-pointer">
+            <label className="text-white text-xs font-bold bg-gray-400 p-1 mt-3 rounded-xl hover:bg-teal-500 cursor-pointer">
               {uploading ? "Uploading..." : "Change Profile"}
               <input
                 type="file"
@@ -210,7 +210,7 @@ function ProfileUser() {
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <FaUser className="text-gray-400 text-3xl mr-3" />
-                <p className="text-gray-400 text-xs font-bold">ID :</p>
+                <p className="text-gray-400 text-xs font-bold">USER ID :</p>
               </div>
               <p className="font-semibold text-gray-400 text-xs">
                 {user?.id || "N/A"}

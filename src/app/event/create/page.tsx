@@ -11,6 +11,9 @@ import RichTextEditor from "@/components/form/event/textEditor";
 import { createSlug } from "@/helpers/createSlug";
 import { toast } from "react-toastify";
 import { EventInput } from "@/types/event";
+import authGuard from "@/hoc/authGuard";
+import { IoChevronBackCircleOutline } from "react-icons/io5";
+import Link from "next/link";
 
 export const eventSchema = Yup.object({
   thumbnail: Yup.mixed<File>()
@@ -70,7 +73,7 @@ const initialValues: EventInput = {
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
-export default function EventCreatePage() {
+function EventCreatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const token = localStorage.getItem("token");
@@ -122,6 +125,11 @@ export default function EventCreatePage() {
 
   return (
     <div className="flex mx-auto max-w-[1200px] p-4 bg-gray-100 rounded-xl shadow mt-10 mb-20">
+      <Link href={"/promotor/dashboard"}>
+        <div className="text-lg md:text-xl hover:text-teal-400 flex items-center">
+          <IoChevronBackCircleOutline className="mr-2" /> Kembali ke Dashboard
+        </div>
+      </Link>
       <Formik
         initialValues={initialValues}
         validationSchema={eventSchema}
@@ -355,3 +363,5 @@ export default function EventCreatePage() {
     </div>
   );
 }
+
+export default authGuard(EventCreatePage)

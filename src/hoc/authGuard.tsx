@@ -23,11 +23,14 @@ const authGuard = <P extends object>(WrappedComponent: React.ComponentType<P>) =
 
     if (isChecking) {
       // Show loading state while checking authentication
-      return <div>Loading...</div>;
+      return (
+        <div className="loader-wrapper">
+        <div className="loader"></div>
+      </div>
+      );
     }
 
     if (isAuthenticated === false) {
-      // If not authenticated, do not render the wrapped component
       return null;
     }
 
