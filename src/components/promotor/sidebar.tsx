@@ -50,7 +50,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   }, [checkSession]);
   return (
     <div
-      className={`h-full w-[280px] p-[60px] bg-black text-white transform transition-transform duration-300 ${
+      className={`min-h-screen w-[280px] p-[60px] bg-black text-white transform transition-transform duration-300 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       } md:translate-x-0 md:relative fixed top-0 left-0`}
     >
