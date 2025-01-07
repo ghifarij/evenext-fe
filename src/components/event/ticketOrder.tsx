@@ -62,18 +62,18 @@ export default function TicketOrder({ ticket }: { ticket: ITicket }) {
 
   return (
     <div
-      className={`${isSoldOut && "border-slate-300 bg-slate-300/10"} 
-      } flex flex-col bg-sky-400/10 border border-lightBlue px-10 pt-4 gap-4 rounded-xl relative`}
+      className={`${isSoldOut && "border-teal-300 bg-slate-300/10"} 
+      } flex flex-col bg-teal-100 border border-teal-500 px-10 pt-4 gap-4 rounded-xl relative`}
     >
-      <div className={`${isSoldOut && "border-slate-300"}`}></div>
-      <div className={`${isSoldOut && "border-slate-300"}`}></div>
+      {/* <div className={`${isSoldOut && "border-teal-300"}`}></div>
+      <div className={`${isSoldOut && "border-teal-300"}`}></div> */}
       <span className="font-semibold text-xl">{ticket.category}</span>
-      <div className="py-4 border-t border-black border-dashed flex items-center justify-between">
+      <div className="py-4 border-t border-black border-top flex items-center justify-between">
         <span className="font-semibold">{formatCurrency(ticket.price)}</span>
         <div className="flex items-center gap-2">
           {isSoldOut ? (
             <div className="text-xl font-semibold text-red-500">
-              TICKETS ARE SOLD OUT
+              Tiket habis
             </div>
           ) : (
             <>

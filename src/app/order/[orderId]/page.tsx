@@ -1,4 +1,3 @@
-import CountDown from "@/components/order/countDown";
 import PayButton from "@/components/order/payButton";
 import { formatCurrency, formatDate, formatTime } from "@/helpers/formatDate";
 import { getOrderDetail } from "@/libs/order";
@@ -81,7 +80,7 @@ export default async function OrderPage({
                 <h1 className="text-xl font-semibold mb-2">Detail Pembelian</h1>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Total Harga</span>
-                  <span>{formatCurrency(order.totalPrice)}</span>
+                  <span>{formatCurrency(order.total_price)}</span>
                 </div>
                 <span className="text-gray-600">Point Digunakan : </span>
                 {order.point && (
@@ -96,18 +95,18 @@ export default async function OrderPage({
                   <div className="flex justify-between items-center">
                     <span>Coupon</span>
                     <span className="font-semibold text-red-500">
-                      - {formatCurrency((order.totalPrice - order.point) / 10)}
+                      - {formatCurrency((order.total_price - order.point) / 10)}
                     </span>
                   </div>
                 )}
                 <div className="flex justify-between items-center font-semibold text-xl border-t border-b py-2">
                   <span>Total Bayar</span>
-                  <span>{formatCurrency(order.finalPrice)}</span>
+                  <span>{formatCurrency(order.final_price)}</span>
                 </div>
                 <PayButton
                   point={order.point}
-                  total_price={order.totalPrice}
-                  final_price={order.finalPrice}
+                  total_price={order.total_price}
+                  final_price={order.final_price}
                   order_id={params.orderId}
                   category={order.Order_Details[0].ticket.category}
                 />

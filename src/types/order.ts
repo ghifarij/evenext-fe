@@ -2,8 +2,8 @@ export interface IOrder {
   expiredAt: string;
   coupon: boolean;
   point: number;
-  totalPrice: number;
-  finalPrice: number;
+  total_price: number;
+  final_price: number;
   Order_Details: IOrderDetail[];
 }
 
