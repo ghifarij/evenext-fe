@@ -150,7 +150,7 @@ function ProfilePromotor() {
       <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-5 rounded-xl shadow-lg mt-6 lg:mt-10">
         <Link href={"/promotor/dashboard"}>
           <div className="text-lg md:text-xl hover:text-teal-400 flex items-center">
-            <IoChevronBackCircleOutline className="mr-2" /> Back to Dashboard
+            <IoChevronBackCircleOutline className="mr-2" /> Kembali ke Dashboard
           </div>
         </Link>
         <h2 className="text-xl md:text-2xl font-bold mb-6 text-black">
@@ -172,7 +172,7 @@ function ProfilePromotor() {
               />
               <div className="flex-1 text-center md:text-left">
                 <p className="font-semibold text-white">{item.title}</p>
-                <p className="text-gray-400 text-sm">Date: {item.date}</p>
+                <p className="text-gray-400 text-sm">Date: {item.date.split("T00:00:00.000Z")}</p>
                 <p className="text-gray-400 text-sm">Venue: {item.venue}</p>
                 <p className="text-gray-400 text-sm">
                   Seat: {item.ticket?.seats}
@@ -206,7 +206,7 @@ function ProfilePromotor() {
             }
           />
           </div>
-          <label className="text-xs md:text-sm text-white font-bold bg-gray-400 p-2 rounded-xl hover:bg-teal-500 cursor-pointer">
+          <label className="text-xs md:text-sm text-white font-bold bg-gray-400 p-1 mt-3 rounded-xl hover:bg-teal-500 cursor-pointer">
             {uploading ? "Uploading..." : "Change Profile"}
             <input
               type="file"
@@ -223,6 +223,17 @@ function ProfilePromotor() {
             {promotor?.email || "No Email Available"}
           </p>
         </div>
+        <div className="space-y-6 bg-gray-100 rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center">
+                <FaUser className="text-gray-400 text-3xl mr-3" />
+                <p className="text-gray-400 text-xs font-bold">PROMOTOR ID :</p>
+              </div>
+              <p className="font-semibold text-gray-400 text-xs">
+                {promotor?.id || "N/A"}
+              </p>
+            </div>
+            </div>
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4">
