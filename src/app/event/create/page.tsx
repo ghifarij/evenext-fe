@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -14,6 +13,7 @@ import { EventInput } from "@/types/event";
 import authGuard from "@/hoc/authGuard";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import Link from "next/link";
+import promotorGuard from "@/hoc/promotorGuard";
 
 export const eventSchema = Yup.object({
   thumbnail: Yup.mixed<File>()
@@ -364,4 +364,4 @@ function EventCreatePage() {
   );
 }
 
-export default authGuard(EventCreatePage)
+export default authGuard(EventCreatePage) && promotorGuard(EventCreatePage);
