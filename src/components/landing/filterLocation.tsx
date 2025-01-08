@@ -12,7 +12,7 @@ export default function FilterLocation({
   selectedLocation,
   setSelectedLocation,
 }: FilterLocationProps) {
-  const [dropdownOpen, setDropdownOpen] = useState<Boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
   const locations = ["Bandung", "Jakarta", "Surabaya", "Bali"];
 

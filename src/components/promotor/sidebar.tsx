@@ -9,7 +9,7 @@ import { TbUserEdit } from "react-icons/tb";
 import { HiOutlineKey } from "react-icons/hi";
 import Divider from "./divider";
 import { useSession } from "@/hooks/useSession";
-import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 type SidebarProps = {
   isOpen: boolean;
@@ -18,10 +18,8 @@ type SidebarProps = {
 
 export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const pathname = usePathname();
-  const router = useRouter();
   const { promotor, checkSession } = useSession();
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
 
   const { logout } = useSession();
   const handleLogout = () => {
@@ -69,11 +67,14 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
       <nav className="flex flex-col gap-5">
         {/* Avatar & User Info */}
         <div className="flex flex-col space-y-3 items-center justify-center">
-          <img
-            src={promotor?.avatar}
-            alt="User Avatar"
-            className="w-20 h-20 rounded-full border-2 border-teal-700"
-          />
+          <div className="relative w-20 h-20">
+            <Image
+              src={`${promotor?.avatar}`}
+              alt="User Avatar"
+              layout="fill"
+              className="rounded-full border-2 border-teal-700"
+            />
+          </div>
           <div className="flex flex-col space-y-3 items-center justify-center">
             <h1 className="text-xs text-white md:block font-semibold">
               {promotor?.username}
@@ -85,7 +86,10 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         {/* Dashboard */}
         <div className="flex items-center gap-2">
           <GrHomeRounded />
-          <Link href="/promotor/dashboard" className="font-bold text-sm hover:text-teal-400">
+          <Link
+            href="/promotor/dashboard"
+            className="font-bold text-sm hover:text-teal-400"
+          >
             Dashboard
           </Link>
         </div>
@@ -123,7 +127,10 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
           </div>
           <div className="flex items-center gap-2">
             <LuTicket />
-            <Link href="/promotor/ticketsales" className="font-bold text-sm hover:text-teal-400">
+            <Link
+              href="/promotor/ticketsales"
+              className="font-bold text-sm hover:text-teal-400"
+            >
               Penjualan Tiket
             </Link>
           </div>
@@ -134,13 +141,20 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
           <div className="text-sm text-gray-400">Akun :</div>
           <div className="flex items-center gap-2">
             <TbUserEdit />
-            <Link href="/promotor/profile" className="font-bold text-sm hover:text-teal-400">
+            <Link
+              href="/promotor/profile"
+              className="font-bold text-sm hover:text-teal-400"
+            >
               Informasi Dasar
             </Link>
           </div>
           <div className="flex items-center gap-2">
             <HiOutlineKey />
-            <Link href="/promotor/forgotPassword" className="font-bold text-sm hover:text-teal-400" target="_blank">
+            <Link
+              href="/promotor/forgotPassword"
+              className="font-bold text-sm hover:text-teal-400"
+              target="_blank"
+            >
               Kata Sandi
             </Link>
           </div>

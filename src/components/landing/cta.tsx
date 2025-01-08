@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function CallAction() {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, _setIsVisible] = useState(true);
   if (!isVisible) {
     return null;
   }

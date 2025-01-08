@@ -1,24 +1,12 @@
 "use client";
 
 import { toastErr } from "@/helpers/toast";
+import { ResetPaswordSchema } from "@/libs/schema";
 import { Field, Form, Formik, FormikProps } from "formik";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { TypeAnimation } from "react-type-animation";
-import * as Yup from "yup";
-
-const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
-
-const ResetPaswordSchema = Yup.object().shape({
-  newPassword: Yup.string()
-    .min(3, "Password is too weak!")
-    .required("Password is required!"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("newPassword")], "Password not match!")
-    .required("Confirm password is required!"),
-});
 
 interface FormValues {
   newPassword: string;

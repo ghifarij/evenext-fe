@@ -59,7 +59,10 @@ export default async function ReviewPage({
         {dataReviews.result.length > 0 ? (
           dataReviews.result.map((item, idx) => {
             return (
-              <div className="bg-teal-100 mx-4 py-2 rounded-xl shadow-lg border-teal-500 mb-2">
+              <div
+                key={idx}
+                className="bg-teal-100 mx-4 py-2 rounded-xl shadow-lg border-teal-500 mb-2"
+              >
                 <div className="flex">
                   <div className="w-[800px] flex">
                     <div className="w-12 h-12 relative mx-4">

@@ -2,7 +2,13 @@
 
 import { IPromotor, UserType } from "@/types/event";
 import { IUser } from "@/types/user";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { SessionContext as ISessionContext } from "@/types/event";
 
 export const SessionContext = createContext<ISessionContext | undefined>(
@@ -14,13 +20,13 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [type, setType] = useState<UserType | null>(null);
-  const [user, setUser] = useState<IUser | null>(null); 
+  const [user, setUser] = useState<IUser | null>(null);
   const [promotor, setPromotor] = useState<IPromotor | null>(null);
   const [loading, setLoading] = useState(true);
 
   const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
-  const checkSession = async () => {
+  const checkSession = useCallback(async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
@@ -59,7 +65,7 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [base_url]);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -79,7 +85,7 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [checkSession]);
 
   return (
     <SessionContext.Provider

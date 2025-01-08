@@ -2,7 +2,7 @@
 
 import AllEvents from "@/components/events/allEvents";
 import FilterBar from "@/components/events/filterBar";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 export default function EventsPage() {
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -22,7 +22,9 @@ export default function EventsPage() {
         onCategoryChange={handleCategoryChange}
         onLocationChange={handleLocationChange}
       />
-      <AllEvents category={category} location={location} />
+      <Suspense>
+        <AllEvents category={category} location={location} />
+      </Suspense>
     </div>
   );
 }

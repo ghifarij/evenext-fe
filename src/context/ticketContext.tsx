@@ -34,7 +34,7 @@ export const TicketProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const removeTicket = (ticketId: string, price: number) => {
+  const removeTicket = (ticketId: string) => {
     setTickets((prev) =>
       prev
         .map((t) =>

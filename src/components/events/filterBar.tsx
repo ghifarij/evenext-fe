@@ -13,9 +13,9 @@ export default function FilterBar({
   onLocationChange,
 }: FilterBarProps) {
   const [categoryDropdownOpen, setCategoryDropdownOpen] =
-    useState<Boolean>(false);
+    useState<boolean>(false);
   const [locationDropdownOpen, setLocationDropdownOpen] =
-    useState<Boolean>(false);
+    useState<boolean>(false);
 
   const toggleCategoryDropdown = () =>
     setCategoryDropdownOpen(!categoryDropdownOpen);

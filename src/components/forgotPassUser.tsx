@@ -1,20 +1,14 @@
 "use client";
 
 import { toastErr } from "@/helpers/toast";
+import { ForgotSchema } from "@/libs/schema";
 import { Field, Form, Formik, FormikProps } from "formik";
 import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { TypeAnimation } from "react-type-animation";
-import * as Yup from "yup";
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
-
-const ForgotSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email format!")
-    .required("Email is required!"),
-});
 
 interface FormValues {
   email: string;
@@ -154,7 +148,9 @@ export default function ForgotPassword() {
       <div className="lg:w-1/2 w-full h-screen flex flex-col items-center justify-center p-8 bg-white">
         <div className="mb-6 text-center">
           <h1 className="font-extrabold text-3xl text-black">EVENEXT</h1>
-          <p className="text-gray-600 mt-2">Masukkan email kami akan kirim pemberitahuan via email.</p>
+          <p className="text-gray-600 mt-2">
+            Masukkan email kami akan kirim pemberitahuan via email.
+          </p>
         </div>
         <Formik
           initialValues={initialValue}
