@@ -7,6 +7,7 @@ import Image from "next/image"; // Untuk gambar thumbnail event
 import Link from "next/link"; // Untuk navigasi ke detail event
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import authGuard from "@/hoc/authGuard";
+import promotorGuard from "@/hoc/promotorGuard";
 
 function EventActive() {
   const [events, setEvents] = useState<IEvent[]>([]); // State untuk menyimpan data event
@@ -94,4 +95,4 @@ function EventActive() {
   );
 }
 
-export default authGuard(EventActive);
+export default authGuard(EventActive) && promotorGuard(EventActive);

@@ -7,6 +7,7 @@ import Link from "next/link";
 import authGuard from "@/hoc/authGuard";
 import { formatPrice } from "@/helpers/formatPrice";
 import ChartIncome from "./chartAll";
+import promotorGuard from "@/hoc/promotorGuard";
 
 type CardProps = {
   title: string;
@@ -162,4 +163,4 @@ function Card({ title, value }: CardProps) {
   );
 }
 
-export default authGuard(DashboardPage);
+export default authGuard(DashboardPage) && promotorGuard(DashboardPage);

@@ -14,6 +14,7 @@ import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 import Image from "next/image";
 import Link from "next/link";
+import userGuard from "@/hoc/userGuard";
 
 function ProfileUser() {
   const { isAuth, type, user } = useSession();
@@ -303,4 +304,4 @@ function ProfileUser() {
   );
 }
 
-export default authGuard(ProfileUser);
+export default authGuard(ProfileUser) && userGuard(ProfileUser);

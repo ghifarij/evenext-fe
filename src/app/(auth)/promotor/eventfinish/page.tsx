@@ -7,6 +7,7 @@ import Image from "next/image"; // Untuk gambar thumbnail event
 import Link from "next/link"; // Untuk navigasi ke detail event
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import authGuard from "@/hoc/authGuard";
+import promotorGuard from "@/hoc/promotorGuard";
 
 function EventFinish() {
   const [events, setEvents] = useState<IEvent[]>([]); // State untuk menyimpan data event
@@ -52,7 +53,6 @@ function EventFinish() {
         {events.map((item, idx) => (
           <div
             key={idx}
-
             className="flex flex-col bg-white rounded-xl shadow-md h-full"
           >
             {/* Gambar Event */}
@@ -95,4 +95,4 @@ function EventFinish() {
   );
 }
 
-export default authGuard(EventFinish);
+export default authGuard(EventFinish) && promotorGuard(EventFinish);

@@ -1,9 +1,11 @@
 "use client";
 
+import promotorGuard from "@/hoc/promotorGuard";
 import authGuard from "@/hoc/authGuard";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
+import Image from "next/image";
 
 interface IOrder {
   expiredAt: string;
@@ -76,58 +78,49 @@ const TicketSales = () => {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
-        <Link href={"/promotor/dashboard"}>
-          <div className="text-lg md:text-xl hover:text-teal-400 flex items-center">
-            <IoChevronBackCircleOutline className="mr-2" /> Kembali ke Dashboard
-          </div>
-        </Link>
+      <Link href={"/promotor/dashboard"}>
+        <div className="text-lg md:text-xl hover:text-teal-400 flex items-center">
+          <IoChevronBackCircleOutline className="mr-2" /> Kembali ke Dashboard
+        </div>
+      </Link>
       <h2 className="text-lg font-semibold mb-4">Penjualan Tiket</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : orders.length > 0 ? (
-        <table className="table-auto w-full text-sm border-collapse border border-gray-300">
-          <thead className="bg-teal-800 text-white">
-            <tr>
-              <th className="border border-gray-300 p-2">#</th>
-              <th className="border border-gray-300 p-2">Kategori Tiket</th>
-              <th className="border border-gray-300 p-2">Event</th>
-              <th className="border border-gray-300 p-2">Lokasi</th>
-              <th className="border border-gray-300 p-2">Jumlah Terjual</th>
-              <th className="border border-gray-300 p-2">Pendapatan</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, orderIndex) =>
-              order.Order_Details?.map((detail, detailIndex) => (
-                <tr key={`${orderIndex}-${detailIndex}`} className="text-center">
-                  <td className="border border-gray-300 p-2">
-                    {orderIndex + 1}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {detail.ticket.category}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    <div>
-                      <img
-                        src={detail.ticket.event.thumbnail}
-                        alt={detail.ticket.event.title}
-                        className="w-16 h-10 object-cover mx-auto mb-2"
-                      />
-                      {detail.ticket.event.title}
-                    </div>
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {detail.ticket.event.location}
-                  </td>
-                  <td className="border border-gray-300 p-2">{detail.qty}</td>
-                  <td className="border border-gray-300 p-2">
-                    Rp {detail.subtotal.toLocaleString("id-ID")}
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {orders.map((order, orderIndex) =>
+            order.Order_Details?.map((detail, detailIndex) => (
+              <div
+                key={`${orderIndex}-${detailIndex}`}
+                className="bg-gray-50 shadow-md rounded-lg p-4 hover:shadow-lg transition duration-200"
+              >
+                <div className="w-full h-32 relative">
+                <Image
+                  src={detail.ticket.event.thumbnail}
+                  alt={detail.ticket.event.title}
+                  layout="fill"
+                  className="object-cover rounded-md mb-4"
+                />
+                </div>
+                <h3 className="font-semibold text-lg">
+                  {detail.ticket.event.title}
+                </h3>
+                <p className="text-gray-600 text-sm mb-2">
+                  Lokasi: {detail.ticket.event.location}
+                </p>
+                <p className="text-gray-600 text-sm mb-2">
+                  Kategori: {detail.ticket.category}
+                </p>
+                <p className="text-gray-600 text-sm mb-2">
+                  Jumlah Terjual: {detail.qty}
+                </p>
+                <p className="text-teal-600 font-semibold">
+                  Pendapatan: Rp {detail.subtotal.toLocaleString("id-ID")}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
       ) : (
         <p>Tidak ada data penjualan tiket.</p>
       )}
@@ -135,4 +128,4 @@ const TicketSales = () => {
   );
 };
 
-export default authGuard(TicketSales);
+export default authGuard(TicketSales) && promotorGuard(TicketSales);

@@ -13,6 +13,7 @@ import { getAllEvents } from "@/libs/event";
 import Image from "next/image";
 import { getTickets } from "@/libs/ticket";
 import { ITicket } from "@/types/ticket";
+import promotorGuard from "@/hoc/promotorGuard";
 
 function ProfilePromotor() {
   const { isAuth, type, promotor } = useSession();
@@ -222,7 +223,9 @@ function ProfilePromotor() {
                 <p className="text-gray-400 text-sm">Venue: {item.venue}</p>
               </div>
               <div className="flex flex-col items-end">
-                <p className="text-black font-bold mb-2">{item.status.toUpperCase()}</p>
+                <p className="text-black font-bold mb-2">
+                  {item.status.toUpperCase()}
+                </p>
               </div>
             </div>
           ))}
@@ -250,4 +253,4 @@ function ProfilePromotor() {
   );
 }
 
-export default authGuard(ProfilePromotor);
+export default authGuard(ProfilePromotor) && promotorGuard(ProfilePromotor);
