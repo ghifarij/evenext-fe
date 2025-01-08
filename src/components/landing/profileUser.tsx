@@ -13,6 +13,7 @@ import { IEvent } from "@/types/event";
 import { ITicket } from "@/types/ticket";
 import { getTickets } from "@/libs/ticket";
 import Image from "next/image";
+import Link from "next/link";
 
 function ProfileUser() {
   const { isAuth, type, user } = useSession();
@@ -146,20 +147,22 @@ function ProfileUser() {
                 className="p-4 bg-gray-700 rounded-lg shadow flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0"
               >
                 {/* Logo */}
-             <div className="w-16 h-16 relative">
-             <Image
-                  src={item.thumbnail}
-                  alt={`${item.title} Logo`}
-                  className="rounded-md cursor-pointer object-cover"
-                  layout="fill"
-                  onClick={() => openModal(item.thumbnail)}
-                />
-             </div>
+                <div className="w-16 h-16 relative">
+                  <Image
+                    src={item.thumbnail}
+                    alt={`${item.title} Logo`}
+                    className="rounded-md cursor-pointer object-cover"
+                    layout="fill"
+                    onClick={() => openModal(item.thumbnail)}
+                  />
+                </div>
                 <div className="flex-1 md:px-4">
                   <p className="font-semibold text-white">{item.title}</p>
                   <p className="text-gray-400 text-sm">Date: {item.date}</p>
                   <p className="text-gray-400 text-sm">Venue: {item.venue}</p>
-                  <p className="text-gray-400 text-sm">Seat: {item.ticket?.seats}</p>
+                  <p className="text-gray-400 text-sm">
+                    Seat: {item.ticket?.seats}
+                  </p>
                   <p className="text-gray-400 text-sm">
                     Price: {formatPrice(item.ticket?.price)}
                   </p>
@@ -179,15 +182,15 @@ function ProfileUser() {
         <div className="flex flex-col w-full lg:w-1/2 bg-white bg-opacity-90 p-8 lg:ml-8 rounded-xl shadow-lg mt-10">
           <div className="flex flex-col items-center w-full mb-8">
             <div className="w-24 h-24 md:w-32 md:h-32 relative">
-            <Image
-              src={user?.avatar || "https://via.placeholder.com/150"}
-              alt="User Avatar"
-              layout="fill"
-              className="rounded-full border-4 border-teal-500 shadow-md mb-4 cursor-pointer object-cover"
-              onClick={() =>
-                openModal(user?.avatar || "https://via.placeholder.com/150")
-              }
-            />
+              <Image
+                src={user?.avatar || "https://via.placeholder.com/150"}
+                alt="User Avatar"
+                layout="fill"
+                className="rounded-full border-4 border-teal-500 shadow-md mb-4 cursor-pointer object-cover"
+                onClick={() =>
+                  openModal(user?.avatar || "https://via.placeholder.com/150")
+                }
+              />
             </div>
             <label className="text-white text-xs font-bold bg-gray-400 p-1 rounded-xl hover:bg-teal-500 cursor-pointer">
               {uploading ? "Uploading..." : "Change Profile"}
@@ -275,6 +278,14 @@ function ProfileUser() {
                   </p>
                 </div>
               )}
+            </div>
+            <div className="w-full bg-gray-500 rounded-lg p-4 shadow-lg">
+              <Link
+                href={`/user/review`}
+                className="text-white px-10 font-semibold"
+              >
+                Ulasan Saya
+              </Link>
             </div>
           </div>
         </div>
