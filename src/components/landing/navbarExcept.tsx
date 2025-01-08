@@ -18,7 +18,7 @@ export default function NavbarExcept() {
   ];
   return noNavbarRoutes.includes(pathname) ? null : (
     <Suspense>
-      <Navbar />;
+      <Navbar />
     </Suspense>
   );
 }
