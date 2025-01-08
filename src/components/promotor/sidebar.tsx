@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
@@ -39,6 +37,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch session or promotor data if necessary
       } catch (err) {
         console.log("Failed to fetch promotor session", err);
       } finally {
@@ -48,11 +47,12 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
 
     fetchData();
   }, [checkSession]);
+
   return (
     <div
-      className={`min-h-screen w-[280px] p-[60px] bg-black text-white transform transition-transform duration-300 ${
+      className={`fixed top-0 left-0 w-[280px] h-screen bg-black text-white p-[60px] transform transition-transform duration-300 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
-      } md:translate-x-0 md:relative fixed top-0 left-0`}
+      } md:translate-x-0 md:relative`}
     >
       {/* Branding */}
       <div className="flex flex-col font-extrabold text-2xl mb-5">
@@ -67,6 +67,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
 
       {/* Navigation */}
       <nav className="flex flex-col gap-5">
+        {/* Avatar & User Info */}
         <div className="flex flex-col space-y-3 items-center justify-center">
           <img
             src={promotor?.avatar}
@@ -80,6 +81,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
             <h1 className="text-xs text-white md:block">{promotor?.email}</h1>
           </div>
         </div>
+
         {/* Dashboard */}
         <div className="flex items-center gap-2">
           <GrHomeRounded />
@@ -105,29 +107,23 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
             {isDropdownOpen && (
               <div className="relative bg-white text-black mt-2 w-30 rounded shadow-lg z-10">
                 <Link
-                  href="/"
+                  href="/promotor/eventactive"
                   className="text-sm block px-4 py-2 hover:bg-gray-200 rounded"
                 >
-                  Semua Event
+                  Event Aktif
                 </Link>
                 <Link
-                  href="/"
+                  href="/promotor/eventfinish"
                   className="text-sm block px-4 py-2 hover:bg-gray-200 rounded"
                 >
-                  Event Online
-                </Link>
-                <Link
-                  href="/"
-                  className="text-sm block px-4 py-2 hover:bg-gray-200 rounded"
-                >
-                  Event Offline
+                  Event Selesai
                 </Link>
               </div>
             )}
           </div>
           <div className="flex items-center gap-2">
             <LuTicket />
-            <Link href="/" className="font-bold text-sm hover:text-teal-400">
+            <Link href="/promotor/ticketsales" className="font-bold text-sm hover:text-teal-400">
               Penjualan Tiket
             </Link>
           </div>
