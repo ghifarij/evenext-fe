@@ -18,9 +18,9 @@ export default async function ReviewPage({
 
   return (
     <div className="flex flex-col md:flex-row mx-auto max-w-[1200px] p-4 mb-10 gap-6">
-      <div className="flex flex-col w-[500px]">
+      <div className="flex flex-col w-[300px] md:w-[500px]">
         <div className="shadow-lg rounded-xl h-[420px]">
-          <div className="relative w-[500px] h-[270px]">
+          <div className="relative w-[300px] h-[120px]  md:w-[500px] md:h-[270px]">
             <Image
               src={result.thumbnail}
               alt={result.title}

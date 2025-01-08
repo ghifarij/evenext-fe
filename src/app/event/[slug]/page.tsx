@@ -5,8 +5,10 @@ import { getTickets } from "@/libs/ticket";
 import { IEvent } from "@/types/event";
 import { ITicket } from "@/types/ticket";
 import Image from "next/image";
+import Link from "next/link";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { FaClock, FaMap } from "react-icons/fa6";
+import { MdRateReview } from "react-icons/md";
 
 export const generateStaticParams = async () => {
   const events: IEvent[] = await getEvents();
@@ -48,8 +50,8 @@ export default async function EventDetail({
 
   return (
     <div className="flex flex-col mx-auto max-w-[1200px] p-4 mb-20">
-      <div className="flex w-full">
-        <div className="relative w-[770px] h-[375px]">
+      <div className="flex w-full flex-col md:flex-row">
+        <div className="relative w-[350px] h-[120px] md:w-[770px] md:h-[375px] mx-auto">
           <Image
             src={event.thumbnail}
             alt={"thumbnail"}
@@ -94,6 +96,12 @@ export default async function EventDetail({
       </div>
       <div className="flex w-full mt-10">
         <div className="w-[770px]">
+          <div className="flex gap-1 mb-2 justify-end">
+            <MdRateReview className="text-xl m-1" />
+            <Link href={`/review/${event.id}`} className="text-gray-600">
+              Beri ulasan event ini
+            </Link>
+          </div>
           <p className="text-teal-500 font-bold mb-2">{event.category}</p>
           <div className="border-[1px]"></div>
           <h2 className="text-lg font-bold mt-2 mb-4">Deskripsi</h2>
@@ -108,9 +116,9 @@ export default async function EventDetail({
           />
         </div>
       </div>
-      <div className="w-[770px] mt-8">
+      <div className="w-[300px] md:w-[770px] mt-8">
         <h2 className="text-teal-500 font-bold mb-2">Pilih Tiket</h2>
-        <div className="border-[1px] mx-auto"></div>
+        <div className="border-[1px] mx-auto hidden md:block md:w-full"></div>
         <AddTicket
           result={event}
           ticketResult={tickets}
