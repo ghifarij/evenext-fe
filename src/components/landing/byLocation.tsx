@@ -39,7 +39,7 @@ export default function ByLocationEvent() {
             />
           </div>
         </div>
-        <div className="carousel carousel-center rounded-box w-full h-[320px] space-x-5 p-4">
+        <div className="carousel carousel-center rounded-box w-full h-[320px] space-x-5 p-4 ml-5">
           {filteredEvents.map((item, idx) => {
             return (
               <div

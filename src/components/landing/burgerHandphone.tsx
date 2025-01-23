@@ -27,7 +27,7 @@ export default function BurgerHandphone() {
           <ul className="flex flex-col space-y-4">
             <li className="flex items-center justify-center">
               <Link
-                href="/"
+                href="/price"
                 className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-gray-200"
               >
                 Biaya
@@ -35,7 +35,7 @@ export default function BurgerHandphone() {
             </li>
             <li className="flex items-center justify-center">
               <Link
-                href="/"
+                href="/events"
                 className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-gray-200"
               >
                 Events
@@ -43,7 +43,7 @@ export default function BurgerHandphone() {
             </li>
             <li className="flex items-center justify-center">
               <Link
-                href="/"
+                href="/contact"
                 className="block w-full text-center text-sm font-medium h-9 p-2 rounded-md hover:bg-gray-200"
               >
                 Kontak Kami
