@@ -5,18 +5,10 @@ import { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { toast } from "react-toastify";
 import { Field, Form, Formik, FormikProps } from "formik";
-import { useRouter } from "next/navigation";
-import * as Yup from "yup";
 import { toastErr } from "@/helpers/toast";
+import { LoginSchema } from "@/libs/schema";
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
-
-const LoginSchema = Yup.object().shape({
-  data: Yup.string().required("Email or Username is required!"),
-  password: Yup.string()
-    .min(3, "Password is too weak!")
-    .required("Password is required!"),
-});
 
 interface FormValues {
   data: string;
@@ -25,7 +17,6 @@ interface FormValues {
 
 export default function FormLoginPro() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const initialValue: FormValues = {
     data: "",
@@ -191,7 +182,7 @@ export default function FormLoginPro() {
           }}
         </Formik>
         <div className="flex flex-col text-center space-y-5 mt-5">
-        <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600">
             <Link
               href="/promotor/forgotPassword"
               className="text-teal-500 hover:underline"
@@ -199,7 +190,7 @@ export default function FormLoginPro() {
               Lupa kata sandi ?
             </Link>
           </p>
-            <hr className="border-2"/>
+          <hr className="border-2" />
           <p className="text-sm text-gray-600">
             Belum punya akun?{" "}
             <Link

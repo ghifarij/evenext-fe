@@ -1,6 +1,5 @@
 import { ITicket } from "@/types/ticket";
 import { useContext, useState } from "react";
-import { FaClock } from "react-icons/fa";
 import { TicketContext, TicketContextValue } from "./addTicket";
 import { formatCurrency } from "@/helpers/formatDate";
 

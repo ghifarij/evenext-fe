@@ -18,9 +18,9 @@ export default async function ReviewPage({
 
   return (
     <div className="flex flex-col md:flex-row mx-auto max-w-[1200px] p-4 mb-10 gap-6">
-      <div className="flex flex-col w-[500px]">
+      <div className="flex flex-col w-[300px] md:w-[500px]">
         <div className="shadow-lg rounded-xl h-[420px]">
-          <div className="relative w-[500px] h-[270px]">
+          <div className="relative w-[300px] h-[120px]  md:w-[500px] md:h-[270px]">
             <Image
               src={result.thumbnail}
               alt={result.title}
@@ -59,7 +59,10 @@ export default async function ReviewPage({
         {dataReviews.result.length > 0 ? (
           dataReviews.result.map((item, idx) => {
             return (
-              <div className="bg-teal-100 mx-4 py-2 rounded-xl shadow-lg border-teal-500 mb-2">
+              <div
+                key={idx}
+                className="bg-teal-100 mx-4 py-2 rounded-xl shadow-lg border-teal-500 mb-2"
+              >
                 <div className="flex">
                   <div className="w-[800px] flex">
                     <div className="w-12 h-12 relative mx-4">

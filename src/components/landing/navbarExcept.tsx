@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Navbar from "./navbar";
+import { Suspense } from "react";
 
 export default function NavbarExcept() {
   const pathname = usePathname();
@@ -15,5 +16,9 @@ export default function NavbarExcept() {
     "/not-found",
     "/event/create",
   ];
-  return noNavbarRoutes.includes(pathname) ? null : <Navbar />;
+  return noNavbarRoutes.includes(pathname) ? null : (
+    <Suspense>
+      <Navbar />
+    </Suspense>
+  );
 }

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useSession } from "@/hooks/useSession";
-import { formatPrice } from "@/helpers/formatPrice";
 import Link from "next/link";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import authGuard from "@/hoc/authGuard";
@@ -18,11 +17,11 @@ import promotorGuard from "@/hoc/promotorGuard";
 function ProfilePromotor() {
   const { isAuth, type, promotor } = useSession();
   const [events, setEvents] = useState<IEvent[]>([]);
-  const [tickets, setTickets] = useState<ITicket[]>([]);
+  const [_tickets, setTickets] = useState<ITicket[]>([]);
   const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [_loading, setLoading] = useState<boolean>(true);
   const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
   // Handle file upload
@@ -235,11 +234,14 @@ function ProfilePromotor() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4">
           <div className="relative max-w-screen-sm w-full">
-            <img
-              src={selectedImage!}
-              alt="Full View"
-              className="w-full max-h-screen rounded-lg"
-            />
+            <div className="w-full max-h-screen relative">
+              <Image
+                src={selectedImage!}
+                alt="Full View"
+                layout="fill"
+                className="object-cover rounded-lg"
+              />
+            </div>
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-black text-2xl md:text-3xl"

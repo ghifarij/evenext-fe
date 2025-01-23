@@ -28,7 +28,7 @@ export interface TicketContextValue {
 
 export const TicketContext = createContext<TicketContextValue | null>(null);
 
-export default function AddTicket({ result, ticketResult, params }: IProps) {
+export default function AddTicket({ ticketResult, params }: IProps) {
   const router = useRouter();
   const [isLoading, SetIsLoading] = useState<boolean>(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);

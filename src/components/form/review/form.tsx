@@ -7,18 +7,11 @@ import { useState } from "react";
 import type { FormReview } from "@/types/review";
 import axios from "@/helpers/axios";
 import { toast } from "react-toastify";
-import * as Yup from "yup";
 import { toastErr } from "@/helpers/toast";
 import Rating from "./rating";
+import { reviewSchema } from "@/libs/schema";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-
-export const reviewSchema = Yup.object().shape({
-  rating: Yup.number()
-    .oneOf([1, 2, 3, 4, 5], "You have to set rating for this event")
-    .required("You have to set the rate first"),
-  description: Yup.string().required("Give your honest review about this event"),
-});
 
 export default function FormReview({ event_id }: { event_id: string }) {
   const [isLoading, SetIsLoading] = useState<boolean>(false);

@@ -7,16 +7,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
-
-export const ticketSchema = Yup.object({
-  category: Yup.string().required("Pilih kategori tiket"),
-  price: Yup.number()
-    .required("Harga dibutuhkan")
-    .min(0, "Harga lebih besar dari 0"),
-  seats: Yup.number()
-    .required("Jumlah tiket dibutuhkan")
-    .min(10, "Tiket minimum 10"),
-});
+import { ticketSchema } from "@/libs/schema";
 
 const initialValues: TicketInput = {
   category: "Free",
@@ -27,7 +18,7 @@ const initialValues: TicketInput = {
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
 export default function TicketCreatePage() {
-  const [ticketForms, setTicketForms] = useState<TicketInput[]>([
+  const [ticketForms, _setTicketForms] = useState<TicketInput[]>([
     initialValues,
   ]);
   const [token, setToken] = useState<string | null>(null);

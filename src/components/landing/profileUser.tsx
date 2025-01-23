@@ -19,11 +19,11 @@ import userGuard from "@/hoc/userGuard";
 function ProfileUser() {
   const { isAuth, type, user } = useSession();
   const [events, setEvents] = useState<IEvent[]>([]);
-  const [tickets, setTickets] = useState<ITicket[]>([]);
+  const [_tickets, setTickets] = useState<ITicket[]>([]);
   const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [_loading, setLoading] = useState<boolean>(true);
   const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
   const totalPoints =
@@ -269,7 +269,9 @@ function ProfileUser() {
                   <p className="text-gray-400 text-sm">Venue: {item.venue}</p>
                 </div>
                 <div className="flex flex-col items-end">
-                  <p className="text-black font-bold mb-2 p-1">{item.status.toUpperCase()}</p>
+                  <p className="text-black font-bold mb-2 p-1">
+                    {item.status.toUpperCase()}
+                  </p>
                   <Link
                     href={`/event/${item.slug}`}
                     className="text-black bg-teal-500 hover:bg-teal-600 rounded-md px-4 py-2"
@@ -286,11 +288,14 @@ function ProfileUser() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div className="relative">
-            <img
-              src={selectedImage!}
-              alt="Full View"
-              className="max-w-full max-h-screen rounded-lg"
-            />
+            <div className="relative max-w-full max-h-screen ">
+              <Image
+                src={selectedImage!}
+                alt="Full View"
+                layout="fill"
+                className="rounded-lg object-cove"
+              />
+            </div>
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-white text-3xl"

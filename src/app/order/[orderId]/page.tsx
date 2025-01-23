@@ -20,8 +20,8 @@ export default async function OrderPage({
           Detail Order
         </h1>
         <div className="rounded-md border p-3 tablet:mb-4">
-          <div className="flex w-full py-4">
-            <div className="flex gap-4 w-[50%]">
+          <div className="flex md:flex-row flex-col w-full py-4">
+            <div className="flex gap-4 w-full md:w-[50%]">
               <div className="w-60 h-32 rounded-md overflow-hidden relative">
                 <Image
                   src={order.Order_Details[0].ticket.event.thumbnail}
@@ -76,7 +76,7 @@ export default async function OrderPage({
                   })}
                 </tbody>
               </table>
-              <div className="flex flex-col rounded-md shadow-xl py-6 px-4 tablet:w-[40%] gap-2 mt-6">
+              <div className="flex flex-col rounded-md shadow-xl py-6 px-4 w-[300px] md:w-full gap-2 mt-6">
                 <h1 className="text-xl font-semibold mb-2">Detail Pembelian</h1>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Total Harga</span>

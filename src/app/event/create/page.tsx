@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { revalidate } from "@/libs/action";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -14,49 +13,7 @@ import authGuard from "@/hoc/authGuard";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import Link from "next/link";
 import promotorGuard from "@/hoc/promotorGuard";
-
-export const eventSchema = Yup.object({
-  thumbnail: Yup.mixed<File>()
-    .required("Thumbnail is required")
-    .test(
-      "fileSize",
-      "File terlalu besar (maksimal 2MB)",
-      (value) =>
-        !value || (value instanceof File && value.size <= 2 * 1024 * 1024)
-    )
-    .test(
-      "fileType",
-      "Format file tidak didukung (hanya .jpeg, .png, .jpg, .webp)",
-      (value) =>
-        !value ||
-        (value instanceof File &&
-          ["/image/jpeg", "image/png", "/image/jpg", "image/webp"].includes(
-            value.type
-          ))
-    ),
-  title: Yup.string()
-    .min(5, "Title must be at least 5 characters long")
-    .max(50, "Title must be at most 100 characters long")
-    .required("Title is required"),
-  date: Yup.date()
-    .typeError("Invalid date format")
-    .required("Event date is required"),
-  time: Yup.string()
-    .matches(
-      /^([01]\d|2[0-3]):([0-5]\d)$/,
-      "Invalid time format (must be HH:mm, 24-hour format)"
-    )
-    .required("Event time is required"),
-  location: Yup.string().required(
-    "Select location between Bandung, Jakarta, Surabaya, Bali"
-  ),
-  venue: Yup.string().required("Venue address is required"),
-  category: Yup.string().required(
-    "Select category between Konser, Seminar, Olahraga, Expo"
-  ),
-  description: Yup.string().required("Description is requried"),
-  terms: Yup.string().required("Terms is required"),
-});
+import { eventSchema } from "@/libs/schema";
 
 const initialValues: EventInput = {
   thumbnail: "",
@@ -93,7 +50,7 @@ function EventCreatePage() {
       };
 
       const formData = new FormData();
-      for (let key in transformedData) {
+      for (const key in transformedData) {
         const item = transformedData[key as keyof EventInput];
         if (item) {
           formData.append(key, item);
@@ -139,9 +96,10 @@ function EventCreatePage() {
         }}
       >
         {(props) => {
+          const { setFieldValue, values } = props;
           useEffect(() => {
-            props.setFieldValue("slug", createSlug(props.values.title));
-          }, [props.values.title, props.setFieldValue]);
+            setFieldValue("slug", createSlug(values.title));
+          }, [values.title, setFieldValue]);
 
           return (
             <Form className="flex flex-col gap-3 w-full">

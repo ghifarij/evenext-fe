@@ -1,27 +1,14 @@
 "use client";
 
 import { toastErr } from "@/helpers/toast";
+import { RegisterSchema } from "@/libs/schema";
 import { Field, Form, Formik, FormikProps } from "formik";
 import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { TypeAnimation } from "react-type-animation";
-import * as Yup from "yup";
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL_BE;
-
-const RegisterSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required!"),
-  email: Yup.string()
-    .email("Invalid email format!")
-    .required("Email is required!"),
-  password: Yup.string()
-    .min(3, "Password is too weak!")
-    .required("Password is required!"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Password not match!")
-    .required("Confirm password is required!"),
-});
 
 interface FormValues {
   username: string;
@@ -240,7 +227,10 @@ export default function FormRegisterUser() {
         <div className="mt-6">
           <p className="text-sm text-gray-600">
             Telah Memiliki Akun?{" "}
-            <Link href="/promotor/login" className="text-teal-500 hover:underline">
+            <Link
+              href="/promotor/login"
+              className="text-teal-500 hover:underline"
+            >
               Masuk Sekarang
             </Link>
           </p>
