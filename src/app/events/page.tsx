@@ -17,7 +17,7 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="flex mx-auto max-w-[1200px] p-4">
+    <div className="flex mx-auto text-black max-w-[1200px] p-4">
       <FilterBar
         onCategoryChange={handleCategoryChange}
         onLocationChange={handleLocationChange}

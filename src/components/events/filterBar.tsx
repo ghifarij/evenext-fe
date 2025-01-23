@@ -38,7 +38,7 @@ export default function FilterBar({
         {categoryDropdownOpen && (
           <ul
             tabIndex={0}
-            className="dropdown-content menu bg-base-100 z-[1] w-64 p-2 shadow"
+            className="dropdown-content menu bg-white rounded-2xl z-[1] w-64 p-2 shadow"
           >
             <li>
               <div onClick={() => onCategoryChange("Konser")}>Konser</div>
@@ -70,7 +70,7 @@ export default function FilterBar({
         {locationDropdownOpen && (
           <ul
             tabIndex={0}
-            className="dropdown-content menu bg-base-100 z-[1] w-64 p-2 shadow"
+            className="dropdown-content menu bg-white rounded-2xl z-[1] w-64 p-2 shadow"
           >
             <li>
               <div onClick={() => onLocationChange("Bandung")}>Bandung</div>

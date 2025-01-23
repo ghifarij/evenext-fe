@@ -14,50 +14,41 @@ body {
 }
 
 .loader-wrapper {
-  position: fixed;   /* Menjaga posisi tetap saat scroll */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Menyelaraskan elemen di tengah */
-  display: flex;
-  background-color: white;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;  /* Pastikan loader berada di atas elemen lain */
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 9999;
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .loader {
-  width: 8px;
-  height: 48px;
-  display: inline-block;
-  position: relative;
-  border-radius: 4px;
-  color: teal;
-  box-sizing: border-box;
-  animation: animloader 0.6s linear infinite;
-}
-
-@keyframes animloader {
-  0% {
-    box-shadow: 20px -10px, 40px 10px, 60px 0px;
-  }
-  25% {
-    box-shadow: 20px 0px, 40px  0px, 60px 10px;
-  }
-  50% {
-    box-shadow: 20px 10px, 40px -10px, 60px 0px;
-  }
-  75% {
-    box-shadow: 20px 0px, 40px 0px, 60px -10px;
-  }
-  100% {
-    box-shadow: 20px -10px, 40px 10px, 60px 0px;
-  }
+  border: 0.4rem solid #f3f3f3; /* Light grey */
+  border-top: 0.4rem solid teal; /* Blue */
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  animation: spin 2s linear infinite;
 }
 
 .loading-message {
-  margin-top: 10px;
-  font-size: 1.2rem;
-  color: #333;
+  margin-top: 1rem;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  /* Penyesuaian untuk layar kecil */
+  .loader-container {
+    /* Sesuaikan gaya untuk layar kecil jika diperlukan */
+  }
 }

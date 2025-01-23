@@ -59,7 +59,7 @@ export default function ContactPage() {
                 id="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 text-lg"
+                className="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 text-lg"
                 placeholder="Masukkan nama lengkap"
               />
             </div>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 id="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 text-lg"
+                className="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 text-lg"
                 placeholder="Masukkan alamat email"
               />
             </div>
@@ -96,7 +96,7 @@ export default function ContactPage() {
               rows={6}
               value={formData.message}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 text-lg"
+              className="mt-1 block w-full px-4 py-3 border bg-white border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 text-lg"
               placeholder="Masukkan pesan disini"
             ></textarea>
           </div>
