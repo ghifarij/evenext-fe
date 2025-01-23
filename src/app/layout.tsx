@@ -30,6 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Meta tag viewport ditambahkan langsung di sini */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -42,7 +46,7 @@ export default function RootLayout({
             autoClose={3000}
             position="bottom-right"
           />
-          <FooterExcept/>
+          <FooterExcept />
         </SessionProvider>
       </body>
     </html>

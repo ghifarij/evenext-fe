@@ -29,15 +29,27 @@ export default function Biaya() {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
       {/* Left Section */}
-      <div className="lg:w-1/2 flex flex-col justify-center px-20 py-12">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Yuk.. Simulasikan harga tiket eventmu.
-        </h1>
-        <ul className="text-gray-600 space-y-2">
-          <li>- Ini adalah harga simulasi dan biaya yang dibebankan ke customer</li>
-          <li>- Harga tiket sudah termasuk PPN 11%</li>
-          <li>- Pajak Hiburan Daerah menjadi tanggung jawab Event Creator</li>
-        </ul>
+      <div
+        className="lg:w-1/2 hidden min-h-screen lg:flex justify-center items-center bg-gray-200"
+        style={{
+          backgroundImage:
+            "url('https://i.pinimg.com/1200x/9d/bf/2d/9dbf2d9bbed19586db8b13318b1fd344.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex flex-col">
+          <h1 className="text-lg font-bold text-gray-800 mb-4">
+            Yuk.. Simulasikan harga tiket eventmu.
+          </h1>
+          <ul className="text-gray-600 text-sm space-y-2">
+            <li>
+              - Ini adalah harga simulasi dan biaya yang dibebankan ke customer
+            </li>
+            <li>- Harga tiket sudah termasuk PPN 11%</li>
+            <li>- Pajak Hiburan Daerah menjadi tanggung jawab Event Creator</li>
+          </ul>
+        </div>
       </div>
 
       {/* Right Section */}
@@ -60,7 +72,7 @@ export default function Biaya() {
               id="ticketPrice"
               value={formatRupiah(ticketPrice)}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500"
+              className="mt-1 block w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -85,9 +97,7 @@ export default function Biaya() {
           </div>
 
           {/* Tombol Hubungi Kami */}
-          <button
-            className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-all"
-          >
+          <button className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-all">
             Hubungi kami
           </button>
         </div>

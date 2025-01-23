@@ -135,7 +135,7 @@ export default function FormLoginUser() {
             return (
               <Form className="w-full max-w-sm space-y-4">
                 <div>
-                  <label htmlFor="data">Email or Username :</label>
+                  <label htmlFor="data" className="text-black">Email or Username :</label>
                   <Field
                     type="text"
                     name="data"
@@ -149,7 +149,7 @@ export default function FormLoginUser() {
                   )}
                 </div>
                 <div>
-                  <label htmlFor="password">Password :</label>
+                  <label htmlFor="password" className="text-black">Password :</label>
                   <Field
                     type="password"
                     name="password"

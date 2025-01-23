@@ -58,7 +58,7 @@ export default function ByLocationEvent() {
                   />
                 </Link>
                 <Link
-                  className="p-2 text-lg font-medium line-clamp-1 h-10 mb-2"
+                  className="p-2 text-lg font-medium line-clamp-1 h-10 mb-2 text-black"
                   href={`/event/${item.slug}`}
                 >
                   {item.title}

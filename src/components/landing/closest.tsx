@@ -12,7 +12,7 @@ export default async function ClosestEvent() {
   const dataTicket: ITicket[] = await getTickets();
 
   return (
-    <div className="flex flex-col mx-auto max-w-[1200px] p-4 mt-10">
+    <div className="flex flex-col mx-auto max-w-[1200px] p-4 mt-10 text-black">
       <div className="flex justify-between p-2">
         <h2 className="text-2xl font-bold">Event Terdekat</h2>
         <div className="flex flex-wrap text-teal-500 font-bold">

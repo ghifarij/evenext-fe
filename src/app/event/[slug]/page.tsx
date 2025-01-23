@@ -50,7 +50,7 @@ export default async function EventDetail({
 
   return (
     <div className="flex flex-col mx-auto max-w-[1200px] p-4 mb-20">
-      <div className="flex w-full flex-col md:flex-row">
+      <div className="flex w-full flex-col md:flex-row text-black">
         <div className="relative w-[350px] h-[120px] md:w-[770px] md:h-[375px] mx-auto">
           <Image
             src={event.thumbnail}
@@ -94,7 +94,7 @@ export default async function EventDetail({
           <div className="border-[1px] mt-4 w-[80%] mx-auto"></div>
         </div>
       </div>
-      <div className="flex w-full mt-10">
+      <div className="flex w-full mt-10 text-black">
         <div className="w-[770px]">
           <div className="flex gap-1 mb-2 justify-end">
             <MdRateReview className="text-xl m-1" />
@@ -116,14 +116,16 @@ export default async function EventDetail({
           />
         </div>
       </div>
-      <div className="w-[300px] md:w-[770px] mt-8">
+      <div className="w-full md:w-[770px] mt-8">
         <h2 className="text-teal-500 font-bold mb-2">Pilih Tiket</h2>
         <div className="border-[1px] mx-auto hidden md:block md:w-full"></div>
+        <div className="text-black">
         <AddTicket
           result={event}
           ticketResult={tickets}
           params={{ event_id: event.id.toString() }}
         />
+        </div>
       </div>
     </div>
   );
